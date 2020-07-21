@@ -1,0 +1,40 @@
+/*============================================================================================*/
+/* Your custom styles below */
+/*============================================================================================*/
+@media only screen and (min-width: 992px) {
+  #results {
+    margin-top: 78px;
+  }
+  .extra-header .main-menu > ul > li span > a {
+    color: #000;
+  }
+  .extra-nav {
+    margin-top: 78px;
+  }
+  .sub_header_in.sticky_header {
+    margin-top: 78px;
+  }
+}
+@media (max-width: 767px) {
+  #results {
+    margin-top: 51px;
+  }
+  header.header {
+    /*background-color: #fff;*/
+  }
+  .extra-header .hamburger-inner,
+  .extra-header .hamburger-inner::after,
+  .extra-header .hamburger-inner::before {
+    background-color: #444;
+  }
+  .extra-header ul#top_menu li a.login:before,
+  .extra-header ul#top_menu li a.wishlist_bt_top:before {
+    color: #444;
+  }
+}
+.extra-header ul#top_menu li a {
+  color: #444;
+}
+@media (max-width: 575px) {
+
+}
