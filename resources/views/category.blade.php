@@ -20,34 +20,36 @@
         </div>
         <div class="col-lg-8 col-md-8 col-2">
           <a href="#0" class="side_panel btn_search_mobile"></a> <!-- /open search panel -->
-          <div class="row no-gutters custom-search-input-2 inner">
-            <div class="col-lg-4">
-              <div class="form-group">
-                <input class="form-control" type="text" placeholder="Что вы ищите...">
-                <i class="icon_search"></i>
+          <form method="get" action="/{{ $lang }}/search">
+            <div class="row no-gutters custom-search-input-2 inner">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <input type="search" class="form-control" name="text" placeholder="Что вы ищите...">
+                  <i class="icon_search"></i>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <input class="form-control" type="text" placeholder="Где">
+                  <i class="icon_pin_alt"></i>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <select class="wide">
+                  <option>Все категории</option> 
+                  <option>Shops</option>
+                  <option>Hotels</option>
+                  <option>Restaurants</option>
+                  <option>Bars</option>
+                  <option>Events</option>
+                  <option>Fitness</option>
+                </select>
+              </div>
+              <div class="col-lg-1">
+                <input type="submit">
               </div>
             </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <input class="form-control" type="text" placeholder="Где">
-                <i class="icon_pin_alt"></i>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <select class="wide">
-                <option>Все категории</option> 
-                <option>Shops</option>
-                <option>Hotels</option>
-                <option>Restaurants</option>
-                <option>Bars</option>
-                <option>Events</option>
-                <option>Fitness</option>
-              </select>
-            </div>
-            <div class="col-lg-1">
-              <input type="submit">
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

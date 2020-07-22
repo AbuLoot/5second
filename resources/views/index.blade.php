@@ -21,7 +21,7 @@
           <div class="row no-gutters custom-search-input-2">
             <div class="col-lg-4">
               <div class="form-group">
-                <input type="search" name="text" class="form-control typeahead-goods" data-provide="typeahead" placeholder="Что вы ищите...">
+                <input type="search" name="text" class="form-control" placeholder="Что вы ищите...">
                 <i class="icon_search"></i>
               </div>
             </div>
