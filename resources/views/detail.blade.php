@@ -65,7 +65,7 @@
           <h3>Location</h3>
           <div id="map" class="map map_single add_bottom_45"></div>
         </section>
-      
+
         <section id="reviews">
           <h2>Reviews</h2>
 
@@ -124,9 +124,7 @@
                 </div>
               </div>
             </div>
-            <!-- /review-box -->
           </div>
-          <!-- /review-container -->
         </section>
         <hr>
 
@@ -183,46 +181,20 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <input class="form-control" type="text" name="name" placeholder="Имя..">
+          </div>
+
+          <div class="form-group">
+            <input class="form-control" type="tel" name="phone" placeholder="Телефон..">
+          </div>
+
           <div class="form-group" id="input-dates">
-            <input class="form-control" type="text" name="dates" placeholder="When..">
+            <input class="form-control" type="text" name="dates" placeholder="Дата..">
             <i class="icon_calendar"></i>
           </div>
 
-          <div class="dropdown">
-            <a href="#" data-toggle="dropdown">Guests <span id="qty_total">0</span></a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-menu-content">
-                <label>Adults</label>
-                <div class="qty-buttons">
-                  <input type="button" value="+" class="qtyplus" name="adults">
-                  <input type="text" name="adults" id="adults" value="0" class="qty">
-                  <input type="button" value="-" class="qtyminus" name="adults">
-                </div>
-              </div>
-              <div class="dropdown-menu-content">
-                <label>Childrens</label>
-                <div class="qty-buttons">
-                  <input type="button" value="+" class="qtyplus" name="child">
-                  <input type="text" name="child" id="child" value="0" class="qty">
-                  <input type="button" value="-" class="qtyminus" name="child">
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /dropdown -->
-
-          <div class="form-group clearfix">
-            <div class="custom-select-form">
-              <select class="wide">
-                <option>Room Type</option>  
-                <option>Single Room</option>
-                <option>Double Room</option>
-                <option>Suite Room</option>
-              </select>
-            </div>
-          </div>
-          <a href="checkout.html" class=" add_top_30 btn_1 full-width purchase">Purchase</a>
-          <a href="wishlist.html" class="btn_1 full-width outline wishlist"><i class="icon_heart"></i> Add to wishlist</a>
+          <a href="/" class=" add_top_30 btn_1 full-width purchase">Забронировать</a>
         </div>
       </aside>
     </div>
@@ -231,6 +203,17 @@
 @endsection
 
 @section('scripts')
+  <!-- DATEPICKER  -->
+  <script>
+    $('input[name="dates"]').daterangepicker({
+        "singleDatePicker": true,
+        "parentEl": '#input-dates',
+        "opens": "left"
+    }, function(start, end, label) {
+        console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+    });
+  </script>
+
   <!-- CAROUSEL -->
   <script>
     $('#carousel_in').owlCarousel({

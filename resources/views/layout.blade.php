@@ -130,9 +130,9 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <h3 data-target="#collapse_ft_4">Keep in touch</h3>
+          <h3 data-target="#collapse_ft_4">Присоединяйся к нам</h3>
           <div class="collapse dont-collapse-sm" id="collapse_ft_4">
-            <div id="newsletter">
+            <!-- <div id="newsletter">
               <div id="message-newsletter"></div>
               <form method="post" action="assets/newsletter.php" name="newsletter_form" id="newsletter_form">
                 <div class="form-group">
@@ -140,9 +140,9 @@
                   <input type="submit" value="Submit" id="submit-newsletter">
                 </div>
               </form>
-            </div>
+            </div> -->
             <div class="follow_us">
-              <h5>Follow Us</h5>
+              <!-- <h5>Присоединяйся к нам</h5> -->
               <ul>
                 <li><a href="#0"><i class="ti-facebook"></i></a></li>
                 <li><a href="#0"><i class="ti-twitter-alt"></i></a></li>
