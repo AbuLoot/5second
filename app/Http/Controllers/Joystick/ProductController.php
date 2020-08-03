@@ -129,6 +129,10 @@ class ProductController extends Controller
         }
 
         $product = new Product;
+        if (isset($request->latitude) && isset($request->longitude)) {
+            $product->latitude = $request->latitude;
+            $product->longitude = $request->longitude;
+        }
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
@@ -229,6 +233,17 @@ class ProductController extends Controller
             $dirName = $request->company_id.'/'.time();
             Storage::move('img/products/'.$product->path, 'img/products/'.$dirName);
             $product->path = $dirName;
+        }
+
+        // Remove images
+        if (isset($request->remove_images)) {
+            $images = $this->removeImages($request, $images, $product);
+            $introImage = (isset($images[0]['present_image'])) ? $images[0]['present_image'] : 'no-image-middle.png';
+        }
+
+        if (isset($request->latitude) && isset($request->longitude)) {
+            $product->latitude = $request->latitude;
+            $product->longitude = $request->longitude;
         }
 
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
