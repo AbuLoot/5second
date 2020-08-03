@@ -10,22 +10,22 @@
   <title>SPARKER | Premium directory and listings template by Ansonika.</title>
 
   <!-- Favicons-->
-  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
-  <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
-  <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
-  <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/x-icon" href="/img/apple-touch-icon-57x57-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="/img/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="/img/apple-touch-icon-114x114-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="/img/apple-touch-icon-144x144-precomposed.png">
 
   <!-- GOOGLE WEB FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- BASE CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/vendors.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/vendors.css" rel="stylesheet">
 
   <!-- YOUR CUSTOM CSS -->
-  <link href="css/custom.css" rel="stylesheet">
+  <link href="/css/custom.css" rel="stylesheet">
   
 </head>
 
@@ -36,7 +36,7 @@
   <div id="login">
     <aside>
       <figure>
-        <a href="index.html"><img src="img/logo_sticky.svg" width="165" height="35" alt="" class="logo_sticky"></a>
+        <a href="/"><img src="/img/logo_sticky.svg" width="165" height="35" alt="" class="logo_sticky"></a>
       </figure>
       <form autocomplete="off">
         <div class="form-group">
@@ -74,12 +74,12 @@
   <!-- /login -->
   
   <!-- COMMON SCRIPTS -->
-  <script src="js/common_scripts.js"></script>
-  <script src="js/functions.js"></script>
-  <script src="assets/validate.js"></script>
+  <script src="/js/common_scripts.js"></script>
+  <script src="/js/functions.js"></script>
+  <script src="/assets/validate.js"></script>
   
   <!-- SPECIFIC SCRIPTS -->
-  <script src="js/pw_strenght.js"></script>
+  <script src="/js/pw_strenght.js"></script>
   
   
   

@@ -205,6 +205,12 @@ class ProductController extends Controller
         $dirName = $product->path;
         $images = unserialize($product->images);
 
+        // Remove images
+        if (isset($request->remove_images)) {
+            $images = $this->removeImages($request, $images, $product);
+            $introImage = (isset($images[0]['present_image'])) ? $images[0]['present_image'] : 'no-image-middle.png';
+        }
+
         // Adding new images
         if ($request->hasFile('images')) {
 
@@ -223,12 +229,6 @@ class ProductController extends Controller
             $dirName = $request->company_id.'/'.time();
             Storage::move('img/products/'.$product->path, 'img/products/'.$dirName);
             $product->path = $dirName;
-        }
-
-        // Remove images
-        if (isset($request->remove_images)) {
-            $images = $this->removeImages($request, $images, $product);
-            $introImage = (isset($images[0]['present_image'])) ? $images[0]['present_image'] : 'no-image-middle.png';
         }
 
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
@@ -305,6 +305,7 @@ class ProductController extends Controller
     public function uploadImages($request, $dirName, $images = [], $product)
     {
         $order = (!empty($images)) ? count($images) : 1;
+        $order = time() + 1;
 
         foreach ($request->file('images') as $key => $image)
         {
