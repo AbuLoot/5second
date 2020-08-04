@@ -5,8 +5,7 @@
 @section('meta_description', $category->meta_description ?? $category->title)
 
 @section('head')
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript">
-    </script>
+
 @endsection
 
 @section('header-class', 'extra-header')

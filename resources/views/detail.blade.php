@@ -11,7 +11,7 @@
 @section('header-class', 'extra-header')
 
 @section('content')
-  
+
   <nav class="secondary_nav sticky_horizontal_2- -extra-nav" id="results">
     <div class="container">
       <ul class="clearfix">
@@ -41,7 +41,7 @@
           </div>
 
           {!! $product_lang->description !!}
-          <!-- /row -->           
+          <!-- /row -->
           <hr>
           @foreach($similar_products_lang as $similar_product_lang)
             <div class="room_type first">
@@ -168,7 +168,7 @@
           </form>
         </div>
       </div>
-      
+
       <aside class="col-lg-4" id="sidebar">
         <div class="box_detail booking">
           <div class="price">
@@ -222,5 +222,52 @@
       loop:false,
       margin:0
     });
+  </script>
+  <script type="text/javascript">
+
+      <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+      var product =
+            @if(isset($product->latitude) && isset($product->longitude))
+                { lat:  {{$product->latitude}}, long: {{$product->longitude}}, text:  '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a>'};
+            @else
+                {};
+            @endif
+      ymaps.ready(init);
+
+      function init() {
+
+          var myPlacemark,
+              location = ymaps.geolocation
+          myMap = new ymaps.Map('map', {
+              center: [43.23, 76.88],
+              zoom: 14
+          }, {
+              searchControlProvider: 'yandex#search'
+          });
+
+          location.get()
+              .then(
+                  function(result) {
+                      var userAddress = result.geoObjects.get(0).properties.get('text');
+                      var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
+                      result.geoObjects.get(0).properties.set({
+                          balloonContentBody: 'Адрес: ' + userAddress +
+                              '<br/>Координаты:' + userCoodinates
+                      });
+                      myMap.geoObjects.add(result.geoObjects)
+                      // myMap.setCenter(result.geoObjects.position)
+                      myMap.setZoom(16)
+                  },
+                  function(err) {
+                      console.log('Ошибка: ' + err)
+                  }
+              );
+          pl = new ymaps.Placemark([product.lat, product.long]);
+          pl.properties.set({
+              balloonContentBody: product.text
+          });
+          myMap.geoObjects.add(pl);
+          myMap.setCenter([product.lat, product.long])
+      }
   </script>
 @endsection

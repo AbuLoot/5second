@@ -260,7 +260,9 @@
                 <div class="row">
                     <input type="text" id="latitude" name="latitude" value="" hidden>
                     <input type="text" id="longitude" name="longitude" value="" hidden>
-                    <div id="map" class="map" style="width: 100%; height:400px;"></div>
+                    <div class="col-md-12">
+                        <div id="map" class="map" style="width: 100%; height:400px;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -321,43 +323,51 @@
             var location = ymaps.geolocation
             myMap = new ymaps.Map('map', {
                 center: [43.23, 76.88],
-                zoom: 14,
-                controls: ['geolocationControl']
+                zoom: 14
+            }, {
+                searchControlProvider: 'yandex#search'
             });
 
             @if (isset($product->latitude) && isset($product->longitude))
                 coords = [{{$product->latitude}}, {{$product->longitude}}]
-            var myPlacemark = createPlacemark(coords)
-            getAddress(coords)
-            $("input#latitude").attr('value', coords[0])
-            $("input#longitude").attr('value', coords[1])
-            myMap.geoObjects.add(myPlacemark);
-
-            myPlacemark.events.add('dragend', function () {
-                coords2 = myPlacemark.geometry.getCoordinates()
-                $("input#latitude").attr('value', coords2[0])
-                $("input#longitude").attr('value', coords2[1])
-                getAddress(myPlacemark.geometry.getCoordinates());
-            });
-                @else
-            var myPlacemark;
-            myMap.events.add('click', function (e) {
-                var coords = e.get('coords');
+                var myPlacemark = createPlacemark(coords)
                 $("input#latitude").attr('value', coords[0])
                 $("input#longitude").attr('value', coords[1])
-                if (myPlacemark) {
-                    myPlacemark.geometry.setCoordinates(coords);
-                } else {
-                    myPlacemark = createPlacemark(coords);
-                    myMap.geoObjects.add(myPlacemark);
-                    myPlacemark.events.add('dragend', function () {
-                        coords2 = myPlacemark.geometry.getCoordinates()
-                        $("input#latitude").attr('value', coords2[0])
-                        $("input#longitude").attr('value', coords2[1])
-                        getAddress(myPlacemark.geometry.getCoordinates());
+                myMap.geoObjects.add(myPlacemark);
+
+                myPlacemark.events.add('dragend', function () {
+                    coords2 = myPlacemark.geometry.getCoordinates()
+                    $("input#latitude").attr('value', coords2[0])
+                    $("input#longitude").attr('value', coords2[1])
+                    getAddress(myPlacemark.geometry.getCoordinates());
+                });
+            @else
+                var myPlacemark;
+
+            $("#address").bind('keyup', function () {
+                let address = $("#address").val();
+                let myGeocoder = ymaps.geocode($.trim(country)+','+address);
+                myGeocoder.then(
+                    function (res) {
+                        var coords = res.geoObjects.get(0).geometry.getCoordinates();
+                        myGeocoder.then(
+                            function (res) {
+                                myMap.geoObjects.removeAll();
+                                var placemark = new ymaps.Placemark(coords, {}, {
+                                    draggable: true
+                                });
+                                myMap.geoObjects.add(placemark);
+                                myMap.setCenter(coords, 16);
+                                placemark.events.add("drag", function (event) {
+                                    coords = placemark.geometry.getCoordinates();
+                                    document.getElementById("latitude").value = coords[0];
+                                    document.getElementById("longitude").value = coords[1];
+                                });
+                                document.getElementById("latitude").value = coords[0];
+                                document.getElementById("longitude").value = coords[1];
+                            }
+                        );
                     });
-                }
-                getAddress(coords);
             });
             @endif
             location.get()
@@ -379,27 +389,8 @@
                 );
 
             function createPlacemark(coords) {
-                return new ymaps.Placemark(coords, {
-                    iconCaption: 'поиск...'
-                }, {
-                    preset: 'islands#redDotIconWithCaption',
+                return new ymaps.Placemark(coords, {}, {
                     draggable: true
-                });
-            }
-
-            function getAddress(coords) {
-                myPlacemark.properties.set('iconCaption', 'поиск...');
-                ymaps.geocode(coords).then(function (res) {
-                    var firstGeoObject = res.geoObjects.get(0);
-
-                    myPlacemark.properties
-                        .set({
-                            iconCaption: [
-                                firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
-                                firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
-                            ].filter(Boolean).join(', '),
-                            balloonContent: firstGeoObject.getAddressLine()
-                        });
                 });
             }
         }

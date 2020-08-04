@@ -146,9 +146,7 @@
             </div>
             <div class="form-group">
               <label for="area">Адрес</label>
-              <input class="form-control" name="area" id="area" minlength="2" placeholder="Например: Абая 32">
-              <input type="hidden" name="latitude" id="latitude">
-              <input type="hidden" name="longitude" id="longitude">
+              <input id="address" class="form-control" name="area" id="area" minlength="2" placeholder="Например: Абая 32">
               <!-- <span class="help-block">Например: Абая 32</span> -->
             </div>
             <!-- <div class="form-group">
@@ -235,6 +233,13 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <input type="text" id="latitude" name="latitude" value="" hidden>
+          <input type="text" id="longitude" name="longitude" value="" hidden>
+          <div class="col-md-12">
+              <div id="map" class="map" style="width: 100%; height:400px;"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -266,13 +271,15 @@
       ]
      });
   </script>
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript">
+  </script>
 @endsection
 
 @section('scripts')
   <script src="/joystick/js/jasny-bootstrap.js"></script>
   <script>
     function addFileinput(i) {
-      var fileinput = 
+      var fileinput =
         '<div class="col-md-4 fileinput fileinput-new" data-provides="fileinput">' +
             '<div class="fileinput-preview thumbnail" style="width:100%;height:200px;" data-trigger="fileinput"></div>' +
             '<div>' +
@@ -287,5 +294,112 @@
 
       $('#gallery').append(fileinput);
     }
+  </script>
+
+  <script type="text/javascript">
+      ymaps.ready(init);
+
+      function init() {
+
+          let country = "Казахстан";
+          let myGeocoder = ymaps.geocode($.trim(country));
+
+          var myPlacemark,
+              location = ymaps.geolocation
+          myMap = new ymaps.Map('map', {
+              center: [43.23, 76.88],
+              zoom: 14
+          }, {
+              searchControlProvider: 'yandex#search'
+          });
+
+          location.get()
+              .then(
+                  function(result) {
+                      var userAddress = result.geoObjects.get(0).properties.get('text');
+                      var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
+                      result.geoObjects.get(0).properties.set({
+                          balloonContentBody: 'Адрес: ' + userAddress +
+                              '<br/>Координаты:' + userCoodinates
+                      });
+                      myMap.geoObjects.add(result.geoObjects)
+                      myMap.setCenter(result.geoObjects.position)
+                      myMap.setZoom(16)
+                  },
+                  function(err) {
+                      console.log('Ошибка: ' + err)
+                  }
+              );
+          $("#address").bind('keyup', function () {
+              let address = $("#address").val();
+              let myGeocoder = ymaps.geocode($.trim(country)+','+address);
+              myGeocoder.then(
+                  function (res) {
+                      var coords = res.geoObjects.get(0).geometry.getCoordinates();
+                      myGeocoder.then(
+                          function (res) {
+                              myMap.geoObjects.removeAll();
+                              var placemark = new ymaps.Placemark(coords, {}, {
+                                  draggable: true
+                              });
+                              myMap.geoObjects.add(placemark);
+                              myMap.setCenter(coords, 16);
+                              placemark.events.add("drag", function (event) {
+                                  coords = placemark.geometry.getCoordinates();
+                                  document.getElementById("latitude").value = coords[0];
+                                  document.getElementById("longitude").value = coords[1];
+                              });
+                              document.getElementById("latitude").value = coords[0];
+                              document.getElementById("longitude").value = coords[1];
+                          }
+                      );
+                  });
+          });
+          // myMap.events.add('click', function (e) {
+          //     var coords = e.get('coords');
+          //     $("input#latitude").attr('value', coords[0])
+          //     $("input#longitude").attr('value', coords[1])
+          //     if (myPlacemark) {
+          //         myPlacemark.geometry.setCoordinates(coords);
+          //     } else {
+          //         myPlacemark = createPlacemark(coords);
+          //         myMap.geoObjects.add(myPlacemark);
+          //         myPlacemark.events.add('dragend', function () {
+          //             coords2 = myPlacemark.geometry.getCoordinates()
+          //             $("input#latitude").attr('value', coords2[0])
+          //             $("input#longitude").attr('value', coords2[1])
+          //             getAddress(myPlacemark.geometry.getCoordinates());
+          //         });
+          //     }
+          //     getAddress(coords);
+          // });
+          function createPlacemark(coords) {
+              return new ymaps.Placemark(coords, {
+                  iconCaption: 'поиск...'
+              }, {
+                  preset: 'islands#redDotIconWithCaption',
+                  draggable: true
+              });
+          }
+
+          function getAddress(coords) {
+              myPlacemark.properties.set('iconCaption', 'поиск...');
+              ymaps.geocode(coords).then(function (res) {
+                  var firstGeoObject = res.geoObjects.get(0);
+
+                  myPlacemark.properties
+                      .set({
+                          iconCaption: [
+                              firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                              firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                          ].filter(Boolean).join(', '),
+                          balloonContent: firstGeoObject.getAddressLine()
+                      });
+              });
+          }
+      }
+
+
+
   </script>
 @endsection

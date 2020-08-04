@@ -1,8 +1,4 @@
 @extends('joystick-admin.layout')
-@section('head')
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript">
-    </script>
-@endsection
 
 @section('content')
     <h2 class="page-header">Добавление</h2>
@@ -239,11 +235,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <input type="text" id="latitude" name="latitude" value="" hidden>
-                    <input type="text" id="longitude" name="longitude" value="" hidden>
-                    <div id="map" class="map" style="width: 100%; height:400px;"></div>
-                </div>
             </div>
         </div>
 
@@ -298,81 +289,4 @@
         }
     </script>
 
-    <script type="text/javascript">
-        ymaps.ready(init);
-
-        function init() {
-
-            var myPlacemark,
-                location = ymaps.geolocation
-            myMap = new ymaps.Map('map', {
-                center: [43.23, 76.88],
-                zoom: 14,
-                controls: ['geolocationControl']
-            });
-
-            location.get()
-                .then(
-                    function(result) {
-                        var userAddress = result.geoObjects.get(0).properties.get('text');
-                        var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
-                        result.geoObjects.get(0).properties.set({
-                            balloonContentBody: 'Адрес: ' + userAddress +
-                                '<br/>Координаты:' + userCoodinates
-                        });
-                        myMap.geoObjects.add(result.geoObjects)
-                        myMap.setCenter(result.geoObjects.position)
-                        myMap.setZoom(16)
-                    },
-                    function(err) {
-                        console.log('Ошибка: ' + err)
-                    }
-                );
-            myMap.events.add('click', function (e) {
-                var coords = e.get('coords');
-                $("input#latitude").attr('value', coords[0])
-                $("input#longitude").attr('value', coords[1])
-                if (myPlacemark) {
-                    myPlacemark.geometry.setCoordinates(coords);
-                } else {
-                    myPlacemark = createPlacemark(coords);
-                    myMap.geoObjects.add(myPlacemark);
-                    myPlacemark.events.add('dragend', function () {
-                        coords2 = myPlacemark.geometry.getCoordinates()
-                        $("input#latitude").attr('value', coords2[0])
-                        $("input#longitude").attr('value', coords2[1])
-                        getAddress(myPlacemark.geometry.getCoordinates());
-                    });
-                }
-                getAddress(coords);
-            });
-            function createPlacemark(coords) {
-                return new ymaps.Placemark(coords, {
-                    iconCaption: 'поиск...'
-                }, {
-                    preset: 'islands#redDotIconWithCaption',
-                    draggable: true
-                });
-            }
-
-            function getAddress(coords) {
-                myPlacemark.properties.set('iconCaption', 'поиск...');
-                ymaps.geocode(coords).then(function (res) {
-                    var firstGeoObject = res.geoObjects.get(0);
-
-                    myPlacemark.properties
-                        .set({
-                            iconCaption: [
-                                firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
-                                firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
-                            ].filter(Boolean).join(', '),
-                            balloonContent: firstGeoObject.getAddressLine()
-                        });
-                });
-            }
-        }
-
-
-
-    </script>
 @endsection
