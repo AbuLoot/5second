@@ -66,7 +66,10 @@ class AuthCustomController extends Controller
             $profile->sort_id = $user->id;
             $profile->user_id = $user->id;
             $profile->city_id = 1;
-            // $profile->phone = $request->phone;
+            $profile->phone = $request->phone;
+            $profile->gov_number = $request->gov_number;
+            $profile->card_type = $request->card_type;
+            $profile->barcode = $request->barcode;
             // $profile->sex = $request['sex'];
             $profile->save();
 

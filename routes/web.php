@@ -109,3 +109,6 @@ Route::get('destroy-from-cart/{id}', 'CartController@destroy');
 // Favourite Actions
 Route::get('favorite', 'FavouriteController@getFavorite');
 Route::get('toggle-favourite/{id}', 'FavouriteController@toggleFavourite');
+
+Route::get('paybox/{amount}/{id}', 'PaymentController@PayBox');
+Route::post('paybox/result', 'PaymentController@PayBoxResult')->name('PayBoxResult');
