@@ -209,6 +209,12 @@ class ProductController extends Controller
         $dirName = $product->path;
         $images = unserialize($product->images);
 
+        // Remove images
+        if (isset($request->remove_images)) {
+            $images = $this->removeImages($request, $images, $product);
+            $introImage = (isset($images[0]['present_image'])) ? $images[0]['present_image'] : 'no-image-middle.png';
+        }
+
         // Adding new images
         if ($request->hasFile('images')) {
 
@@ -314,6 +320,7 @@ class ProductController extends Controller
     public function uploadImages($request, $dirName, $images = [], $product)
     {
         $order = (!empty($images)) ? count($images) : 1;
+        $order = time() + 1;
 
         foreach ($request->file('images') as $key => $image)
         {

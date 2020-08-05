@@ -36,6 +36,7 @@ class AuthCustomController extends Controller
     {
         return view('account.register');
     }
+
     protected function postRegister(Request $request)
     {
         $validatedData = $this->validate($request, [
@@ -73,6 +74,11 @@ class AuthCustomController extends Controller
         else {
             return redirect()->back()->withInput()->withErrors('Неверные данные');
         }
+    }
+
+    public function getLoginAndRegister()
+    {
+        return view('account.login-and-register');
     }
 
     public function getLogout()

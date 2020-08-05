@@ -15,7 +15,7 @@
   <section class="hero_single version_2">
     <div class="wrapper">
       <div class="container">
-        <h3>Найди скидку от 10% до 90% <br> на все виды автоуслуг</h3>
+        <h3>Найди скидку от 10%&nbsp;до&nbsp;90% <br> на все виды автоуслуг</h3>
         <!-- <p>Здесь собраны все виды автоуслуг что делает данную отрасль автоматизированной и удобной для потребителей и наших партнеров.</p> -->
         <form method="get" action="/{{ $lang }}/search">
           <div class="row no-gutters custom-search-input-2">
@@ -69,14 +69,14 @@
                 <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
                   <div class="read_more"><span>Подробнее</span></div>
                 </a>
-                <!-- <small>Restaurant</small> -->
               </figure>
               <div class="wrapper">
                 <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
-                <small class="mb-0">{{ $product->area }}</small>
+                @if(!empty($product->area))
+                  <small class="mb-0">{{ $product->area }}</small>
+                @endif
               </div>
               <ul>
-                <li>От {{ $product_lang['price'] }}〒</li>
                 <li>
                   <div class="score">
                     @foreach($product->options as $option)

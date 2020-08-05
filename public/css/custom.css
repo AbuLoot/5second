@@ -1,6 +1,28 @@
 /*============================================================================================*/
 /* Your custom styles below */
 /*============================================================================================*/
+a.btn-yellow, .btn-yellow {
+  color: #000;
+  background-color: #FFC107;
+}
+.custom-search-input-2 input[type='submit'] {
+  background-color: #FFC107;
+  color: #222;
+}
+.page-item.active .page-link {
+  color: #000;
+  background-color: #FFC107;
+  border-color: #FFC107;
+}
+.sub-header-dark {
+  background-color: #333;
+}
+.sub-header-yellow {
+  background-color: #FFC107;
+}
+.sub-header-indigo {
+  background-color: #4a5d7d;
+}
 @media only screen and (min-width: 992px) {
   #results {
     margin-top: 78px;
