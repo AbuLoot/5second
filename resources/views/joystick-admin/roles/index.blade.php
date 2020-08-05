@@ -16,6 +16,7 @@
           <td>№</td>
           <td>Название</td>
           <td>Метка</td>
+          <td>Описание</td>
           <td class="text-right">Функции</td>
         </tr>
       </thead>
@@ -26,6 +27,7 @@
             <td>{{ $i++ }}</td>
             <td>{{ $role->name }}</td>
             <td>{{ $role->display_name }}</td>
+            <td>{{ $role->description }}</td>
             <td class="text-right">
               <a class="btn btn-link btn-xs" href="{{ route('roles.edit', [$lang, $role->id]) }}" title="Редактировать"><i class="material-icons md-18">mode_edit</i></a>
               <form method="POST" action="{{ route('roles.destroy', [$lang, $role->id]) }}" accept-charset="UTF-8" class="btn-delete">

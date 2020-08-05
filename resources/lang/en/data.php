@@ -9,6 +9,12 @@ return [
 		'low'	=> 'Low',
 	],
 
+	'card_types' => [
+		'silver'	=> 'Silver',
+		'gold'		=> 'Gold',
+		"platinum" =>  "Platinum",
+	],
+
 	'month' => [
 		'January' => 'January',
 		'Jan' => 'Jan',

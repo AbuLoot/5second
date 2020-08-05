@@ -3,7 +3,7 @@
 Route::redirect('/admin', '/'.app()->getLocale().'/admin');
 
 // Joystick Administration
-Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin']], function () {
+Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin|manager']], function () {
 
     Route::get('/', 'Joystick\AdminController@index');
     Route::get('filemanager', 'Joystick\AdminController@filemanager');

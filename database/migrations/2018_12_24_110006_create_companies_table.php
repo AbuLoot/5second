@@ -16,6 +16,7 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sort_id')->nullable();
+            $table->integer('user_id');
             $table->integer('region_id')->references('id')->on('regions');
             $table->string('slug');
             $table->string('title');

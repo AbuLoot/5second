@@ -13,11 +13,10 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('payments', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('payments', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->integer('amount');
-            $table->integer('operation_id')->unsigned();
-            $table->foreign('operation_id')->references('id')->on('operations');
+            $table->integer('operation_id')->references('id')->on('operations');
             $table->integer('user_id');
             $table->string('status')->default("false");
             $table->timestamps();
@@ -31,8 +30,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('payments', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('payments');
     }
 }

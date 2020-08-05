@@ -1,9 +1,5 @@
 @extends('joystick-admin.layout')
-@section('head')
 
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript">
-    </script>
-@endsection
 @section('content')
     <h2 class="page-header">Редактирование</h2>
 
@@ -112,14 +108,14 @@
                         <div class="panel panel-default">
                             <div class="panel-body" style="max-height: 250px; overflow-y: auto;">
                                 <?php $traverse = function ($nodes, $prefix = null) use (&$traverse, $product) { ?>
-                                <?php foreach ($nodes as $node) : ?>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="category_id" value="{{ $node->id }}" <?php if ($product->category_id == $node->id) echo "checked"; ?>> {{ PHP_EOL.$prefix.' '.$node->title }}
-                                    </label>
-                                </div>
-                                <?php $traverse($node->children, $prefix.'___'); ?>
-                                <?php endforeach; ?>
+                                    <?php foreach ($nodes as $node) : ?>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="category_id" value="{{ $node->id }}" <?php if ($product->category_id == $node->id) echo "checked"; ?>> {{ PHP_EOL.$prefix.' '.$node->title }}
+                                            </label>
+                                        </div>
+                                    <?php $traverse($node->children, $prefix.'___'); ?>
+                                    <?php endforeach; ?>
                                 <?php }; ?>
                                 <?php $traverse($categories); ?>
                             </div>
@@ -141,7 +137,7 @@
                                             </label>
                                         </div>
                                     @endforeach
-                                    @endforeach
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -209,11 +205,11 @@
                             <div class="col-md-4 col-xs-12 fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-preview thumbnail" style="width:100%;height:200px;" data-trigger="fileinput"></div>
                                 <div>
-                  <span class="btn btn-default btn-sm btn-file">
-                    <span class="fileinput-new"><i class="glyphicon glyphicon-folder-open"></i>&nbsp; Выбрать</span>
-                    <span class="fileinput-exists"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;</span>
-                    <input type="file" name="images[]" accept="image/*">
-                  </span>
+                                      <span class="btn btn-default btn-sm btn-file">
+                                        <span class="fileinput-new"><i class="glyphicon glyphicon-folder-open"></i>&nbsp; Выбрать</span>
+                                        <span class="fileinput-exists"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;</span>
+                                        <input type="file" name="images[]" accept="image/*">
+                                      </span>
                                     <a href="#" class="btn btn-default btn-sm fileinput-exists" data-dismiss="fileinput"><i class="glyphicon glyphicon-trash"></i> Удалить</a>
                                 </div>
                             </div>
@@ -271,6 +267,7 @@
 @endsection
 
 @section('head')
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"></script>
     <link href="/joystick/css/jasny-bootstrap.min.css" rel="stylesheet">
     <script src='//cdn.tinymce.com/4.9/tinymce.min.js'></script>
     <script>
@@ -326,7 +323,7 @@
             });
 
             @if (isset($product->latitude) && isset($product->longitude))
-                coords = [{{$product->latitude}}, {{$product->longitude}}]
+                coords = [{{ $product->latitude }}, {{ $product->longitude }}]
             var myPlacemark = createPlacemark(coords)
             getAddress(coords)
             $("input#latitude").attr('value', coords[0])
@@ -402,9 +399,6 @@
                         });
                 });
             }
-        }
-
-
-
+        };
     </script>
 @endsection

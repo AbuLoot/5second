@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use App\Role;
 use App\Profile;
+use App\Region;
 use App\Http\Controllers\Controller;
 
 class AuthCustomController extends Controller
@@ -78,7 +79,9 @@ class AuthCustomController extends Controller
 
     public function getLoginAndRegister()
     {
-        return view('account.login-and-register');
+        $regions = Region::orderBy('sort_id')->get()->toTree();
+
+        return view('account.login-and-register', ['regions' => $regions]);
     }
 
     public function getLogout()

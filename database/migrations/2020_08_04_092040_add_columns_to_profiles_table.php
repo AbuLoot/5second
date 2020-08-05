@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOperationsTable extends Migration
+class AddColumnsToProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateOperationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('operations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->text('rules');
-            $table->timestamps();
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->string('gov_number')->after('phone');
+            $table->enum('card_type', ['silver', 'gold', 'platinum'])->after('gov_number');
+            $table->string('barcode')->nullable()->after('card_type');
         });
     }
 
@@ -28,7 +27,7 @@ class CreateOperationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('operations', function (Blueprint $table) {
+        Schema::table('profiles', function (Blueprint $table) {
             //
         });
     }

@@ -68,126 +68,71 @@
       </div>
       <div class="col-xl-6 col-lg-6 col-md-8">
         <div class="box_account">
-          <h3 class="new_client">Регистрация</h3> <small class="float-right pt-2">* Required Fields</small>
+          <h3 class="new_client">Регистрация</h3> <small class="float-right pt-2">* Обязательные поля</small>
           <div class="form_container">
+            <div class="row no-gutters">
+              <div class="col-6 pr-1">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Имя*">
+                </div>
+              </div>
+              <div class="col-6 pl-1">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Фамилия*">
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Telephone *">
+            </div>
             <div class="form-group">
               <input type="email" class="form-control" name="email" id="email" placeholder="Email*">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" name="password_in_2" id="password_in_2" value="" placeholder="Password*">
+              <input type="password" class="form-control" name="password_in_2" id="password_in_2" value="" placeholder="Придумайте пароль*">
             </div>
             <hr>
             <div class="form-group">
-              <label class="container_radio" style="display: inline-block; margin-right: 15px;">Private
-                <input type="radio" name="client_type" checked value="private">
-                <span class="checkmark"></span>
-              </label>
-              <label class="container_radio" style="display: inline-block;">Company
-                <input type="radio" name="client_type" value="company">
-                <span class="checkmark"></span>
-              </label>
+              <input type="text" class="form-control" placeholder="Гос. номер*">
             </div>
-            <div class="private box">
-              <div class="row no-gutters">
-                <div class="col-6 pr-1">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name*">
-                  </div>
-                </div>
-                <div class="col-6 pl-1">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Last Name*">
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Full Address*">
-                  </div>
-                </div>
-              </div>
-              <div class="row no-gutters">
-                <div class="col-6 pr-1">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="City*">
-                  </div>
-                </div>
-                <div class="col-6 pl-1">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Postal Code*">
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <div class="custom-select-form">
-                      <select class="wide add_bottom_10" name="country" id="country">
-                          <option value="" selected>Country*</option>
-                          <option value="Europe">Europe</option>
-                          <option value="United states">United states</option>
-                          <option value="Asia">Asia</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Telephone *">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="company box" style="display: none;">
-              <div class="row no-gutters">
-                <div class="col-12">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Company Name*">
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Full Address">
-                  </div>
-                </div>
-              </div>
-              <div class="row no-gutters">
-                <div class="col-6 pr-1">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="City*">
-                  </div>
-                </div>
-                <div class="col-6 pl-1">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Postal Code*">
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <div class="custom-select-form">
-                      <select class="wide add_bottom_10" name="country" id="country">
-                          <option value="" selected>Country*</option>
-                          <option value="Europe">Europe</option>
-                          <option value="United states">United states</option>
-                          <option value="Asia">Asia</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Telephone *">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr>
             <div class="form-group">
-              <label class="container_check">Accept <a href="/#0">Terms and conditions</a>
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
+              <input type="text" class="form-control" placeholder="Штрих код карты*">
+            </div>
+            <div class="form-group">
+              <div><label>Тип карты</label></div>
+              @foreach(trans('data.card_types') as $key => $card_type)
+                <label class="container_radio" style="display: inline-block; margin-right: 15px;">{{ $card_type }}
+                  <input type="radio" name="client_type" checked="" value="{{ $key }}">
+                  <span class="checkmark"></span>
+                </label>
+              @endforeach
+            </div>
+            <div class="row no-gutters">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="custom-select-form">
+                    <select class="wide add_bottom_10" name="country" id="country">
+                      <option value="" selected>Регион*</option>
+                      <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                        <?php foreach ($nodes as $node) : ?>
+                          <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                          <?php $traverse($node->children, $prefix.'___'); ?>
+                        <?php endforeach; ?>
+                      <?php }; ?>
+                      <?php $traverse($regions); ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="container_check">Accept <a href="/#0">Terms and conditions</a>
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
             </div>
             <div class="text-center"><input type="submit" value="Register" class="btn_1 full-width"></div>
           </div>

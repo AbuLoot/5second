@@ -34,6 +34,7 @@ class RegionController extends Controller
         $region->sort_id = ($request->sort_id > 0) ? $request->sort_id : $region->count() + 1;
         $region->slug = (empty($request->slug)) ? str_slug($request->title) : $request->slug;
         $region->title = $request->title;
+        $region->data = $request->data;
 
         $parent_node = Region::find($request->region_id);
 
@@ -69,6 +70,7 @@ class RegionController extends Controller
         $region->sort_id = ($request->sort_id > 0) ? $request->sort_id : $region->count() + 1;
         $region->slug = (empty($request->slug)) ? str_slug($request->title) : $request->slug;
         $region->title = $request->title;
+        $region->data = $request->data;
 
         $parent_node = Region::find($request->region_id);
 
