@@ -25,6 +25,8 @@
 
   <!-- YOUR CUSTOM CSS -->
   <link href="/css/custom.css" rel="stylesheet">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript">
+    </script>
   @yield('head')
 
   @if($section_codes->firstWhere('slug', 'header-code'))
@@ -192,7 +194,7 @@
   </div>
 
   <div id="toTop"></div><!-- Back to top button -->
-  
+
   <!-- COMMON SCRIPTS -->
   <script src="/js/common_scripts.js"></script>
   <script src="/js/functions.js"></script>
@@ -206,5 +208,28 @@
   @if($section_codes->firstWhere('slug', 'footer-code'))
     {{ $section_codes->firstWhere('slug', 'footer-code')->content }}
   @endif
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    function init() {
+
+        var myPlacemark,
+            location = ymaps.geolocation
+
+        location.get()
+            .then(
+                function(result) {
+                    var userAddress = result.geoObjects.get(0).properties.get('text');
+                    var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
+                    firstGeoObject = result.geoObjects.get(0)
+                    city = (firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas())
+                    confirm('Ваш город: ' + city)//@Todo remove
+                },
+                function(err) {
+                    console.log('Ошибка: ' + err)
+                }
+            );
+    }
+</script>
 </body>
 </html>
