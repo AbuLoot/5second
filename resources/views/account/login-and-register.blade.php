@@ -20,11 +20,13 @@
 
   <main>
     <div class="container margin_60">
+      @include('partials.alerts')
+
       <div class="row justify-content-center">
         <div class="col-xl-6 col-lg-6 col-md-8">
           <div class="box_account">
             <h3 class="client">Вход</h3>
-            <form method="POST" action="/cs-register">
+            <form method="POST" action="/{{ $lang }}/cs-login">
               @csrf
               <div class="form_container">
                 <div class="form-group">
@@ -106,7 +108,7 @@
                   <div><label>Тип карты</label></div>
                   @foreach(trans('data.card_types') as $key => $card_type)
                     <label class="container_radio" style="display: inline-block; margin-right: 15px;">{{ $card_type }}
-                      <input type="radio" name="client_type" checked="" value="{{ $key }}">
+                      <input type="radio" name="card_type" checked="" value="{{ $key }}">
                       <span class="checkmark"></span>
                     </label>
                   @endforeach

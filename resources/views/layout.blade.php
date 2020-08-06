@@ -46,6 +46,7 @@
     <ul id="top_menu">
       <li><a href="account.html" class="btn_add btn-yellow">Добавить услугу</a></li>
       <li><a href="/{{ $lang }}/cs-login-and-register" class="login" title="Sign In">Войти</a></li>
+      <li><a href="/" class="btn-header "><span class="pe-7s-user"></span></a></li>
     </ul>
     <a href="#menu" class="btn_mobile">
       <div class="hamburger hamburger--spin" id="hamburger">

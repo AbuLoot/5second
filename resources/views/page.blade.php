@@ -12,7 +12,7 @@
 
 @section('content')
 
-  <div class="sub_header_in sticky_header">
+  <div class="sub_header_in sticky_header sub-header-indigo">
     <div class="container">
       <h1>{{ $page->title }}</h1>
     </div>

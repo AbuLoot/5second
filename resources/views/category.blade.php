@@ -11,7 +11,6 @@
 @section('header-class', 'extra-header')
 
 @section('content')
-
   <div id="results">
     <div class="container">
       <div class="row">
@@ -156,7 +155,6 @@
     <!-- <p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Load more</a></p> -->
     </div>
   </div>
-
 @endsection
 
 @section('scripts')
