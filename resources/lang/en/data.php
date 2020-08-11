@@ -15,6 +15,11 @@ return [
 		"platinum" =>  "Platinum",
 	],
 
+	'sex' => [
+		'man'	=> 'Man',
+		'woman'	=> 'Woman',
+	],
+
 	'month' => [
 		'January' => 'January',
 		'Jan' => 'Jan',

@@ -1,4 +1,4 @@
-@extends('layout')
+  @extends('layout')
 
 @section('meta_title', '')
 

@@ -1,42 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\Joystick;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Joystick\Controller;
+
+use Auth;
+
+use App\User;
 use App\Region;
 use App\Company;
-
-use Storage;
+use App\Product;
+use App\Http\Requests;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function index(Request $request, $lang)
     {
-        $companies = Company::orderBy('sort_id')->paginate(50);
+        $user = Auth::user();
 
-        return view('joystick-admin.companies.index', compact('companies'));
+        if ($user->companies->isEmpty()) {
+            return redirect($lang.'/my-companies/create');
+        }
+
+        return view('company.list', compact('user'));
     }
 
-    public function actionCompanies(Request $request)
+    public function create()
     {
-        $this->validate($request, [
-            'companies_id' => 'required'
-        ]);
-
-        Company::whereIn('id', $request->companies_id)->update(['status' => $request->action]);
-
-        return response()->json(['status' => true]);
-    }
-
-    public function create($lang)
-    {
+        $user = Auth::user();
         $regions = Region::orderBy('sort_id')->get()->toTree();
 
-        return view('joystick-admin.companies.create', compact('regions'));
+        return view('company.create', compact('user', 'regions'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $lang)
     {
         $this->validate($request, [
             'title' => 'required|min:2|max:80|unique:companies',
@@ -51,10 +48,11 @@ class CompanyController extends Controller
             $request->image->storeAs('img/companies', $logoName);
         }
 
-        $company->sort_id = ($request->sort_id > 0) ? $request->sort_id : $company->count() + 1;
+        $company->sort_id = $company->count() + 1;
+        $company->user_id = Auth::user()->id;
         $company->region_id = ($request->region_id > 0) ? $request->region_id : 0;
-        $company->slug = (empty($request->slug)) ? str_slug($request->title) : $request->slug;
         $company->title = $request->title;
+        $company->slug = (empty($request->slug)) ? str_slug($request->title) : $request->slug;
         $company->image = (isset($logoName)) ? $logoName : 'no-image-mini.png';
         $company->about = $request->about;
         $company->phones = $request->phones;
@@ -65,15 +63,16 @@ class CompanyController extends Controller
         $company->status = ($request->status == 'on') ? 1 : 0;
         $company->save();
 
-        return redirect($request->lang.'/admin/companies')->with('status', 'Запись добавлена.');
+        return redirect($lang.'/my-companies')->with('status', 'Запись добавлена.');
     }
 
-    public function edit($lang, $id)
+    public function edit(Request $request, $lang, $id)
     {
+        $user = Auth::user();
         $regions = Region::orderBy('sort_id')->get()->toTree();
-        $company = Company::findOrFail($id);
+        $company = Company::find($id);
 
-        return view('joystick-admin.companies.edit', compact('regions', 'company'));
+        return view('company.edit', compact('user', 'regions', 'company'));
     }
 
     public function update(Request $request, $lang, $id)
@@ -109,19 +108,6 @@ class CompanyController extends Controller
         $company->status = ($request->status == 'on') ? 1 : 0;
         $company->save();
 
-        return redirect($lang.'/admin/companies')->with('status', 'Запись обновлена.');
-    }
-
-    public function destroy($lang, $id)
-    {
-        $company = Company::find($id);
-
-        if (file_exists('img/companies/'.$company->image)) {
-            Storage::delete('img/companies/'.$company->image);
-        }
-
-        $company->delete();
-
-        return redirect($lang.'/admin/companies')->with('status', 'Запись удалена.');
+        return redirect($lang.'/my-companies')->with('status', 'Запись обновлена.');
     }
 }

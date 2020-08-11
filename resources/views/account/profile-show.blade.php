@@ -21,20 +21,19 @@
   <div class="container margin_80_55">
     <div class="row">
       <div class="col-lg-3">
-        <div class="box_style_cat">
-          <ul id="cat_nav">
-            <li><a href="/{{ $lang }}/my-profile" class="active">Мой профиль</a></li>
-            <li><a href="/{{ $lang }}/my-ads" class="">Мои объявления</a></li>
-            <li><a href="/{{ $lang }}/my-orders" class="">Мои заказы</a></li>
-            <li><a href="/{{ $lang }}/statistics" class="">Статистика</a></li>
-            <li><a href="/{{ $lang }}/reccomendations" class="">Выход</a></li>
-          </ul>
-        </div>
+        @include('account.menu')
       </div>
       <div class="col-lg-9">
         <div class="box_detail padding_bottom">
           <h2><i class="fa fa-user"></i> {{ $user->name.' '.$user->surname }}</h2>
           <dl class="row">
+            <dt class="col-sm-3">Мои компании</dt>
+            <dd class="col-sm-9">
+              @foreach($user->companies as $company)
+                {{ $company->title }}<br>
+              @endforeach
+            </dd>
+
             <dt class="col-sm-3">Email</dt>
             <dd class="col-sm-9">{{ $user->email }}</dd>
 
@@ -44,6 +43,9 @@
             <dt class="col-sm-3">Баланс</dt>
             <dd class="col-sm-9">{{ $user->balance }}</dd>
 
+            <dt class="col-sm-3">Город</dt>
+            <dd class="col-sm-9">{{ \App\Region::find($user->profile->region_id)->title }}</dd>
+
             <dt class="col-sm-3 text-truncate">Гос. номер</dt>
             <dd class="col-sm-9">{{ $user->profile->gov_number }}</dd>
 
@@ -52,8 +54,18 @@
 
             <dt class="col-sm-3 text-truncate">Штрих код</dt>
             <dd class="col-sm-9">{{ $user->profile->barcode }}</dd>
+
+            <dt class="col-sm-3 text-truncate">Дата рождения</dt>
+            <dd class="col-sm-9">{{ $user->profile->birthday }} </dd>
+
+            <dt class="col-sm-3 text-truncate">Пол</dt>
+            <dd class="col-sm-9">{{ trans('data.sex.'.$user->profile->sex) }}</dd>
+
+            <dt class="col-sm-3 text-truncate">О себе</dt>
+            <dd class="col-sm-9">{{ $user->profile->about }} </dd>
           </dl>
         </div>
+        <p><a href="/{{ $lang }}/my-profile/{{ $user->id }}/edit" class="btn_1 medium">Редактировать</a></p>
       </div>
     </div>
   </div>

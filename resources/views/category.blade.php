@@ -207,14 +207,14 @@
   <script type="text/javascript">
     var products = [
       @foreach($products as $product)
-      <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-      @if(isset($product->latitude) && isset($product->longitude))
-        {
-        lat: {{ $product->latitude }},
-        long: {{ $product->longitude }},
-        text: '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a>'
-        },
-      @endif
+        <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+        @if(isset($product->latitude) && isset($product->longitude))
+          {
+            lat: {{ $product->latitude }},
+            long: {{ $product->longitude }},
+            text: '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/p-'.$product->id }}">{{ $product_lang['title'] }}</a>'
+          },
+        @endif
       @endforeach
     ];
     ymaps.ready(init);
@@ -223,7 +223,7 @@
 
       var myPlacemark,
         location = ymaps.geolocation
-      myMap = new ymaps.Map('map', {
+        myMap = new ymaps.Map('map', {
         center: [43.23, 76.88],
         zoom: 14
       });
