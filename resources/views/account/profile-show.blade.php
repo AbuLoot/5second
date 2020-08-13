@@ -29,9 +29,11 @@
           <dl class="row">
             <dt class="col-sm-3">Мои компании</dt>
             <dd class="col-sm-9">
-              @foreach($user->companies as $company)
+              @forelse($user->companies as $company)
                 {{ $company->title }}<br>
-              @endforeach
+              @empty
+                Нет компании
+              @endforelse
             </dd>
 
             <dt class="col-sm-3">Email</dt>

@@ -43,7 +43,6 @@
       </a>
     </div>
     <ul id="top_menu">
-      <li><a href="/{{ $lang }}/my-ads/create" class="btn_add btn-yellow">Добавить услугу</a></li>
       <li><a href="/{{ $lang }}/cs-login-and-register" class="login" title="Sign In">Войти</a></li>
       <li><a href="/{{ $lang }}/my-profile" class="btn-header "><span class="pe-7s-user"></span></a></li>
     </ul>

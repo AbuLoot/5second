@@ -14,7 +14,14 @@
 
   <div class="sub_header_in sticky_header sub-header-indigo">
     <div class="container">
-      <h1>Аккаунт</h1>
+      <div class="row">
+        <div class="col-lg-6">
+          <h1>Аккаунт</h1>
+        </div>
+        <div class="col-lg-6 text-right">
+          <a href="/{{ $lang }}/my-ads/create" class="btn_add btn-yellow">Добавить объявления</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -31,7 +38,7 @@
               <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
                 <div class="read_more"><span>Подробнее</span></div>
               </a>
-              <small>{{ $product->companies->title }}</small>
+              <small>{{ $product->company->title }}</small>
             </figure>
             <div class="wrapper">
               <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
@@ -47,6 +54,7 @@
                     <strong>{{ $titles[$lang]['title'] }}</strong>
                   @endforeach
                 </div>
+                <a href="/{{ $lang }}/my-ads/{{ $product->id }}/edit" class="btn_add">Редактировать</a>
               </li>
             </ul>
           </div>

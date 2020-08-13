@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $ids = $user->companies->pluck('ids');
+        $ids = $user->companies()->pluck('id');
         $products = Product::whereIn('company_id', $ids)->get();
 
         return view('ads.index', ['user' => $user, 'products' => $products]);
@@ -37,11 +37,10 @@ class ProductController extends Controller
     {
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
         $categories = Category::get()->toTree();
-        $companies = Company::orderBy('sort_id')->get();
         $options = Option::orderBy('sort_id')->get();
         $modes = Mode::all();
 
-        return view('ads.create', ['modes' => $modes, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options]);
+        return view('ads.create', ['modes' => $modes, 'currency' => $currency, 'categories' => $categories, 'options' => $options]);
     }
 
     public function store(Request $request)
@@ -53,7 +52,7 @@ class ProductController extends Controller
             // 'images' => 'mimes:jpeg,jpg,png,svg,svgs,bmp,gif',
         ]);
 
-        $company = Company::findOrFail($request->company_id);
+        $company = Auth::user()->companies()->where('id', $request->company_id)->first();
         $dirName = $company->id.'/'.time();
         $introImage = NULL;
         $images = [];
@@ -73,8 +72,8 @@ class ProductController extends Controller
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
-        $product->barcode = $request->barcode;
-        $product->count = $request->count;
+        // $product->barcode = $request->barcode;
+        $product->count = ($request->count > 0) ? $request->count : 1;
         $product->condition = $request->condition;
         $product->area = $request->area;
         $product->time = $request->time;
@@ -99,15 +98,15 @@ class ProductController extends Controller
         $product_lang->slug = str_slug($request->title);
         $product_lang->title = $request->title;
         $product_lang->title_extra = $request->title_extra;
-        $product_lang->meta_title = $request->meta_title;
-        $product_lang->meta_description = $request->meta_description;
+        $product_lang->meta_title = ($request->meta_title) ? $request->meta_title : $request->title;
+        $product_lang->meta_description = ($request->meta_description) ? $request->meta_description : $request->title;
         $product_lang->price = $request->price;
         $product_lang->description = $request->description;
         $product_lang->characteristic = $request->characteristic;
         $product_lang->lang = $request->lang;
         $product_lang->save();
 
-        return redirect($request->lang.'/admin/products')->with('status', 'Товар добавлен!');
+        return redirect()->back()->with('status', 'Товар добавлен!');
     }
 
     public function edit($lang, $id)
@@ -116,16 +115,11 @@ class ProductController extends Controller
         $categories = Category::get()->toTree();
         $product_lang = ProductLang::where('product_id', $product->id)->where('lang', $lang)->first();
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
-        $companies = Company::orderBy('sort_id')->get();
         $options = Option::orderBy('sort_id')->get();
         $grouped = $options->groupBy('data');
         $modes = Mode::all();
 
-        if ($product_lang == NULL) {
-            return view('ads.create-lang', ['modes' => $modes, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options, 'grouped' => $grouped]);
-        }
-
-        return view('ads.edit', ['modes' => $modes, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options, 'grouped' => $grouped]);
+        return view('ads.edit', ['modes' => $modes, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'options' => $options, 'grouped' => $grouped]);
     }
 
     public function update(Request $request, $lang, $id)
