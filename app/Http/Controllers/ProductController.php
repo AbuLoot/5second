@@ -106,7 +106,7 @@ class ProductController extends Controller
         $product_lang->lang = $request->lang;
         $product_lang->save();
 
-        return redirect()->back()->with('status', 'Товар добавлен!');
+        return redirect($lang.'/my-ads')->with('status', 'Товар добавлен!');
     }
 
     public function edit($lang, $id)
@@ -180,8 +180,8 @@ class ProductController extends Controller
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
-        $product->barcode = $request->barcode;
-        $product->count = $request->count;
+        // $product->barcode = $request->barcode;
+        $product->count = ($request->count > 0) ? $request->count : 1;
         $product->condition = $request->condition;
         $product->area = $request->area;
         $product->time = $request->time;
@@ -201,15 +201,16 @@ class ProductController extends Controller
         $product_lang->slug = str_slug($request->title);
         $product_lang->title = $request->title;
         $product_lang->title_extra = $request->title_extra;
-        $product_lang->meta_title = $request->meta_title;
-        $product_lang->meta_description = $request->meta_description;
+        $product_lang->meta_title = ($request->meta_title) ? $request->meta_title : $request->title;
+        $product_lang->meta_description = ($request->meta_description) ? $request->meta_description : $request->title;
         $product_lang->price = $request->price;
         $product_lang->description = $request->description;
-        $product_lang->characteristic = (isset($request->characteristic)) ? $request->characteristic : '';
+        $product_lang->characteristic = $request->characteristic;
         $product_lang->lang = $request->lang;
         $product_lang->save();
 
-        return redirect($lang.'/admin/products')->with('status', 'Товар обновлен!');
+
+        return redirect($lang.'/my-ads')->with('status', 'Товар обновлен!');
     }
 
     public function saveImages($request, $dirName)

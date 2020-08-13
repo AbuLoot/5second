@@ -27,14 +27,14 @@
         <div class="box_detail padding_bottom">
           <h2><i class="fa fa-user"></i> {{ $user->name.' '.$user->surname }}</h2>
           <dl class="row">
-            <dt class="col-sm-3">Мои компании</dt>
-            <dd class="col-sm-9">
-              @if($user->companies->isNotEmpty())
+            @if($user->companies->isNotEmpty())
+              <dt class="col-sm-3">Мои компании</dt>
+              <dd class="col-sm-9">
                 @foreach($user->companies as $company)
                   {{ $company->title }}<br>
                 @endforeach
-              @endif
-            </dd>
+              </dd>
+            @endif
 
             <dt class="col-sm-3">Email</dt>
             <dd class="col-sm-9">{{ $user->email }}</dd>

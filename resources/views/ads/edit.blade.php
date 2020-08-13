@@ -42,21 +42,22 @@
         @include('account.menu')
       </div>
       <div class="col-lg-9">
-        <form action="{{ route('my-ads.store', $lang) }}" method="post" enctype="multipart/form-data">
+        <form action="/{{ $lang }}/my-ads/{{ $product->id }}" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_method" value="PUT">
           {!! csrf_field() !!}
           <div class="box_detail">
             <h2>Основная информация</h2>
             <div class="form-group">
               <label for="title">Название</label>
-              <input type="text" class="form-control" id="title" name="title" minlength="5" value="{{ (old('title')) ? old('title') : '' }}" required>
+              <input type="text" class="form-control" id="title" name="title" minlength="5" value="{{ (old('title')) ? old('title') : $product_lang->title }}" required>
             </div>
             <div class="form-group">
               <label for="description">Описание</label>
-              <textarea class="form-control" name="description" rows="6" maxlength="2000">{{ (old('description')) ? old('description') : '' }}</textarea>
+              <textarea class="form-control" name="description" rows="6" maxlength="2000">{{ (old('description')) ? old('description') : $product_lang->description }}</textarea>
             </div>
             <div class="form-group">
               <label for="characteristic">Характеристика</label>
-              <input type="text" class="form-control" id="characteristic" name="characteristic" minlength="2" value="{{ (old('characteristic')) ? old('characteristic') : '' }}">
+              <input type="text" class="form-control" id="characteristic" name="characteristic" minlength="2" value="{{ (old('characteristic')) ? old('characteristic') : $product_lang->characteristic }}">
             </div>
             <div class="row">
               <div class="col-md-6">
@@ -64,7 +65,7 @@
                   <label for="price">Цена</label>
 
                   <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="price" name="price" maxlength="10" value="{{ (old('price')) ? old('price') : '' }}">
+                    <input type="text" class="form-control" id="price" name="price" maxlength="10" value="{{ (old('price')) ? old('price') : $product_lang->price }}">
                     <div class="input-group-append">
                       <span class="input-group-text">{{ $currency->symbol }}</span>
                     </div>
@@ -81,11 +82,11 @@
                 <p><b>Категории</b></p>
                 <div class="panel panel-default">
                   <div class="panel-body" style="max-height: 250px; overflow-y: auto;">
-                    <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                    <?php $traverse = function ($nodes, $prefix = null) use (&$traverse, $product) { ?>
                       <?php foreach ($nodes as $node) : ?>
                         <div class="radio">
                           <label>
-                            <input type="radio" name="category_id" value="{{ $node->id }}"> {{ PHP_EOL.$prefix.' '.$node->title }}
+                            <input type="radio" name="category_id" value="{{ $node->id }}" <?php if ($product->category_id == $node->id) echo "checked"; ?>> {{ PHP_EOL.$prefix.' '.$node->title }}
                           </label>
                         </div>
                         <?php $traverse($node->children, $prefix.'___'); ?>
@@ -107,7 +108,7 @@
                         <?php $titles = unserialize($option->title); ?>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox" name="options_id[]" value="{{ $option->id }}"> {{ $titles[$lang]['title'] }}
+                            <input type="checkbox" name="options_id[]" value="{{ $option->id }}" <?php if ($product->options->contains($option->id)) echo "checked"; ?>> {{ $titles[$lang]['title'] }}
                           </label>
                         </div>
                       @endforeach
@@ -122,21 +123,21 @@
                   <label for="company_id">Мои компании</label>
                   <select id="company_id" name="company_id" class="form-control">
                     @foreach(\Auth::user()->companies as $company)
-                      <option value="{{ $company->id }}">{{ $company->title }}</option>
+                      <option value="{{ $company->id }}" <?php if ($product->company_id == $company->id) echo "selected"; ?>>{{ $company->title }}</option>
                     @endforeach
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="time">Время</label>
-                  <input type="date" class="form-control" id="time" name="time" minlength="2" maxlength="80" value="{{ (old('time')) ? old('time') : '' }}">
+                  <input type="date" class="form-control" id="time" name="time" minlength="2" maxlength="80" value="{{ (old('time')) ? old('time') : $product->time }}">
                 </div>
                 <div class="form-group">
                   <label for="phones">Номера телефонов (чтобы разделить значения используйте знак /)</label>
-                  <input type="text" class="form-control" id="phones" name="phones" value="{{ (old('phones')) ? old('phones') : NULL }}">
+                  <input type="text" class="form-control" id="phones" name="phones" value="{{ (old('phones')) ? old('phones') : $product->phones }}">
                 </div>
                 <div class="form-group">
                   <label for="area">Адрес</label>
-                  <input id="address" class="form-control" name="area" id="area" minlength="2" placeholder="Например: Абая 32">
+                  <input id="address" class="form-control" name="area" id="area" minlength="2" placeholder="Например: Абая 32" value="{{ (old('address')) ? old('address') : $product->address }}">
                   <!-- <span class="help-block">Например: Абая 32</span> -->
                 </div>
               </div>
@@ -145,10 +146,10 @@
               <div class="col-md-4 form-group">
                 <label for="condition">Условие</label><br>
                 <label class="radio-inline">
-                  <input type="radio" name="condition" value="1" checked> Продажа
-                </label>
+                  <input type="radio" name="condition" value="1" <?php if ($product->condition == 1) echo "checked"; ?>> Продажа
+                </label><br>
                 <label class="radio-inline">
-                  <input type="radio" name="condition" value="2"> Аренда
+                  <input type="radio" name="condition" value="2" <?php if ($product->condition == 2) echo "checked"; ?>> Аренда
                 </label>
               </div>
             </div>
@@ -156,10 +157,22 @@
               <div class="col-md-12">
                 <label>Галерея</label><br>
               </div>
-              @for ($i = 0; $i < 6; $i++)
-                <div class="col-md-4">
-                  <input type="file" name="images[]" accept="image/*"><br><br>
-                </div>
+              <?php $images = ($product->images == true) ? unserialize($product->images) : []; ?>
+              <?php $key_last = array_key_last($images); ?>
+              @for ($i = 0; $i <= (($key_last >= 6) ? $key_last : 5); $i++)
+                @if(array_key_exists($i, $images))
+                  <div class="col-md-4 col-xs-12">
+                    <img src="/img/products/{{ $product->path.'/'.$images[$i]['present_image'] }}" class="img-fluid">
+                    <input type="file" name="images[]" accept="image/*">
+                    <label>
+                      <input type="checkbox" name="remove_images[]" value="{{ $i }}"> Удалить
+                    </label><br><br>
+                  </div>
+                @else
+                  <div class="col-md-4 col-xs-12">
+                    <input type="file" name="images[]" accept="image/*">
+                  </div>
+                @endif
               @endfor
             </div>
             <br>
@@ -172,7 +185,7 @@
                       <?php $titles = unserialize($mode->title); ?>
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" name="modes_id[]" value="{{ $mode->id }}"> {{ $titles[$lang]['title'] }}
+                          <input type="checkbox" name="modes_id[]" value="{{ $mode->id }}" <?php if ($product->modes->contains($mode->id)) echo "checked"; ?>> {{ $titles[$lang]['title'] }}
                         </label>
                       </div>
                     @endforeach
@@ -182,7 +195,7 @@
                   <label for="status">Статус:</label>
                   <select id="status" name="status" class="form-control" required>
                     @foreach(trans('statuses.data') as $num => $status)
-                      @if ($num == 1)
+                      @if ($num == $product->status)
                         <option value="{{ $num}}" selected>{{ $status }}</option>
                       @else
                         <option value="{{ $num}}">{{ $status }}</option>
