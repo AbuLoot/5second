@@ -12,14 +12,14 @@ class PaymentController extends Controller
     public function PayBox($amount, $userId)
     {
         $arrReq = [
-            'pg_merchant_id' => null,#@ToDo get merchant_id,
+            'pg_merchant_id' => 532282,
             'pg_amount' => $amount,
             'pg_description' => '5Second payment',
             'pg_order_id' => $userId,
             'pg_salt' => mt_rand(21, 43433),
             'pg_result_url' => url('PayBoxResult')
         ];
-        $arrReq['pg_sig'] = PG_Signature::make('payment.php', $arrReq, ''); #@ToDo get secret key
+        $arrReq['pg_sig'] = PG_Signature::make('payment.php', $arrReq, 'oXVtF2dnuechFVeW');
 
         $query = http_build_query($arrReq);
 
@@ -39,15 +39,18 @@ class PaymentController extends Controller
     {
         if($request['pg_result']) {
             $user = User::find($request['pg_order_id']);
+            $payment = PaymentLog::where('user_id', $request['pg_order_id'])->orderBy('id', 'DESC')->first();
+            $payment->status = PaymentLog::TYPE_SUCCESS;
+            $payment->save();
             #@Todo Some action after result
 //            $user->balance += $request['pg_amount'];
 //            $user->save();
 
             $arrReq = [
-                'pg_merchant_id' => null,#@ToDo get merchant_id,
+                'pg_merchant_id' => 532282,
                 'pg_salt' => mt_rand(21, 43433)
             ];
-            $pg_sig = PG_Signature::make('payment.php', $arrReq, ''); #@ToDo get secret key
+            $pg_sig = PG_Signature::make('payment.php', $arrReq, 'oXVtF2dnuechFVeW');
             $pg_salt = str_random(10);
 
             $xmlResponce = <<<XML
