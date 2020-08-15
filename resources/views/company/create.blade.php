@@ -24,7 +24,6 @@
         @include('account.menu')
       </div>
       <div class="col-lg-9">
-
         <form action="/{{ $lang }}/my-companies" method="post" enctype="multipart/form-data">
           {!! csrf_field() !!}
           <div class="box_detail padding_bottom">

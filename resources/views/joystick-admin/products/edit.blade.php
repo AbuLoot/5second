@@ -1,5 +1,29 @@
 @extends('joystick-admin.layout')
 
+@section('head')
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"></script>
+  <link href="/joystick/css/jasny-bootstrap.min.css" rel="stylesheet">
+  <script src='//cdn.tinymce.com/4.9/tinymce.min.js'></script>
+  <script>
+    tinymce.init({
+      selector: 'textarea',
+      height: 400,
+      theme: 'modern',
+      plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+      toolbar1: 'code undo redo | formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+      image_advtab: true,
+      templates: [
+        { title: 'Test template 1', content: 'Test 1' },
+        { title: 'Test template 2', content: 'Test 2' }
+      ],
+      content_css: [
+        // '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+        // '//www.tinymce.com/css/codepen.min.css'
+      ]
+    });
+  </script>
+@endsection
+
 @section('content')
   <h2 class="page-header">Редактирование</h2>
 
@@ -160,6 +184,11 @@
               <!-- <span class="help-block">Например: Абая 32</span> -->
             </div>
           </div>
+          <div class="col-md-8">
+            <input type="text" id="latitude" name="latitude" value="" hidden>
+            <input type="text" id="longitude" name="longitude" value="" hidden>
+            <div id="map" class="map" style="width:100%; height:300px; margin-bottom: 30px;"></div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-4 form-group">
@@ -253,43 +282,12 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <input type="text" id="latitude" name="latitude" value="" hidden>
-          <input type="text" id="longitude" name="longitude" value="" hidden>
-          <div class="col-md-12">
-            <div id="map" class="map" style="width: 100%; height:400px;"></div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Обновить</button>
     </div>
   </form>
-@endsection
-
-@section('head')
-  <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"></script>
-  <link href="/joystick/css/jasny-bootstrap.min.css" rel="stylesheet">
-  <script src='//cdn.tinymce.com/4.9/tinymce.min.js'></script>
-  <script>
-    tinymce.init({
-      selector: 'textarea',
-      height: 400,
-      theme: 'modern',
-      plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
-      toolbar1: 'code undo redo | formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-      image_advtab: true,
-      templates: [
-        { title: 'Test template 1', content: 'Test 1' },
-        { title: 'Test template 2', content: 'Test 2' }
-      ],
-      content_css: [
-        // '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-        // '//www.tinymce.com/css/codepen.min.css'
-      ]
-    });
-  </script>
 @endsection
 
 @section('scripts')
@@ -317,61 +315,17 @@
 
     function init() {
 
-      var location = ymaps.geolocation
+      let country = "Казахстан";
+      let myGeocoder = ymaps.geocode($.trim(country));
+
+      var myPlacemark,
+        location = ymaps.geolocation
       myMap = new ymaps.Map('map', {
         center: [43.23, 76.88],
         zoom: 14
       }, {
         searchControlProvider: 'yandex#search'
       });
-
-      <?php if (isset($product->latitude) && isset($product->longitude)) : ?>
-
-        coords = [<?php echo $product->latitude; ?>, <?php echo $product->longitude; ?>]
-        var myPlacemark = createPlacemark(coords)
-        getAddress(coords)
-        $("input#latitude").attr('value', coords[0])
-        $("input#longitude").attr('value', coords[1])
-        myMap.geoObjects.add(myPlacemark);
-
-        myPlacemark.events.add('dragend', function () {
-          coords2 = myPlacemark.geometry.getCoordinates()
-          $("input#latitude").attr('value', coords2[0])
-          $("input#longitude").attr('value', coords2[1])
-          getAddress(myPlacemark.geometry.getCoordinates());
-        });
-
-      <?php else: ?>
-
-        var myPlacemark;
-
-        $("#address").bind('keyup', function () {
-          let address = $("#address").val();
-          let myGeocoder = ymaps.geocode($.trim(country)+','+address);
-          myGeocoder.then(
-            function (res) {
-              var coords = res.geoObjects.get(0).geometry.getCoordinates();
-              myGeocoder.then(
-                function (res) {
-                  myMap.geoObjects.removeAll();
-                  var placemark = new ymaps.Placemark(coords, {}, {
-                    draggable: true
-                  });
-                  myMap.geoObjects.add(placemark);
-                  myMap.setCenter(coords, 16);
-                  placemark.events.add("drag", function (event) {
-                    coords = placemark.geometry.getCoordinates();
-                    document.getElementById("latitude").value = coords[0];
-                    document.getElementById("longitude").value = coords[1];
-                  });
-                  document.getElementById("latitude").value = coords[0];
-                  document.getElementById("longitude").value = coords[1];
-                }
-              );
-            });
-        });
-
-      <?php endif; ?>
 
       location.get()
         .then(
@@ -391,9 +345,71 @@
           }
         );
 
+      $("#address").bind('keyup', function () {
+        let address = $("#address").val();
+        let myGeocoder = ymaps.geocode($.trim(country)+','+address);
+        myGeocoder.then(
+          function (res) {
+            var coords = res.geoObjects.get(0).geometry.getCoordinates();
+            myGeocoder.then(
+              function (res) {
+                myMap.geoObjects.removeAll();
+                var placemark = new ymaps.Placemark(coords, {}, {
+                  draggable: true
+                });
+                myMap.geoObjects.add(placemark);
+                myMap.setCenter(coords, 16);
+                placemark.events.add("drag", function (event) {
+                  coords = placemark.geometry.getCoordinates();
+                  document.getElementById("latitude").value = coords[0];
+                  document.getElementById("longitude").value = coords[1];
+                });
+                document.getElementById("latitude").value = coords[0];
+                document.getElementById("longitude").value = coords[1];
+              }
+            );
+          });
+      });
+      // myMap.events.add('click', function (e) {
+      //     var coords = e.get('coords');
+      //     $("input#latitude").attr('value', coords[0])
+      //     $("input#longitude").attr('value', coords[1])
+      //     if (myPlacemark) {
+      //         myPlacemark.geometry.setCoordinates(coords);
+      //     } else {
+      //         myPlacemark = createPlacemark(coords);
+      //         myMap.geoObjects.add(myPlacemark);
+      //         myPlacemark.events.add('dragend', function () {
+      //             coords2 = myPlacemark.geometry.getCoordinates()
+      //             $("input#latitude").attr('value', coords2[0])
+      //             $("input#longitude").attr('value', coords2[1])
+      //             getAddress(myPlacemark.geometry.getCoordinates());
+      //         });
+      //     }
+      //     getAddress(coords);
+      // });
       function createPlacemark(coords) {
-        return new ymaps.Placemark(coords, {}, {
+        return new ymaps.Placemark(coords, {
+          iconCaption: 'поиск...'
+        }, {
+          preset: 'islands#redDotIconWithCaption',
           draggable: true
+        });
+      }
+
+      function getAddress(coords) {
+        myPlacemark.properties.set('iconCaption', 'поиск...');
+        ymaps.geocode(coords).then(function (res) {
+          var firstGeoObject = res.geoObjects.get(0);
+
+          myPlacemark.properties
+            .set({
+              iconCaption: [
+                firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+              ].filter(Boolean).join(', '),
+              balloonContent: firstGeoObject.getAddressLine()
+            });
         });
       }
     }

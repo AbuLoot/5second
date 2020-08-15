@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 use App\Page;
+use App\Region;
 use App\Section;
 use App\Category;
 use App\Language;
@@ -25,10 +26,12 @@ class Controller extends BaseController
         $section_codes = Section::whereIn('slug', ['header-code', 'footer-code'])->get();
         $pages = Page::where('status', 1)->whereNotIn('slug', ['/'])->orderBy('sort_id')->get()->toTree();
         $categories = Category::where('status', '<>', 0)->orderBy('sort_id')->get()->toTree();
+        $regions = Region::where('parent_id', 1)->orderBy('sort_id')->get();
 
         view()->share([
             'lang' => $lang,
             'pages' => $pages,
+            'regions' => $regions,
             'section' => $section,
             'section_codes' => $section_codes,
             'categories' => $categories,

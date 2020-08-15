@@ -212,34 +212,34 @@
 
     function init() {
 
-        var myPlacemark,
-            location = ymaps.geolocation
+      var myPlacemark,
+        location = ymaps.geolocation
 
-        location.get()
-            .then(
-                function(result) {
-                    var userAddress = result.geoObjects.get(0).properties.get('text');
-                    var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
-                    firstGeoObject = result.geoObjects.get(0)
-                    city = (firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas())
+      location.get()
+        .then(
+          function(result) {
+            var userAddress = result.geoObjects.get(0).properties.get('text');
+            var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
+            firstGeoObject = result.geoObjects.get(0)
+            city = (firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas())
 
-                    /*$.ajax({
-                        type: 'get',
-                        url: '/ru/',
-                        dataType: 'json',
-                        data: {
-                            'options_id': optionsId,
-                        },
-                        success: function(data) {
-                            $('#products').html(data);
-                        }
-                    });*/
-                    // confirm('Ваш город: ' + city);
-                },
-                function(err) {
-                    console.log('Ошибка: ' + err)
-                }
-            );
+            $.ajax({
+              type: 'get',
+              url: '/ru/set-region',
+              dataType: 'json',
+              data: {
+                'city': city,
+              },
+              success: function(data) {
+                alert(data);
+                confirm('Ваш город: ' + city);
+              }
+            });
+          },
+          function(err) {
+            console.log('Ошибка: ' + err)
+          }
+        );
     }
   </script>
 </body>

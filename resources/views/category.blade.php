@@ -5,7 +5,12 @@
 @section('meta_description', $category->meta_description ?? $category->title)
 
 @section('head')
-
+  <style>
+    #map {
+      width: 100%;
+      height: 350px;
+    }
+  </style>
 @endsection
 
 @section('header-class', 'extra-header')
@@ -21,27 +26,17 @@
           <a href="#0" class="side_panel btn_search_mobile"></a> <!-- /open search panel -->
           <form method="get" action="/{{ $lang }}/search">
             <div class="row no-gutters custom-search-input-2 inner">
-              <div class="col-lg-4">
+              <div class="col-lg-8">
                 <div class="form-group">
                   <input type="search" class="form-control" name="text" placeholder="Что вы ищите...">
                   <i class="icon_search"></i>
                 </div>
               </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Где">
-                  <i class="icon_pin_alt"></i>
-                </div>
-              </div>
               <div class="col-lg-3">
-                <select class="wide">
-                  <option>Все категории</option>
-                  <option>Shops</option>
-                  <option>Hotels</option>
-                  <option>Restaurants</option>
-                  <option>Bars</option>
-                  <option>Events</option>
-                  <option>Fitness</option>
+                <select name="region" class="wide">
+                  @foreach($regions as $region)
+                    <option value="{{ $region->id }}">{{ $region->title }}</option>
+                  @endforeach
                 </select>
               </div>
               <div class="col-lg-1">
@@ -57,25 +52,23 @@
   <div class="filters_listing sticky_horizontal-">
     <div class="container">
       <ul class="clearfix">
-      <!-- <li>
-      <div class="switch-field" id="actions">
-      @foreach(trans('data.sort_by') as $key => $value)
-        <input type="radio" id="{{ $key }}" name="listing_filter" value="{{ $key }}" @if($key == session('action')) checked @endif>
-        <label for="{{ $key }}">{{ $value }}</label>
-      @endforeach
-        </div>
-        </li> -->
-        <li><a class="btn_filt" data-toggle="collapse" href="#filters" aria-expanded="false" aria-controls="filters" data-text-swap="Скрыть" data-text-original="Фильтры">Фильтры</a></li>
+        <!-- <li>
+          <div class="switch-field" id="actions">
+            @foreach(trans('data.sort_by') as $key => $value)
+              <input type="radio" id="{{ $key }}" name="listing_filter" value="{{ $key }}" @if($key == session('action')) checked @endif>
+              <label for="{{ $key }}">{{ $value }}</label>
+            @endforeach
+          </div>
+        </li>
         <li>
           <div class="layout_view">
             <a href="#0" class="active"><i class="icon-th"></i></a>
             <a href="listing-2.html"><i class="icon-th-list"></i></a>
             <a href="list-map.html"><i class="icon-map"></i></a>
           </div>
-        </li>
-        <li>
-          <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Hide map" data-text-original="View on map">На карте</a>
-        </li>
+        </li> -->
+        <li><a class="btn_filt" data-toggle="collapse" href="#filters" aria-expanded="false" aria-controls="filters" data-text-swap="Скрыть" data-text-original="Фильтры">Фильтры</a></li>
+        <li><a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Скрыть карту" data-text-original="Открыть карту">На карте</a></li>
       </ul>
     </div>
   </div>
@@ -206,17 +199,18 @@
 
   <script type="text/javascript">
     var products = [
-      @foreach($products as $product)
+      <?php foreach($products as $product): ?>
         <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-        @if(isset($product->latitude) && isset($product->longitude))
+        <?php if(isset($product->latitude) && isset($product->longitude)): ?>
           {
-            lat: {{ $product->latitude }},
-            long: {{ $product->longitude }},
-            text: '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/p-'.$product->id }}">{{ $product_lang['title'] }}</a>'
+            lat: <?= $product->latitude ?>,
+            long: <?= $product->longitude ?>,
+            text: '<a href="/<?= $lang.'/'.Str::limit($product_lang['slug'], 35).'/p-'.$product->id ?>"><?= $product_lang['title'] ?></a>'
           },
-        @endif
-      @endforeach
+        <?php endif; ?>
+      <?php endforeach; ?>
     ];
+
     ymaps.ready(init);
 
     function init() {
@@ -239,7 +233,7 @@
             });
             myMap.geoObjects.add(result.geoObjects)
             myMap.setCenter(result.geoObjects.position)
-            myMap.setZoom(16)
+            myMap.setZoom(13)
           },
           function(err) {
             console.log('Ошибка: ' + err)

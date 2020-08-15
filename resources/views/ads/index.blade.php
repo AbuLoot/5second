@@ -55,6 +55,11 @@
                   @endforeach
                 </div>
                 <a href="/{{ $lang }}/my-ads/{{ $product->id }}/edit" class="btn_add">Редактировать</a>
+                <form method="POST" action="{{ route('my-ads.destroy', [$lang, $product->id]) }}" accept-charset="UTF-8" style="display: inline-block;">
+                  <input name="_method" type="hidden" value="DELETE">
+                  <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                  <button type="submit" class="btn btn-link" onclick="return confirm('Удалить запись?')">Удалить</button>
+                </form>
               </li>
             </ul>
           </div>
