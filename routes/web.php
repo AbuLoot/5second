@@ -94,8 +94,13 @@ Route::group(['prefix' => '{lang}'], function () {
     // Input
     Route::get('search', 'InputController@search');
     Route::get('search-ajax', 'InputController@searchAjax');
-    Route::post('filter-products', 'InputController@filterProducts');
+    Route::get('set-region', 'InputController@setRegion');
     Route::post('send-app', 'InputController@sendApp');
+    Route::post('filter-products', 'InputController@filterProducts');
+
+    // Comments
+    Route::post('review', 'CommentController@saveReview');
+    // Route::post('comment', 'CommentController@saveComment');
 });
 
 // Cart Actions

@@ -19,27 +19,23 @@
         <!-- <p>Здесь собраны все виды автоуслуг что делает данную отрасль автоматизированной и удобной для потребителей и наших партнеров.</p> -->
         <form method="get" action="/{{ $lang }}/search">
           <div class="row no-gutters custom-search-input-2">
-            <div class="col-lg-4">
+            <div class="col-lg-7">
               <div class="form-group">
                 <input type="search" name="text" class="form-control" placeholder="Что вы ищите...">
                 <i class="icon_search"></i>
               </div>
             </div>
-            <div class="col-lg-3">
+            <!-- <div class="col-lg-3">
               <div class="form-group">
                 <input class="form-control" type="text" placeholder="Где">
                 <i class="icon_pin_alt"></i>
               </div>
-            </div>
+            </div> -->
             <div class="col-lg-3">
-              <select class="wide">
-                <option>Все категории</option> 
-                <option>Shops</option>
-                <option>Hotels</option>
-                <option>Restaurants</option>
-                <option>Bars</option>
-                <option>Events</option>
-                <option>Fitness</option>
+              <select name="region" class="wide">
+                @foreach($regions as $region)
+                  <option value="{{ $region->id }}">{{ $region->title }}</option>
+                @endforeach
               </select>
             </div>
             <div class="col-lg-2">
@@ -152,7 +148,7 @@
             </div>
           </div>
         </div>
-        <p class="text-center add_top_30 wow bounceIn" data-wow-delay="0.5s"><a href="account.html" class="btn_1 rounded">Зарегестрироваться</a></p>
+        <p class="text-center add_top_30 wow bounceIn" data-wow-delay="0.5s"><a href="/{{ $lang }}/cs-login-and-register" class="btn_1 rounded">Зарегестрироваться</a></p>
       </div>
       <canvas id="hero-canvas" width="1920" height="1080"></canvas>
     </div>

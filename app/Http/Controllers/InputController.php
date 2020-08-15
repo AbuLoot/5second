@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Validator;
+use Session;
 
 use App\App;
+use App\Region;
 use App\Project;
 use App\Product;
 use App\ProductLang;
@@ -50,6 +51,16 @@ class InputController extends Controller
         }
 
         return response()->json($array);
+    }
+
+    public function setRegion(Request $request, $lang)
+    {
+        $city = trim(strip_tags($request->city));
+        $city = Region::where('slug', $city)->first();
+
+        $request->session()->put('region', $city->slug);
+
+        return response()->json($city);
     }
 
     public function filterProducts(Request $request)

@@ -235,12 +235,7 @@ class ProductController extends Controller
             $product->path = $dirName;
         }
 
-        // Remove images
-        if (isset($request->remove_images)) {
-            $images = $this->removeImages($request, $images, $product);
-            $introImage = (isset($images[0]['present_image'])) ? $images[0]['present_image'] : 'no-image-middle.png';
-        }
-
+        // Adding map
         if (isset($request->latitude) && isset($request->longitude)) {
             $product->latitude = $request->latitude;
             $product->longitude = $request->longitude;

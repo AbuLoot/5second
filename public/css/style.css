@@ -853,7 +853,7 @@ header.header_in.map_view {
   top: 0;
   width: 100%;
 }
-header.header_in ul#top_menu li a {
+header.sticky ul#top_menu li a {
   color: #444;
 }
 @media (max-width: 991px) {

@@ -43,7 +43,7 @@ class ProductController extends Controller
         return view('ads.create', ['modes' => $modes, 'currency' => $currency, 'categories' => $categories, 'options' => $options]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $lang)
     {
         $this->validate($request, [
             'title' => 'required|min:2|unique:products_lang',
@@ -166,12 +166,7 @@ class ProductController extends Controller
             $product->path = $dirName;
         }
 
-        // Remove images
-        if (isset($request->remove_images)) {
-            $images = $this->removeImages($request, $images, $product);
-            $introImage = (isset($images[0]['present_image'])) ? $images[0]['present_image'] : 'no-image-middle.png';
-        }
-
+        // Adding map
         if (isset($request->latitude) && isset($request->longitude)) {
             $product->latitude = $request->latitude;
             $product->longitude = $request->longitude;

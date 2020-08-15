@@ -23,6 +23,7 @@
   </nav>
 
   <div class="container margin_60_35">
+    @include('partials.alerts')
     <div class="row">
       <div class="col-lg-8">
         <div id="carousel_in" class="owl-carousel owl-theme add_bottom_30">
@@ -35,13 +36,12 @@
         </div>
         <section id="description">
           <div class="detail_title_1">
-            <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+            <!-- <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div> -->
             <h1>{{ $product_lang->title }}</h1>
             <p>{{ $product->area }}</p>
           </div>
 
           {!! $product_lang->description !!}
-          <!-- /row -->
           <hr>
           @foreach($similar_products_lang as $similar_product_lang)
             <div class="room_type first">
@@ -67,139 +67,103 @@
         </section>
 
         <section id="reviews">
-          <h2>Reviews</h2>
+          <h2>Отзывы</h2>
+          <p>Комментариев {{ $product->comments->count() }}</p>
 
           <div class="reviews-container">
-
-            <div class="review-box clearfix">
-              <figure class="rev-thumb"><img src="img/avatar1.jpg" alt="">
-              </figure>
-              <div class="rev-content">
-                <div class="rating">
-                  <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+            @unless ($product->comment === 'nobody')
+              @foreach ($product->comments as $comment)
+                <div class="review-box- clearfix">
+                  <div class="rev-content">
+                    <div class="rating">
+                      <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <i class="icon_star <?php if ($i <= $comment->stars) echo 'voted'; ?>"></i>
+                      <?php endfor; ?>
+                    </div>
+                    <div class="rev-info">{{ $comment->name }} – </div>
+                    <div class="rev-text">
+                      <p>{{ $comment->comment }}</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="rev-info">
-                  Admin – April 03, 2016:
-                </div>
-                <div class="rev-text">
-                  <p>
-                    Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis
-                  </p>
-                </div>
-              </div>
-            </div>
-            <!-- /review-box -->
-            <div class="review-box clearfix">
-              <figure class="rev-thumb"><img src="img/avatar2.jpg" alt="">
-              </figure>
-              <div class="rev-content">
-                <div class="rating">
-                  <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-                </div>
-                <div class="rev-info">
-                  Ahsan – April 01, 2016:
-                </div>
-                <div class="rev-text">
-                  <p>
-                    Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis
-                  </p>
-                </div>
-              </div>
-            </div>
-            <!-- /review-box -->
-            <div class="review-box clearfix">
-              <figure class="rev-thumb"><img src="img/avatar3.jpg" alt="">
-              </figure>
-              <div class="rev-content">
-                <div class="rating">
-                  <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-                </div>
-                <div class="rev-info">
-                  Sara – March 31, 2016:
-                </div>
-                <div class="rev-text">
-                  <p>
-                    Sed eget turpis a pede tempor malesuada. Vivamus quis mi at leo pulvinar hendrerit. Cum sociis natoque penatibus et magnis dis
-                  </p>
-                </div>
-              </div>
-            </div>
+              @endforeach
+            @endunless
           </div>
         </section>
         <hr>
 
         <div class="add-review">
-          <h5>Leave a Review</h5>
-          <form>
-            <div class="row">
-              <div class="form-group col-md-6">
-                <label>Name and Lastname *</label>
-                <input type="text" name="name_review" id="name_review" placeholder="" class="form-control">
-              </div>
-              <div class="form-group col-md-6">
-                <label>Email *</label>
-                <input type="email" name="email_review" id="email_review" class="form-control">
-              </div>
-              <div class="form-group col-md-6">
-                <label>Rating </label>
-                <div class="custom-select-form">
-                <select name="rating_review" id="rating_review" class="wide">
-                  <option value="1">1 (lowest)</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5" selected>5 (medium)</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10 (highest)</option>
-                </select>
+          <h5>Форма для отзыва</h5>
+          @if(Auth::check())
+            <form action="/{{ $lang }}/review" method="post">
+              {!! csrf_field() !!}
+              <input name="id" type="hidden" value="{{ $product->id }}">
+              <input name="type" type="hidden" value="ad">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Имя *</label>
+                  <input type="text" name="name" id="name" placeholder="" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Email *</label>
+                  <input type="email" name="email" id="email" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Рейтинг </label>
+                  <div class="custom-select-form">
+                  <select name="stars" id="stars" class="wide">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected>5</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="form-group col-md-12">
+                  <label>Ваш отзыв</label>
+                  <textarea name="comment" id="comment" class="form-control" style="height:130px;"></textarea>
+                </div>
+                <div class="form-group col-md-12 add_top_20 add_bottom_30">
+                  <input type="submit" value="Отправить" class="btn_1" id="submit-review">
                 </div>
               </div>
-              <div class="form-group col-md-12">
-                <label>Your Review</label>
-                <textarea name="review_text" id="review_text" class="form-control" style="height:130px;"></textarea>
-              </div>
-              <div class="form-group col-md-12 add_top_20 add_bottom_30">
-                <input type="submit" value="Submit" class="btn_1" id="submit-review">
-              </div>
-            </div>
-          </form>
+            </form>
+          @else
+            <p><a href="/{{ $lang }}/cs-login-and-register">Зарегестрируйтесь</a> чтобы оставлять отзывы</p>
+          @endif
         </div>
       </div>
 
       <aside class="col-lg-4" id="sidebar">
-        <div class="box_detail booking">
-          <div class="price">
-            <span>От {{ $product_lang['price'] }}〒</span>
-            <div class="score">
-              @foreach($product->options as $option)
-                <?php $titles = unserialize($option->title); ?>
-                <strong>{{ $titles[$lang]['title'] }}</strong>
-              @endforeach
+        <form action="/{{ $lang }}/send-app" method="post">
+          {!! csrf_field() !!}
+          <div class="box_detail booking">
+            <div class="price">
+              <span>Скидка</span>
+              <div class="score">
+                @foreach($product->options as $option)
+                  <?php $titles = unserialize($option->title); ?>
+                  <strong>{{ $titles[$lang]['title'] }}</strong>
+                @endforeach
+              </div>
             </div>
+            <div class="form-group">
+              <input class="form-control" type="text" name="name" minlength="2" maxlength="40" placeholder="Имя.." required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="tel" name="phone" minlength="2" maxlength="40" placeholder="Телефон.." required>
+            </div>
+            <div class="form-group" id="input-dates">
+              <input class="form-control" type="text" name="time" placeholder="Дата..">
+              <i class="icon_calendar"></i>
+            </div>
+            <button type="submit" class="add_top_30 btn_1 full-width purchase">Забронировать</button>
           </div>
-
-          <div class="form-group">
-            <input class="form-control" type="text" name="name" placeholder="Имя..">
-          </div>
-
-          <div class="form-group">
-            <input class="form-control" type="tel" name="phone" placeholder="Телефон..">
-          </div>
-
-          <div class="form-group" id="input-dates">
-            <input class="form-control" type="text" name="dates" placeholder="Дата..">
-            <i class="icon_calendar"></i>
-          </div>
-
-          <a href="/" class=" add_top_30 btn_1 full-width purchase">Забронировать</a>
-        </div>
+        </form>
       </aside>
     </div>
   </div>
-
 @endsection
 
 @section('scripts')
@@ -223,51 +187,57 @@
       margin:0
     });
   </script>
+
   <script type="text/javascript">
 
-      <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-      var product =
-            @if(isset($product->latitude) && isset($product->longitude))
-                { lat:  {{$product->latitude}}, long: {{$product->longitude}}, text:  '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a>'};
-            @else
-                {};
-            @endif
-      ymaps.ready(init);
+    <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+    var product =
+      <?php if(isset($product->latitude) && isset($product->longitude)): ?>
+        {
+          lat: <?= $product->latitude ?>,
+          long: <?= $product->longitude ?>,
+          text: '<a href="/<?= $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id ?>"><?= $product_lang['title'] ?></a>'
+        };
+      <?php else: ?>
+        {};
+      <?php endif; ?>
 
-      function init() {
+    ymaps.ready(init);
 
-          var myPlacemark,
-              location = ymaps.geolocation
-          myMap = new ymaps.Map('map', {
-              center: [43.23, 76.88],
-              zoom: 14
-          }, {
-              searchControlProvider: 'yandex#search'
-          });
+    function init() {
+      var myPlacemark,
+        location = ymaps.geolocation
+        myMap = new ymaps.Map('map', {
+          center: [43.23, 76.88],
+          zoom: 14
+        }, {
+          searchControlProvider: 'yandex#search'
+        });
 
-          location.get()
-              .then(
-                  function(result) {
-                      var userAddress = result.geoObjects.get(0).properties.get('text');
-                      var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
-                      result.geoObjects.get(0).properties.set({
-                          balloonContentBody: 'Адрес: ' + userAddress +
-                              '<br/>Координаты:' + userCoodinates
-                      });
-                      myMap.geoObjects.add(result.geoObjects)
-                      // myMap.setCenter(result.geoObjects.position)
-                      myMap.setZoom(16)
-                  },
-                  function(err) {
-                      console.log('Ошибка: ' + err)
-                  }
-              );
-          pl = new ymaps.Placemark([product.lat, product.long]);
-          pl.properties.set({
-              balloonContentBody: product.text
-          });
-          myMap.geoObjects.add(pl);
-          myMap.setCenter([product.lat, product.long])
-      }
+      location.get()
+        .then(
+          function(result) {
+            var userAddress = result.geoObjects.get(0).properties.get('text');
+            var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
+            result.geoObjects.get(0).properties.set({
+              balloonContentBody: 'Адрес: ' + userAddress +
+                '<br/>Координаты:' + userCoodinates
+            });
+            myMap.geoObjects.add(result.geoObjects)
+            // myMap.setCenter(result.geoObjects.position)
+            myMap.setZoom(16)
+          },
+          function(err) {
+            console.log('Ошибка: ' + err)
+          }
+        );
+
+      pl = new ymaps.Placemark([product.lat, product.long]);
+      pl.properties.set({
+        balloonContentBody: product.text
+      });
+      myMap.geoObjects.add(pl);
+      myMap.setCenter([product.lat, product.long])
+    }
   </script>
 @endsection
