@@ -3,7 +3,7 @@
 Route::redirect('/admin', '/'.app()->getLocale().'/admin');
 
 // Joystick Administration
-Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin']], function () {
+Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin|manager']], function () {
 
     Route::get('/', 'Joystick\AdminController@index');
     Route::get('filemanager', 'Joystick\AdminController@filemanager');
@@ -47,29 +47,29 @@ Route::redirect('/home', '/'.app()->getLocale().'/home');
 // Site
 Route::group(['prefix' => '{lang}'], function () {
 
-    // Authentication routes...
+    // Authentication routes... ->middleware('guest')
     Route::get('cs-login', 'Auth\AuthCustomController@getLogin');
     Route::post('cs-login', 'Auth\AuthCustomController@postLogin');
 
-    // Registration routes... ->middleware('guest')
+    // Registration routes...
     Route::get('cs-register', 'Auth\AuthCustomController@getRegister');
     Route::post('cs-register', 'Auth\AuthCustomController@postRegister');
     // Route::get('confirm/{token}', 'Auth\AuthCustomController@confirm');
 
-    // Registration routes... ->middleware('guest')
+    // Registration routes...
     Route::get('cs-login-and-register', 'Auth\AuthCustomController@getLoginAndRegister');
 
     Auth::routes();
+
+    // Profile
+    Route::resource('my-profile', 'ProfileController')->except(['create', 'show', 'store', 'destroy']);
+    Route::resource('my-companies', 'CompanyController');
+    Route::resource('my-ads', 'ProductController');
 
     // Balance and Payment
     Route::get('my-balance', 'ProfileController@balance');
     Route::post('top-up-balance', 'ProfileController@topUpBalance');
     Route::get('payment', 'ProfileController@payment');
-
-    // Profile
-    Route::get('my-profile', 'ProfileController@profile');
-    Route::post('my-profile', 'ProfileController@updateProfile');
-    Route::get('my-profile/edit', 'ProfileController@editProfile');
 
     // News
     Route::get('i/news', 'NewsController@news');

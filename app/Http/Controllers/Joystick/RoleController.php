@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Joystick;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Joystick\Controller;
 use App\Role;
+use App\Permission;
 
 class RoleController extends Controller
 {
@@ -17,7 +18,13 @@ class RoleController extends Controller
 
     public function create($lang)
     {
-        return view('joystick-admin.roles.create');
+        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
+        $permissions = Permission::all();
+
+        return view('joystick-admin.roles.create', compact('permissions'));
     }
 
     public function store(Request $request)
@@ -30,6 +37,7 @@ class RoleController extends Controller
         $role->name = $request->name;
         $role->display_name = $request->display_name;
         $role->description = $request->description;
+        $role->perms()->sync($request->permissions_id);
         $role->save();
 
         return redirect($request->lang.'/admin/roles')->with('status', 'Запись добавлена!');
@@ -38,8 +46,9 @@ class RoleController extends Controller
     public function edit($lang, $id)
     {
         $role = Role::findOrFail($id);
+        $permissions = Permission::all();
 
-        return view('joystick-admin.roles.edit', compact('role'));
+        return view('joystick-admin.roles.edit', compact('role', 'permissions'));
     }
 
     public function update(Request $request, $lang, $id)
@@ -52,6 +61,7 @@ class RoleController extends Controller
         $role->name = $request->name;
         $role->display_name = $request->display_name;
         $role->description = $request->description;
+        $role->perms()->sync($request->permissions_id);
         $role->save();
 
         return redirect($lang.'/admin/roles')->with('status', 'Запись обновлена!');

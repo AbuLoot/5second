@@ -25,8 +25,7 @@
 
   <!-- YOUR CUSTOM CSS -->
   <link href="/css/custom.css" rel="stylesheet">
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript">
-    </script>
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"> </script>
   @yield('head')
 
   @if($section_codes->firstWhere('slug', 'header-code'))
@@ -44,8 +43,8 @@
       </a>
     </div>
     <ul id="top_menu">
-      <li><a href="account.html" class="btn_add btn-yellow">Добавить услугу</a></li>
       <li><a href="/{{ $lang }}/cs-login-and-register" class="login" title="Sign In">Войти</a></li>
+      <li><a href="/{{ $lang }}/my-profile" class="btn-header "><span class="pe-7s-user"></span></a></li>
     </ul>
     <a href="#menu" class="btn_mobile">
       <div class="hamburger hamburger--spin" id="hamburger">
@@ -208,7 +207,7 @@
   @if($section_codes->firstWhere('slug', 'footer-code'))
     {{ $section_codes->firstWhere('slug', 'footer-code')->content }}
   @endif
-<script type="text/javascript">
+  <script type="text/javascript">
     ymaps.ready(init);
 
     function init() {
@@ -223,13 +222,25 @@
                     var userCoodinates = result.geoObjects.get(0).geometry.getCoordinates();
                     firstGeoObject = result.geoObjects.get(0)
                     city = (firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas())
-                    confirm('Ваш город: ' + city)//@Todo remove
+
+                    /*$.ajax({
+                        type: 'get',
+                        url: '/ru/',
+                        dataType: 'json',
+                        data: {
+                            'options_id': optionsId,
+                        },
+                        success: function(data) {
+                            $('#products').html(data);
+                        }
+                    });*/
+                    // confirm('Ваш город: ' + city);
                 },
                 function(err) {
                     console.log('Ошибка: ' + err)
                 }
             );
     }
-</script>
+  </script>
 </body>
 </html>

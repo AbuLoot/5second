@@ -36,7 +36,12 @@
     <div class="form-group">
       <label for="sort_id">Номер</label>
       <input type="text" class="form-control" id="sort_id" name="sort_id" maxlength="5" value="{{ (old('sort_id')) ? old('sort_id') : $region->sort_id }}">
-    </div>    <div class="form-group">
+    </div>
+    <div class="form-group">
+      <label for="data">Группа</label>
+      <input type="text" class="form-control" id="data" name="data" value="{{ (old('data')) ? old('data') : $region->data }}">
+    </div>
+    <div class="form-group">
       <label for="lang">Язык</label>
       <select id="lang" name="lang" class="form-control" required>
         <option value=""></option>

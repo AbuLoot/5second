@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use App\Role;
 use App\Profile;
+use App\Region;
 use App\Http\Controllers\Controller;
 
 class AuthCustomController extends Controller
@@ -37,15 +38,15 @@ class AuthCustomController extends Controller
         return view('account.register');
     }
 
-    protected function postRegister(Request $request)
+    protected function postRegister(Request $request, $lang)
     {
         $validatedData = $this->validate($request, [
-            // 'surname' => 'required|min:2|max:40',
+            'surname' => 'required|min:2|max:40',
             'name' => 'required|min:2|max:40',
-            // 'phone' => 'required|min:11|max:11|unique:users',
+            'phone' => 'required|min:11|max:11|unique:profiles',
             'email' => 'required|email|max:255|unique:users',
             // 'sex' => 'required',
-            'password' => 'required|confirmed|min:6|max:255',
+            // 'password' => 'required|confirmed|min:6|max:255',
             // 'rules' => 'accepted'
         ]);
 
@@ -65,11 +66,14 @@ class AuthCustomController extends Controller
             $profile->sort_id = $user->id;
             $profile->user_id = $user->id;
             $profile->city_id = 1;
-            // $profile->phone = $request->phone;
+            $profile->phone = $request->phone;
+            $profile->gov_number = $request->gov_number;
+            $profile->card_type = $request->card_type;
+            $profile->barcode = $request->barcode;
             // $profile->sex = $request['sex'];
             $profile->save();
 
-            return redirect('/cs-login')->withInput()->withInfo('Регистрация успешно завершина. Войдите через email и пароль.');
+            return redirect($lang.'/cs-login')->withInput()->withInfo('Регистрация успешно завершина. Войдите через email и пароль.');
         }
         else {
             return redirect()->back()->withInput()->withErrors('Неверные данные');
@@ -78,7 +82,9 @@ class AuthCustomController extends Controller
 
     public function getLoginAndRegister()
     {
-        return view('account.login-and-register');
+        $regions = Region::orderBy('sort_id')->get()->toTree();
+
+        return view('account.login-and-register', ['regions' => $regions]);
     }
 
     public function getLogout()

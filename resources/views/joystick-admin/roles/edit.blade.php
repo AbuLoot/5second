@@ -25,6 +25,19 @@
       <input type="text" class="form-control" id="description" name="description" maxlength="80" value="{{ (old('description')) ? old('description') : $role->description }}">
     </div>
     <div class="form-group">
+      <label for="permissions_id">Права доступа:</label>
+      <select class="form-control" name="permissions_id[]" id="permissions_id" multiple required>
+        <option value=""></option>
+        @foreach($permissions as $permission)
+          @if ($role->perms->contains($permission->id)))
+            <option value="{{ $permission->id }}" selected>{{ $permission->name }}</option>
+          @else
+            <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+          @endif
+        @endforeach
+      </select>
+    </div>
+    <div class="form-group">
       <button type="submit" class="btn btn-primary">Изменить</button>
     </div>
   </form>

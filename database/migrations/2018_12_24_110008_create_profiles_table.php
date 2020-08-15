@@ -17,7 +17,7 @@ class CreateProfilesTable extends Migration
             $table->increments('id');
             $table->integer('sort_id')->nullable();
             $table->integer('user_id')->references('id')->on('users');
-            $table->integer('city_id')->references('id')->on('cities');
+            $table->integer('region_id')->references('id')->on('regions');
             $table->string('phone')->nullable();
             $table->date('birthday');
             $table->enum('sex', ['man', 'woman']);
