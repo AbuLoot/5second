@@ -86,70 +86,75 @@
         <div id="map" class="map"></div>
     </div>
 
-    <!-- Filter list -->
-    <div class="collapse" id="filters">
-        <div class="container margin_30_5">
-            <div class="row">
-                <form action="/catalog/{{ $category->slug }}" method="get" id="filter">
-                    {{ csrf_field() }}
-                    <?php $options_id = session('options'); ?>
-                    @foreach ($grouped as $data => $group)
-                        <div class="col-md-4">
-                            <?php $data = unserialize($data); ?>
-                            <h6>{{ $data[$lang]['data'] }}</h6>
-                            <ul>
-                                @foreach ($group as $option)
-                                    <?php $titles = unserialize($option->title); ?>
-                                    <li>
-                                        <label class="container_check">{{ $titles[$lang]['title'] }}
-                                            <input type="checkbox" id="o{{ $option->id }}" name="options_id[]" value="{{ $option->id }}" @if(isset($options_id) AND in_array($option->id, $options_id)) checked @endif>
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endforeach
-                </form>
+  <div class="container margin_60_35">
+
+    <div id="products" class="row">
+      @foreach($products as $product)
+        <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+        <div class="col-xl-4 col-lg-6 col-md-6">
+          <div class="strip grid">
+            <figure>
+              <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
+                <div class="read_more"><span>Подробнее</span></div>
+              </a>
+              <!-- <small>Restaurant</small> -->
+            </figure>
+            <div class="wrapper">
+              <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
+              @if(!empty($product->area))
+                <small class="mb-0">{{ $product->area }}</small>
+              @endif
             </div>
-        </div>
-    </div>
-
-    <div class="container margin_60_35">
-
-        <div id="products" class="row">
-            @foreach($products as $product)
-                <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="strip grid">
-                        <figure>
-                            <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
-                                <div class="read_more"><span>Подробнее</span></div>
-                            </a>
-                            <!-- <small>Restaurant</small> -->
-                        </figure>
-                        <div class="wrapper">
-                            <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
-                            <small class="mb-0">{{ $product->area }}</small>
-                        </div>
-                        <ul>
-                            <li>От {{ $product_lang['price'] }}〒</li>
-                            <li>
-                                <div class="score">
-                                    @foreach($product->options as $option)
-                                        <?php $titles = unserialize($option->title); ?>
-                                        <strong>{{ $titles[$lang]['title'] }}</strong>
-                                    @endforeach
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+            <ul>
+              <li>
+                <div class="score">
+                  @foreach($product->options as $option)
+                    <?php $titles = unserialize($option->title); ?>
+                    <strong>{{ $titles[$lang]['title'] }}</strong>
+                  @endforeach
                 </div>
-            @endforeach
+              </li>
+            </ul>
+          </div>
         </div>
+      @endforeach
 
-        <p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Load more</a></p>
+
+      <!-- Filter list -->
+      <div class="collapse" id="filters">
+          <div class="container margin_30_5">
+              <div class="row">
+                  <form action="/catalog/{{ $category->slug }}" method="get" id="filter">
+                      {{ csrf_field() }}
+                      <?php $options_id = session('options'); ?>
+                      @foreach ($grouped as $data => $group)
+                          <div class="col-md-4">
+                              <?php $data = unserialize($data); ?>
+                              <h6>{{ $data[$lang]['data'] }}</h6>
+                              <ul>
+                                  @foreach ($group as $option)
+                                      <?php $titles = unserialize($option->title); ?>
+                                      <li>
+                                          <label class="container_check">{{ $titles[$lang]['title'] }}
+                                              <input type="checkbox" id="o{{ $option->id }}" name="options_id[]" value="{{ $option->id }}" @if(isset($options_id) AND in_array($option->id, $options_id)) checked @endif>
+                                              <span class="checkmark"></span>
+                                          </label>
+                                      </li>
+                                  @endforeach
+                              </ul>
+                          </div>
+                      @endforeach
+                  </form>
+              </div>
+          </div>
+      </div>
+
+    <div class="text-center">
+      {{ $products->links() }}
     </div>
+
+    <!-- <p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Load more</a></p> -->
+  </div>
 
 @endsection
 
@@ -201,14 +206,17 @@
     </script>
 
     <script type="text/javascript">
-
         var products = [
-                @foreach($products as $product)
-                <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-                @if(isset($product->latitude) && isset($product->longitude))
-            { lat:  {{$product->latitude}}, long: {{$product->longitude}}, text:  '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a>'},
+          @foreach($products as $product)
+            <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+            @if(isset($product->latitude) && isset($product->longitude))
+              {
+                lat: {{ $product->latitude }},
+                long: {{ $product->longitude }},
+                text: '<a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a>'
+              },
             @endif
-            @endforeach
+          @endforeach
         ];
         ymaps.ready(init);
 
@@ -246,8 +254,5 @@
                 myMap.geoObjects.add(pl);
             }
         }
-
-
-
     </script>
 @endsection

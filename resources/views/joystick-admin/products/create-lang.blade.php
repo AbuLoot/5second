@@ -111,7 +111,7 @@
                   <?php foreach ($nodes as $node) : ?>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="category_id[]" value="{{ $node->id }}" <?php if ($product->category_id == $node->id) echo "checked"; ?>> {{ PHP_EOL.$prefix.' '.$node->title }}
+                        <input type="radio" name="category_id" value="{{ $node->id }}" <?php if ($product->category_id == $node->id) echo "checked"; ?>> {{ PHP_EOL.$prefix.' '.$node->title }}
                       </label>
                     </div>
                     <?php $traverse($node->children, $prefix.'___'); ?>

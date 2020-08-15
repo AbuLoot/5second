@@ -90,10 +90,11 @@
             </figure>
             <div class="wrapper">
               <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product_lang->product->id }}">{{ $product_lang['title'] }}</a></h6>
-              <small class="mb-0">{{ $product_lang->product->area }}</small>
+              @if(!empty($product->area))
+                <small class="mb-0">{{ $product->area }}</small>
+              @endif
             </div>
             <ul>
-              <li>От {{ $product_lang['price'] }}〒</li>
               <li>
                 <div class="score">
                   @foreach($product_lang->product->options as $option)
@@ -108,7 +109,9 @@
       @endforeach
     </div>
 
-    <p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Load more</a></p>
+    <div class="text-center">
+      {{ $products_lang->links() }}
+    </div>
   </div>
   
   <!-- Sign In Popup -->
