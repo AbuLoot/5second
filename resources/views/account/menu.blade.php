@@ -5,6 +5,9 @@
       <li><a @if (Request::is($lang.'/my-ads')) class="active" @endif href="/{{ $lang }}/my-ads">Мои объявления</a></li>
       <li><a @if (Request::is($lang.'/my-orders')) class="active" @endif href="/{{ $lang }}/my-orders">Мои заказы</a></li>
       <li><a @if (Request::is($lang.'/statistics')) class="active" @endif href="/{{ $lang }}/statistics">Статистика</a></li>
-      <li><a @if (Request::is($lang.'/reccomendations')) class="active" @endif href="/{{ $lang }}/reccomendations">Выход</a></li>
+      <li><a href="/{{ $lang }}/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a></li>
+      <form id="logout-form" action="{{ route('logout', app()->getLocale()) }}" method="POST" style="display: none;">
+        @csrf
+      </form>
     </ul>
   </div>

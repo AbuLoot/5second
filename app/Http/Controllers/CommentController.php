@@ -22,7 +22,7 @@ class CommentController extends Controller
         $url = explode('/', URL::previous());
         $id = end($url);
 
-        if ('p-'.$request->id === $id AND $request->type === 'ad') {
+        if ('p-'.$request->id === $id AND $request->type === 'review') {
             $comment = new Comment;
             $comment->parent_id = $request->id;
             $comment->parent_type = 'App\Product';

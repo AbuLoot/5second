@@ -16,7 +16,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6">
-          <h1>Аккаунт</h1>
+          <h1>Объявления</h1>
         </div>
         <div class="col-lg-6 text-right">
           <a href="/{{ $lang }}/my-ads/create" class="btn_add btn-yellow">Добавить объявления</a>

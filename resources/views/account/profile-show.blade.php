@@ -14,7 +14,14 @@
 
   <div class="sub_header_in sticky_header sub-header-indigo">
     <div class="container">
-      <h1>Аккаунт</h1>
+      <div class="row">
+        <div class="col-lg-6">
+          <h1>Аккаунт</h1>
+        </div>
+        <div class="col-lg-6 text-right">
+          <a href="/{{ $lang }}/my-ads/create" class="btn_add btn-yellow">Добавить объявления</a>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -88,7 +88,7 @@
                 @foreach ($group as $option)
                   <?php $titles = unserialize($option->title); ?>
                   <li>
-                    <label class="container_check">{{ $titles[$lang]['title'] }}
+                    <label class="container_check text-nowrap">{{ $titles[$lang]['title'] }}
                       <input type="checkbox" id="o{{ $option->id }}" name="options_id[]" value="{{ $option->id }}" @if(isset($options_id) AND in_array($option->id, $options_id)) checked @endif>
                       <span class="checkmark"></span>
                     </label>

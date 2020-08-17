@@ -68,7 +68,8 @@ class AuthCustomController extends Controller
             $profile->city_id = 1;
             $profile->phone = $request->phone;
             $profile->gov_number = $request->gov_number;
-            $profile->card_type = $request->card_type;
+            $gov_number = substr($request->gov_number, 1);
+            $profile->card_type = trans('data.card_type_number.'.$gov_number);
             $profile->barcode = $request->barcode;
             // $profile->sex = $request['sex'];
             $profile->save();

@@ -14,7 +14,7 @@
 
   <div class="sub_header_in sticky_header sub-header-indigo">
     <div class="container">
-      <h1>Аккаунт</h1>
+      <h1>Компании</h1>
     </div>
   </div>
 

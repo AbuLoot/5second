@@ -98,7 +98,7 @@
             <form action="/{{ $lang }}/review" method="post">
               {!! csrf_field() !!}
               <input name="id" type="hidden" value="{{ $product->id }}">
-              <input name="type" type="hidden" value="ad">
+              <input name="type" type="hidden" value="review">
               <div class="row">
                 <div class="form-group col-md-6">
                   <label>Имя *</label>
@@ -138,6 +138,9 @@
       <aside class="col-lg-4" id="sidebar">
         <form action="/{{ $lang }}/send-app" method="post">
           {!! csrf_field() !!}
+          <input name="id" type="hidden" value="{{ $product->id }}">
+          <input name="owner" type="hidden" value="{{ $product->company_id }}">
+          <input name="type" type="hidden" value="app">
           <div class="box_detail booking">
             <div class="price">
               <span>Скидка</span>
@@ -155,8 +158,7 @@
               <input class="form-control" type="tel" name="phone" minlength="2" maxlength="40" placeholder="Телефон.." required>
             </div>
             <div class="form-group" id="input-dates">
-              <input class="form-control" type="text" name="time" placeholder="Дата..">
-              <i class="icon_calendar"></i>
+              <input class="form-control" type="date" name="time" placeholder="Дата..">
             </div>
             <button type="submit" class="add_top_30 btn_1 full-width purchase">Забронировать</button>
           </div>
@@ -167,17 +169,6 @@
 @endsection
 
 @section('scripts')
-  <!-- DATEPICKER  -->
-  <script>
-    $('input[name="dates"]').daterangepicker({
-        "singleDatePicker": true,
-        "parentEl": '#input-dates',
-        "opens": "left"
-    }, function(start, end, label) {
-        console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-    });
-  </script>
-
   <!-- CAROUSEL -->
   <script>
     $('#carousel_in').owlCarousel({

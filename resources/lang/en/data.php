@@ -15,6 +15,12 @@ return [
 		"platinum" =>  "Platinum",
 	],
 
+	'card_types_number' => [
+		'2'	=> 'silver',
+		'3'		=> 'gold',
+		'4' =>  "platinum",
+	],
+
 	'sex' => [
 		'man'	=> 'Man',
 		'woman'	=> 'Woman',

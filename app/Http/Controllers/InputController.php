@@ -78,42 +78,53 @@ class InputController extends Controller
 
     public function sendApp(Request $request, $lang)
     {
-        $validated = $request->validate([
-            // 'name' => 'required|min:3|max:60',
-            'phone' => 'required|min:5',
+        $this->validate($request, [
+            'name' => 'required|min:2|max:60',
+            'phone' => 'required|min:5|max:60',
         ]);
 
-        $app = new App;
-        $app->name = $request->name;
-        $app->email = $request->email;
-        $app->phone = $request->phone;
-        $app->message = $request->message;
-        $app->save();
+        $url = explode('/', URL::previous());
+        $id = end($url);
+        $product = Product::findOrFail($request->id);
 
-        // Email subject
-        $subject = "UMEX REAL ESTATE - Новая заявка от $request->name";
+        if ('p-'.$request->id === $id
+            AND $request->type === 'app'
+            AND $request->owner === $product->company_id) {
 
-        // Email content
-        $content = "<h2>UMEX REAL ESTATE</h2>";
-        $content .= "<b>Имя: $request->name</b><br>";
-        $content .= "<b>Номер: $request->phone</b><br>";
-        $content .= "<b>Email: $request->email</b><br>";
-        $content .= "<b>Текст: $request->message</b><br>";
-        $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
-        $content .= "<b>Время: " . date('G:i') . "</b>";
+            $app = new App;
+            $app->name = $request->name;
+            $app->email = ($request->email) ? $request->email : NULL;
+            $app->phone = $request->phone;
+            $app->message = $request->time;
+            $app->file = $product->id;
+            $app->save();
 
-        $headers = "From: info@umex.kz \r\n" .
-                   "MIME-Version: 1.0" . "\r\n" . 
-                   "Content-type: text/html; charset=UTF-8" . "\r\n";
+            // Email subject
+            $subject = "5 Second - Новая заявка от $request->name";
 
-        // Send the email xG9$T7%AD
-        if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
-            $status = 'alert-success';
-            $message = 'Ваша заявка принята. Спасибо!';
-        }
-        else {
-            $status = 'alert-danger';
-            $message = 'Произошла ошибка.';
+            // Email content
+            $content = "<h2>UMEX REAL ESTATE</h2>";
+            $content .= "<b>Имя: $request->name</b><br>";
+            $content .= "<b>Номер: $request->phone</b><br>";
+            $content .= "<b>Email: $request->email</b><br>";
+            $content .= "<b>Время бронирования: $request->time</b><br>";
+            $content .= "<b>Объявление: $product->title</b><br>";
+            $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
+            $content .= "<b>Время: " . date('G:i') . "</b>";
+
+            $headers = "From: info@5second.kz \r\n" .
+                       "MIME-Version: 1.0" . "\r\n" . 
+                       "Content-type: text/html; charset=UTF-8" . "\r\n";
+
+            // Send the email
+            if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
+                $status = 'alert-success';
+                $message = 'Ваша заявка принята. Спасибо!';
+            }
+            else {
+                $status = 'alert-danger';
+                $message = 'Произошла ошибка.';
+            }
         }
 
         // dd($status, $message);

@@ -43,8 +43,11 @@
       </a>
     </div>
     <ul id="top_menu">
-      <li><a href="/{{ $lang }}/cs-login-and-register" class="login" title="Sign In">Войти</a></li>
-      <li><a href="/{{ $lang }}/my-profile" class="btn-header "><span class="pe-7s-user"></span></a></li>
+      @guest
+        <li><a href="/{{ $lang }}/cs-login-and-register" class="login" title="Sign In">Войти</a></li>
+      @else
+        <li><a href="/{{ $lang }}/my-profile" class="btn-header "><span class="pe-7s-user"></span></a></li>
+      @endguest
     </ul>
     <a href="#menu" class="btn_mobile">
       <div class="hamburger hamburger--spin" id="hamburger">

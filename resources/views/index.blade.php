@@ -153,7 +153,6 @@
       <canvas id="hero-canvas" width="1920" height="1080"></canvas>
     </div>
   </div>
-
 @endsection
 
 @section('scripts')

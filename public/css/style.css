@@ -944,7 +944,9 @@ ul#top_menu li a.login, ul#top_menu li a.wishlist_bt_top {
   transition: opacity 0.5s ease;
 }
 @media (max-width: 991px) {
-  ul#top_menu li a.login, ul#top_menu li a.wishlist_bt_top {
+  ul#top_menu li a.btn-header,
+  ul#top_menu li a.login,
+  ul#top_menu li a.wishlist_bt_top {
     top: 2px;
   }
 }
@@ -1430,7 +1432,7 @@ ul#additional_links li:after {
 }
 .hero_single.version_2 {
   height: 620px;
-  background: #222 url(../img/bg/2.jpg) center center no-repeat;
+  background: #222 url(../img/bg/bg-02.jpg) center center no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -5991,7 +5993,7 @@ iframe#map_iframe {
 }
 @media (max-width: 991px) {
   .box_style_cat {
-    display: none;
+    /*display: none;*/
   }
 }
 
