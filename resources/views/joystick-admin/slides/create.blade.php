@@ -32,9 +32,9 @@
         <label class="radio-inline">
           <input type="radio" name="direction" value="left" checked> По левой стороне
         </label>
-        <!-- <label class="radio-inline">
+        <label class="radio-inline">
           <input type="radio" name="direction" value="center"> По центру
-        </label> -->
+        </label>
         <label class="radio-inline">
           <input type="radio" name="direction" value="right"> По правой стороне
         </label>

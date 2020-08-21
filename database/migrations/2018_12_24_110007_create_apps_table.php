@@ -19,6 +19,7 @@ class CreateAppsTable extends Migration
             $table->string('email')->nullable();
             $table->string('phone');
             $table->text('message')->nullable();
+            $table->integer('company_id')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
         });

@@ -65,6 +65,9 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::resource('my-profile', 'ProfileController')->except(['create', 'show', 'store', 'destroy']);
     Route::resource('my-companies', 'CompanyController');
     Route::resource('my-ads', 'ProductController');
+    Route::get('card-selection', 'ProfileController@cardSelection');
+    Route::get('my-apps', 'ProfileController@myApps');
+    Route::get('statistics', 'ProfileController@statistics');
 
     // Balance and Payment
     Route::get('my-balance', 'ProfileController@balance');

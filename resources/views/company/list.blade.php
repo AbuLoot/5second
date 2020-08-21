@@ -32,7 +32,7 @@
       </div>
       <div class="col-lg-9">
         @foreach($user->companies as $company)
-          <div class="box_detail padding_bottom">
+          <div class="box_detail">
             <h2><i class="fa fa-user"></i> {{ $company->title }}</h2>
             <dl class="row">
               <dt class="col-sm-3">Email</dt>

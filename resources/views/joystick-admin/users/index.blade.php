@@ -12,6 +12,11 @@
           <td>№</td>
           <td>Имя</td>
           <td>Email</td>
+          <td>Мои компании</td>
+          <td>Номер телефона</td>
+          <td>Город</td>
+          <td>Гос. номер</td>
+          <td>Тип карты</td>
           <td>Роль</td>
           <td class="text-right">Функции</td>
         </tr>
@@ -23,6 +28,22 @@
             <td>{{ $i++ }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
+            <td>
+              @if($user->companies->isNotEmpty())
+                @foreach($user->companies as $company)
+                  {{ $company->title }}<br>
+                @endforeach
+              @endif
+            </td>
+            <td>{{ ($user->profile) ? $user->profile->phone : '' }}</td>
+            <td>
+              <?php
+                $region = \App\Region::find(($user->profile) ? $user->profile->region_id : 0);
+                if ($region) echo $region->title;
+              ?>
+            </td>
+            <td>{{ ($user->profile) ? $user->profile->gov_number : '' }}</td>
+            <td>{{ ($user->profile) ? $user->profile->card_type : '' }}</td>
             <td>
               @foreach ($user->roles as $role)
                 {{ $role->name }}<br>

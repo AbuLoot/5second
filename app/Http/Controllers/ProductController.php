@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         $ids = $user->companies()->pluck('id');
-        $products = Product::whereIn('company_id', $ids)->get();
+        $products = Product::whereIn('company_id', $ids)->orderBy('updated_at')->get();
 
         return view('ads.index', ['user' => $user, 'products' => $products]);
     }
@@ -204,7 +204,6 @@ class ProductController extends Controller
         $product_lang->lang = $request->lang;
         $product_lang->save();
 
-
         return redirect($lang.'/my-ads')->with('status', 'Товар обновлен!');
     }
 
@@ -314,7 +313,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect($lang.'/admin/products');
+        return redirect($lang.'/my-ads');
     }
 
     public function comments($id)
@@ -329,6 +328,6 @@ class ProductController extends Controller
         $comment = Comment::find($id);
         $comment->delete();
 
-        return redirect($lang.'/admin/products/'.$comment->parent_id.'/comments')->with('status', 'Запись удалена!');
+        return redirect($lang.'/my-ads/'.$comment->parent_id.'/comments')->with('status', 'Запись удалена!');
     }
 }

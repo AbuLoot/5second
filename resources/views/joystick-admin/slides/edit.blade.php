@@ -33,9 +33,9 @@
         <label class="radio-inline">
           <input type="radio" name="direction" value="left"  @if($item->direction == 'left') checked @endif> По левой стороне
         </label>
-        <!-- <label class="radio-inline">
+        <label class="radio-inline">
           <input type="radio" name="direction" value="center" @if($item->direction == 'center') checked @endif> По центру
-        </label> -->
+        </label>
         <label class="radio-inline">
           <input type="radio" name="direction" value="right" @if($item->direction == 'right') checked @endif> По правой стороне
         </label>

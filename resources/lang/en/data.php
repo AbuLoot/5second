@@ -10,15 +10,15 @@ return [
 	],
 
 	'card_types' => [
-		'silver'	=> 'Silver',
-		'gold'		=> 'Gold',
-		"platinum" =>  "Platinum",
+		'silver' => 'Silver',
+		'gold'	 => 'Gold',
+		"platinum" => "Platinum",
 	],
 
 	'card_types_number' => [
-		'2'	=> 'silver',
-		'3'		=> 'gold',
-		'4' =>  "platinum",
+		'3'	=> 'silver',
+		'4'	=> 'gold',
+		'5' => 'platinum',
 	],
 
 	'sex' => [

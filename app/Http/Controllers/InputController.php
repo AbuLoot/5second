@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use URL;
 use Session;
 
 use App\App;
@@ -87,44 +88,43 @@ class InputController extends Controller
         $id = end($url);
         $product = Product::findOrFail($request->id);
 
-        if ('p-'.$request->id === $id
-            AND $request->type === 'app'
-            AND $request->owner === $product->company_id) {
+        if ('p-'.$request->id === $id AND $request->type === 'app'AND $request->owner == $product->company_id) {
 
             $app = new App;
             $app->name = $request->name;
             $app->email = ($request->email) ? $request->email : NULL;
             $app->phone = $request->phone;
             $app->message = $request->time;
+            $app->company_id = $product->company_id;
             $app->file = $product->id;
             $app->save();
+        }
 
-            // Email subject
-            $subject = "5 Second - Новая заявка от $request->name";
+        // Email subject
+        $subject = "5 Second - Новая заявка от $request->name";
 
-            // Email content
-            $content = "<h2>UMEX REAL ESTATE</h2>";
-            $content .= "<b>Имя: $request->name</b><br>";
-            $content .= "<b>Номер: $request->phone</b><br>";
-            $content .= "<b>Email: $request->email</b><br>";
-            $content .= "<b>Время бронирования: $request->time</b><br>";
-            $content .= "<b>Объявление: $product->title</b><br>";
-            $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
-            $content .= "<b>Время: " . date('G:i') . "</b>";
+        // Email content
+        $content = "<h2>5 Second</h2>";
+        $content .= "<b>Имя: $request->name</b><br>";
+        $content .= "<b>Номер: $request->phone</b><br>";
+        $content .= "<b>Email: $request->email</b><br>";
+        $content .= "<b>Время бронирования: $request->time</b><br>";
+        $content .= "<b>Объявление: $product->title</b><br>";
+        $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
+        $content .= "<b>Время: " . date('G:i') . "</b>";
 
-            $headers = "From: info@5second.kz \r\n" .
-                       "MIME-Version: 1.0" . "\r\n" . 
-                       "Content-type: text/html; charset=UTF-8" . "\r\n";
+        $headers = "From: info@5second.kz \r\n" .
+                   "MIME-Version: 1.0" . "\r\n" . 
+                   "Content-type: text/html; charset=UTF-8" . "\r\n";
 
-            // Send the email
-            if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
-                $status = 'alert-success';
-                $message = 'Ваша заявка принята. Спасибо!';
-            }
-            else {
-                $status = 'alert-danger';
-                $message = 'Произошла ошибка.';
-            }
+        // Send the email
+        if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
+            $status = 'alert-success';
+            $message = 'Ваша заявка принята. Спасибо!';
+        }
+        else {
+            $status = 'alert-danger';
+            $message = 'Произошла ошибка.';
         }
 
         // dd($status, $message);

@@ -178,15 +178,13 @@
             </div>
             <div class="form-group">
               <label for="area">Адрес</label>
-              <input class="form-control" name="area" id="area" minlength="2" placeholder="Например: Абая 32" value="{{ (old('area')) ? old('area') : $product->area }}">
-              <input type="hidden" name="latitude" id="latitude">
-              <input type="hidden" name="longitude" id="longitude">
+              <input class="form-control" name="area" id="address" minlength="2" placeholder="Например: Абая 32" value="{{ (old('area')) ? old('area') : $product->area }}">
               <!-- <span class="help-block">Например: Абая 32</span> -->
             </div>
           </div>
           <div class="col-md-8">
-            <input type="text" id="latitude" name="latitude" value="" hidden>
-            <input type="text" id="longitude" name="longitude" value="" hidden>
+            <input type="text" name="latitude" id="latitude" value="{{ $product->latitude }}" hidden>
+            <input type="text" name="longitude" id="longitude" value="{{ $product->longitude }}" hidden>
             <div id="map" class="map" style="width:100%; height:300px; margin-bottom: 30px;"></div>
           </div>
         </div>

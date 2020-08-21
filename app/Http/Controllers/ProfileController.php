@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 
 use Auth;
 
+use App\App;
 use App\User;
 use App\Order;
 use App\Region;
+use App\Product;
 use App\Http\Requests;
 
 class ProfileController extends Controller
@@ -29,6 +31,13 @@ class ProfileController extends Controller
         // list($date['year'], $date['month'], $date['day']) = explode('-', $user->profile->birthday);
 
         return view('account.profile-edit', compact('user', 'regions'));
+    }
+
+    public function cardSelection(Request $request)
+    {
+        $user = Auth::user();
+
+        return view('account.card-selection', compact('user'));
     }
 
     public function update(Request $request, $lang, $id)
@@ -102,6 +111,25 @@ class ProfileController extends Controller
         }
 
         return view('account.order', compact('products', 'countries'));
+    }
+
+    public function myApps()
+    {
+        $user = Auth::user();
+        $ids = $user->companies()->pluck('id');
+        $apps = App::whereIn('company_id', $ids)->orderBy('created_at', 'desc')->paginate(30);
+
+        return view('account.my-apps', compact('user', 'apps'));
+    }
+
+    public function statistics()
+    {
+        $user = Auth::user();
+        $ids = $user->companies()->pluck('id');
+        $count_apps = App::whereIn('company_id', $ids)->count();
+        $count_ads = Product::whereIn('company_id', $ids)->count();
+
+        return view('account.statistics', compact('user', 'count_apps', 'count_ads'));
     }
 
     public function myOrders()

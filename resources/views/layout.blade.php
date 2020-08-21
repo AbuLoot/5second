@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="/img/apple-touch-icon-144x144-precomposed.png">
 
   <!-- GOOGLE WEB FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> -->
 
   <!-- BASE CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
 
   <!-- YOUR CUSTOM CSS -->
   <link href="/css/custom.css" rel="stylesheet">
-  <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"> </script>
+  <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"> </script> -->
   @yield('head')
 
   @if($section_codes->firstWhere('slug', 'header-code'))

@@ -142,8 +142,8 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <input type="text" id="latitude" name="latitude" value="" hidden>
-                <input type="text" id="longitude" name="longitude" value="" hidden>
+                <input type="text" id="latitude" name="latitude" value="{{ $product->latitude }}" hidden>
+                <input type="text" id="longitude" name="longitude" value="{{ $product->longitude }}" hidden>
                 <div id="map" class="map" style="width: 100%; height:300px; margin-bottom: 30px;"></div>
               </div>
               <div class="col-md-4 form-group">

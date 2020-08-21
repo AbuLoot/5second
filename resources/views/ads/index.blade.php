@@ -30,41 +30,45 @@
       <div class="col-lg-3">
         @include('account.menu')
       </div>
-      @foreach($products as $product)
-        <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-        <div class="col-xl-4 col-lg-6 col-md-6">
-          <div class="strip grid">
-            <figure>
-              <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
-                <div class="read_more"><span>Подробнее</span></div>
-              </a>
-              <small>{{ $product->company->title }}</small>
-            </figure>
-            <div class="wrapper">
-              <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
-              @if(!empty($product->area))
-                <small class="mb-0">{{ $product->area }}</small>
-              @endif
-            </div>
-            <ul>
-              <li>
-                <div class="score">
-                  @foreach($product->options as $option)
-                    <?php $titles = unserialize($option->title); ?>
-                    <strong>{{ $titles[$lang]['title'] }}</strong>
-                  @endforeach
+      <div class="col-lg-9">
+        <div class="row">
+          @foreach($products as $product)
+            <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+            <div class="col-xl-6 col-lg-6 col-md-6">
+              <div class="strip grid">
+                <figure>
+                  <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
+                    <div class="read_more"><span>Подробнее</span></div>
+                  </a>
+                  <small>{{ $product->company->title }}</small>
+                </figure>
+                <div class="wrapper">
+                  <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
+                  @if(!empty($product->area))
+                    <small class="mb-0">{{ $product->area }}</small>
+                  @endif
                 </div>
-                <a href="/{{ $lang }}/my-ads/{{ $product->id }}/edit" class="btn_add">Редактировать</a>
-                <form method="POST" action="{{ route('my-ads.destroy', [$lang, $product->id]) }}" accept-charset="UTF-8" style="display: inline-block;">
-                  <input name="_method" type="hidden" value="DELETE">
-                  <input name="_token" type="hidden" value="{{ csrf_token() }}">
-                  <button type="submit" class="btn btn-link" onclick="return confirm('Удалить запись?')">Удалить</button>
-                </form>
-              </li>
-            </ul>
-          </div>
+                <ul>
+                  <li>
+                    <div class="score">
+                      @foreach($product->options as $option)
+                        <?php $titles = unserialize($option->title); ?>
+                        <strong>{{ $titles[$lang]['title'] }}</strong>
+                      @endforeach
+                    </div>
+                    <a href="/{{ $lang }}/my-ads/{{ $product->id }}/edit" class="btn_add">Редактировать</a>
+                    <form method="POST" action="{{ route('my-ads.destroy', [$lang, $product->id]) }}" accept-charset="UTF-8" style="display: inline-block;">
+                      <input name="_method" type="hidden" value="DELETE">
+                      <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                      <button type="submit" class="btn btn-link" onclick="return confirm('Удалить запись?')">Удалить</button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          @endforeach
         </div>
-      @endforeach
+      </div>
     </div>
   </div>
 
