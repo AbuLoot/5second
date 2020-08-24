@@ -12,7 +12,7 @@
 
 @section('content')
 
-  <div class="sub_header_in sticky_header sub-header-indigo">
+  <div class="sub_header_in sticky_header sub-header-dark">
     <div class="container">
       <div class="row">
         <div class="col-lg-6">

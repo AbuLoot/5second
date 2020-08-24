@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Profile');
     }
 
+    public function privilege()
+    {
+        return $this->hasOne('App\Privilege');
+    }
+
     public function orders()
     {
         return $this->hasMany('App\Order');

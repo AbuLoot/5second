@@ -81,6 +81,7 @@
             <li @if (Request::is($lang.'/admin/companies*')) class="active" @endif><a href="/{{ $lang }}/admin/companies"><i class="material-icons md-18">business</i> Компании</a></li>
             <li @if (Request::is($lang.'/admin/regions*')) class="active" @endif><a href="/{{ $lang }}/admin/regions"><i class="material-icons md-18">map</i> Регионы</a></li>
             <li @if (Request::is($lang.'/admin/languages*')) class="active" @endif><a href="/{{ $lang }}/admin/languages"><i class="material-icons md-18">language</i> Языки</a></li>
+            <li @if (Request::is($lang.'/admin/cards*')) class="active" @endif><a href="/{{ $lang }}/admin/cards"><i class="material-icons md-18">payment</i> Карты</a></li>
             <li @if (Request::is($lang.'/admin/users*')) class="active" @endif><a href="/{{ $lang }}/admin/users"><i class="material-icons md-18">people_outline</i> Пользователи</a></li>
             <li @if (Request::is($lang.'/admin/roles*')) class="active" @endif><a href="/{{ $lang }}/admin/roles"><i class="material-icons md-18">accessibility</i> Роли</a></li>
             <li @if (Request::is($lang.'/admin/permissions*')) class="active" @endif><a href="/{{ $lang }}/admin/permissions"><i class="material-icons md-18">lock_open</i> Права доступа</a></li>

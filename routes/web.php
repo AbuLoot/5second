@@ -11,20 +11,21 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin|m
 
     Route::resources([
         'categories' => 'Joystick\CategoryController',
-        'companies' => 'Joystick\CompanyController',
-        'products' => 'Joystick\ProductController',
-        'posts' => 'Joystick\PostController',
-        'regions' => 'Joystick\RegionController',
-        'languages' => 'Joystick\LanguageController',
-        'modes' => 'Joystick\ModeController',
-        'options' => 'Joystick\OptionController',
-        'orders' => 'Joystick\OrderController',
         'pages' => 'Joystick\PageController',
         'section' => 'Joystick\SectionController',
+        'posts' => 'Joystick\PostController',
+        'products' => 'Joystick\ProductController',
         'slides' => 'Joystick\SlideController',
+        'cards' => 'Joystick\CardController',
+        'orders' => 'Joystick\OrderController',
+        'options' => 'Joystick\OptionController',
+        'modes' => 'Joystick\ModeController',
+        'companies' => 'Joystick\CompanyController',
+        'regions' => 'Joystick\RegionController',
         'roles' => 'Joystick\RoleController',
         'users' => 'Joystick\UserController',
-        'permissions' => 'Joystick\PermissionController'
+        'permissions' => 'Joystick\PermissionController',
+        'languages' => 'Joystick\LanguageController',
     ]);
 
     Route::get('categories-actions', 'Joystick\CategoryController@actionCategories');
@@ -66,6 +67,7 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::resource('my-companies', 'CompanyController');
     Route::resource('my-ads', 'ProductController');
     Route::get('card-selection', 'ProfileController@cardSelection');
+    Route::get('set-card/{type}', 'ProfileController@setCard');
     Route::get('my-apps', 'ProfileController@myApps');
     Route::get('statistics', 'ProfileController@statistics');
 
@@ -107,16 +109,16 @@ Route::group(['prefix' => '{lang}'], function () {
 });
 
 // Cart Actions
-Route::get('cart', 'CartController@cart');
-Route::get('add-to-cart/{id}', 'CartController@addToCart');
-Route::get('remove-from-cart/{id}', 'CartController@removeFromCart');
-Route::get('clear-cart', 'CartController@clearCart');
-Route::post('store-order', 'CartController@storeOrder');
-Route::get('destroy-from-cart/{id}', 'CartController@destroy');
+// Route::get('cart', 'CartController@cart');
+// Route::get('add-to-cart/{id}', 'CartController@addToCart');
+// Route::get('remove-from-cart/{id}', 'CartController@removeFromCart');
+// Route::get('clear-cart', 'CartController@clearCart');
+// Route::post('store-order', 'CartController@storeOrder');
+// Route::get('destroy-from-cart/{id}', 'CartController@destroy');
 
 // Favourite Actions
-Route::get('favorite', 'FavouriteController@getFavorite');
-Route::get('toggle-favourite/{id}', 'FavouriteController@toggleFavourite');
+// Route::get('favorite', 'FavouriteController@getFavorite');
+// Route::get('toggle-favourite/{id}', 'FavouriteController@toggleFavourite');
 
 Route::get('paybox/{amount}/{id}', 'PaymentController@PayBox');
 Route::post('paybox/result', 'PaymentController@PayBoxResult')->name('PayBoxResult');

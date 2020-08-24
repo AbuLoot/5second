@@ -44,13 +44,15 @@ class UserController extends Controller
 
         $user->profile->phone = $request->phone;
         $user->profile->region_id = $request->region_id;
-        $user->profile->gov_number = $request->gov_number;
-        $user->profile->card_type = $request->card_type;
-        $user->profile->barcode = $request->barcode;
         $user->profile->birthday = $request->birthday;
         $user->profile->sex = $request->sex;
         $user->profile->about = $request->about;
         $user->profile->save();
+
+        $user->privilege->gov_number = $request->gov_number;
+        $user->privilege->card_type = $request->card_type;
+        $user->privilege->barcode = $request->barcode;
+        $user->privilege->save();
 
         return redirect($lang.'/admin/users')->with('status', 'Запись обновлена!');
     }

@@ -49,19 +49,19 @@
     </div>
     <div class="form-group">
       <label>Гос. номер*</label>
-      <input type="text" class="form-control" name="gov_number" minlength="3" maxlength="30" placeholder="Гос. номер*" value="{{ (old('gov_number')) ? old('gov_number') : $user->profile->gov_number }}" required>
+      <input type="text" class="form-control" name="gov_number" minlength="3" maxlength="30" placeholder="Гос. номер*" value="{{ (old('gov_number')) ? old('gov_number') : $user->privilege->gov_number }}" required>
     </div>
     <div class="form-group">
       <div><label>Тип карты</label></div>
       @foreach(trans('data.card_types') as $key => $card_type)
         <label>
-          <input type="radio" name="card_type" value="{{ $key }}" @if($key == $user->profile->card_type) checked="checked" @endif> {{ $card_type }}
+          <input type="radio" name="card_type" value="{{ $key }}" @if($key == $user->privilege->card_type) checked="checked" @endif> {{ $card_type }}
         </label>
       @endforeach
     </div>
     <div class="form-group">
       <label>Штрих код карты</label>
-      <input type="text" class="form-control" name="barcode" placeholder="Штрих код карты*" value="{{ (old('barcode')) ? old('barcode') : $user->profile->barcode }}">
+      <input type="text" class="form-control" name="barcode" placeholder="Штрих код карты*" value="{{ (old('barcode')) ? old('barcode') : $user->privilege->barcode }}">
     </div>
     <div class="form-group">
       <label>Дата рождения</label>

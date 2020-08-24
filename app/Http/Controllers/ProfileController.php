@@ -8,9 +8,11 @@ use Auth;
 
 use App\App;
 use App\User;
+use App\Card;
 use App\Order;
 use App\Region;
 use App\Product;
+use App\PaymentLog;
 use App\Http\Requests;
 
 class ProfileController extends Controller
@@ -18,8 +20,33 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $card = Card::where('slug', $user->privilege->slug)->first();
 
-        return view('account.profile-show', compact('user'));
+        $future = strtotime($user->privilege->term); //Future date.
+        $current = time();
+        $time_left = $future - $current;
+        $days_left = round((($time_left/24)/60)/60);
+
+        switch($days_left) {
+            case 0:
+                $user->privilege->term = NULL;
+                $user->privilege->status = 0;
+                $user->privilege->save();
+                break;
+
+            case 1: case 21:
+                $days_left .= ' день';
+                break;
+
+            case 2: case 3: case 4: case 22: case 23: case 24:
+                $days_left .= ' дня';
+                break;
+
+            default:
+                $days_left .= ' дней';
+        }
+
+        return view('account.profile-show', compact('user', 'card', 'days_left'));
     }
 
     public function edit()
@@ -36,8 +63,26 @@ class ProfileController extends Controller
     public function cardSelection(Request $request)
     {
         $user = Auth::user();
+        $cards = Card::orderBy('sort_id')->get();
 
-        return view('account.card-selection', compact('user'));
+        return view('account.card-selection', compact('user', 'cards'));
+    }
+
+    public function setCard(Request $request, $lang, $card_type)
+    {
+        $user = Auth::user();
+        $card = Card::where('slug', $card_type)->first();
+        $payment = PaymentLog::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
+
+        $status_text = 'Не достаточно средств!';
+
+        if ($payment->amount >= $card->price) {
+            $user->privilege->card_type = $card_type;
+            $user->privilege->save();
+            $status_text = 'Карта изменена!';
+        }
+
+        return redirect($lang.'/my-profile')->with('status', $status_text);
     }
 
     public function update(Request $request, $lang, $id)
@@ -58,13 +103,15 @@ class ProfileController extends Controller
 
         $user->profile->phone = $request->phone;
         $user->profile->region_id = $request->region_id;
-        $user->profile->gov_number = $request->gov_number;
-        $user->profile->card_type = $request->card_type;
-        $user->profile->barcode = $request->barcode;
         $user->profile->birthday = $request->birthday;
         $user->profile->sex = $request->sex;
         $user->profile->about = $request->about;
         $user->profile->save();
+
+        $user->privilege->gov_number = $request->gov_number;
+        $user->privilege->card_type = $request->card_type;
+        $user->privilege->barcode = $request->barcode;
+        $user->privilege->save();
 
         return redirect($lang.'/my-profile')->with('status', 'Запись обновлена!');
     }

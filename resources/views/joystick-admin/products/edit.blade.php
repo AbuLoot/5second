@@ -342,7 +342,6 @@
             console.log('Ошибка: ' + err)
           }
         );
-
       $("#address").bind('keyup', function () {
         let address = $("#address").val();
         let myGeocoder = ymaps.geocode($.trim(country)+','+address);

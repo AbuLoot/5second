@@ -8,7 +8,9 @@ use Auth;
 
 use App\User;
 use App\Role;
+use App\Card;
 use App\Profile;
+use App\Privilege;
 use App\Region;
 use App\Http\Controllers\Controller;
 
@@ -62,17 +64,27 @@ class AuthCustomController extends Controller
             $role = Role::where('name', 'user')->first();
             $user->roles()->sync($role->id);
 
+            $first_num = substr($request->barcode, 0, 1);
+            $card_type = trans('data.card_types_number.'.$first_num);
+            $card = Card::where('slug', $card_type)->first();
+
             $profile = new Profile;
             $profile->sort_id = $user->id;
             $profile->user_id = $user->id;
             $profile->region_id = 1;
             $profile->phone = $request->phone;
-            $profile->gov_number = $request->gov_number;
-            $profile->barcode = $request->barcode;
-            $first_num = substr($request->barcode, 0, 1);
-            $profile->card_type = trans('data.card_types_number.'.$first_num);
             // $profile->sex = $request['sex'];
             $profile->save();
+
+            $privilege = new Privilege;
+            $privilege->user_id = $user->id;
+            $privilege->card_id = $card->id;
+            $privilege->gov_number = $request->gov_number;
+            $privilege->card_type = $card_type;
+            $privilege->barcode = $request->barcode;
+            $privilege->services = $card->service_number;
+            $privilege->status = 0;
+            $privilege->save();
 
             return redirect($lang.'/cs-login')->withInput()->withInfo('Регистрация успешно завершина. Войдите через email и пароль.');
         }

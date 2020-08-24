@@ -25,7 +25,7 @@
 
   <!-- YOUR CUSTOM CSS -->
   <link href="/css/custom.css" rel="stylesheet">
-  <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"> </script> -->
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=f8a0ddb3-4528-4fd3-a6b1-db34eddbcd7a&lang=ru_RU" type="text/javascript"> </script>
   @yield('head')
 
   @if($section_codes->firstWhere('slug', 'header-code'))
@@ -83,9 +83,7 @@
     </nav>
   </header>
 
-  <main class="pattern">
-    @yield('content')
-  </main>
+  @yield('content')
 
   <footer class="plus_border">
     <div class="container margin_60_35">

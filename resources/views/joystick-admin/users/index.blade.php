@@ -42,8 +42,8 @@
                 if ($region) echo $region->title;
               ?>
             </td>
-            <td>{{ ($user->profile) ? $user->profile->gov_number : '' }}</td>
-            <td>{{ ($user->profile) ? $user->profile->card_type : '' }}</td>
+            <td>{{ ($user->privilege) ? $user->privilege->gov_number : '' }}</td>
+            <td>{{ ($user->privilege) ? $user->privilege->card_type : '' }}</td>
             <td>
               @foreach ($user->roles as $role)
                 {{ $role->name }}<br>

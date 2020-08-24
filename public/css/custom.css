@@ -5,6 +5,10 @@ a.btn-yellow, .btn-yellow {
   color: #000;
   background-color: #FFC107;
 }
+a.btn-green, .btn-green {
+  color: #fff;
+  background-color: #32aa48;
+}
 .btn-header {
   display: block;
   width: 22px;

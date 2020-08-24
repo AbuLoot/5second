@@ -376,8 +376,8 @@ Primary style
 
 @media only screen and (min-width: 769px) {
   .price-value {
-    font-size: 90px;
-    font-size: 5.625rem;
+    /*font-size: 90px;*/
+    font-size: 4.325rem;
     font-weight: 300;
   }
 
