@@ -25,7 +25,6 @@
       <div class="container">
         <div class="col-lg-8 offset-lg-2">
           <h3>@if(!empty($slide)) {!! $slide->title !!} @endif</h3>
-          <!-- <p>{{ $slide->marketing }}</p> -->
           <form method="get" action="/{{ $lang }}/search">
             <div class="row no-gutters custom-search-input-2">
               <div class="col-lg-7">
