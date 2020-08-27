@@ -61,8 +61,20 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
+                  <label for="region_id">Регион</label>
+                  <select id="region_id" name="region_id" class="form-control" required>
+                    <option value=""></option>
+                    <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                      <?php foreach ($nodes as $node) : ?>
+                        <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                        <?php $traverse($node->children, $prefix.'___'); ?>
+                      <?php endforeach; ?>
+                    <?php }; ?>
+                    <?php $traverse($regions); ?>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label for="price">Цена</label>
-
                   <div class="input-group mb-3">
                     <input type="text" class="form-control" id="price" name="price" maxlength="10" value="{{ (old('price')) ? old('price') : '' }}">
                     <div class="input-group-append">

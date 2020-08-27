@@ -65,6 +65,19 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="region_id">Регион</label>
+              <select id="region_id" name="region_id" class="form-control" required>
+                <option value=""></option>
+                <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                  <?php foreach ($nodes as $node) : ?>
+                    <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                    <?php $traverse($node->children, $prefix.'___'); ?>
+                  <?php endforeach; ?>
+                <?php }; ?>
+                <?php $traverse($regions); ?>
+              </select>
+            </div>
+            <div class="form-group">
               <label for="lang">Язык</label>
               <select id="lang" name="lang" class="form-control" required>
                 <option value=""></option>
@@ -269,7 +282,7 @@
   <script>
     tinymce.init({
       selector: 'textarea',
-      height: 400,
+      height: 300,
       theme: 'modern',
       plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
       toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',

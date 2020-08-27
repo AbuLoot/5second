@@ -16,4 +16,9 @@ class Region extends Model
     {
         return $this->hasMany('App\Order');
     }
+
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
 }

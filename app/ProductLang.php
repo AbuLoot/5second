@@ -32,7 +32,10 @@ class ProductLang extends Model
             'products_lang.characteristic' => 10,
         ],
         'joins' => [
-            'products' => ['products_lang.product_id', 'products.id'],
+            'products' => [
+                'products_lang.product_id',
+                'products.id',
+            ],
         ],
     ];
 

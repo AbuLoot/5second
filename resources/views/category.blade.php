@@ -5,12 +5,7 @@
 @section('meta_description', $category->meta_description ?? $category->title)
 
 @section('head')
-  <style>
-    #map {
-      width: 100%;
-      height: 350px;
-    }
-  </style>
+
 @endsection
 
 @section('header-class', 'extra-header')
@@ -33,7 +28,7 @@
                 </div>
               </div>
               <div class="col-lg-3">
-                <select name="region" class="wide">
+                <select name="region_id" class="wide">
                   @foreach($regions as $region)
                     <option value="{{ $region->id }}">{{ $region->title }}</option>
                   @endforeach
@@ -52,21 +47,6 @@
   <div class="filters_listing sticky_horizontal-">
     <div class="container">
       <ul class="clearfix">
-        <!-- <li>
-          <div class="switch-field" id="actions">
-            @foreach(trans('data.sort_by') as $key => $value)
-              <input type="radio" id="{{ $key }}" name="listing_filter" value="{{ $key }}" @if($key == session('action')) checked @endif>
-              <label for="{{ $key }}">{{ $value }}</label>
-            @endforeach
-          </div>
-        </li>
-        <li>
-          <div class="layout_view">
-            <a href="#0" class="active"><i class="icon-th"></i></a>
-            <a href="listing-2.html"><i class="icon-th-list"></i></a>
-            <a href="list-map.html"><i class="icon-map"></i></a>
-          </div>
-        </li> -->
         <li><a class="btn_filt" data-toggle="collapse" href="#filters" aria-expanded="false" aria-controls="filters" data-text-swap="Скрыть" data-text-original="Фильтры">Фильтры</a></li>
         <li><a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Скрыть карту" data-text-original="Открыть карту">На карте</a></li>
       </ul>
@@ -107,7 +87,14 @@
     <div id="map" class="map"></div>
   </div>
 
-  <div class="container margin_60_35">
+  <div class="container margin_30_5">
+    @if($category->children->isNotEmpty())
+      <div class="category_filter">
+        @foreach($category->children as $child)
+          <a href="/{{ $lang.'/'.$child->slug.'/c-'.$child->id }}" class="margin-right-10">{{ $child->title }}</a>
+        @endforeach
+      </div>
+    @endif
 
     <div id="products" class="row">
       @foreach($products as $product)
@@ -123,7 +110,7 @@
             <div class="wrapper">
               <h6><a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}">{{ $product_lang['title'] }}</a></h6>
               @if(!empty($product->area))
-                <small class="mb-0">{{ $product->area }}</small>
+                <small class="mb-0">{{ $product->region->title }}, {{ $product->area }}</small>
               @endif
             </div>
             <ul>
@@ -152,26 +139,6 @@
 
 @section('scripts')
   <script>
-    // Actions for products
-    $('#actions').change(function() {
-      var action = $(this).val();
-      var page = $(location).attr('href').split('ru')[1];
-      var slug = page.split('?')[0];
-
-      $.ajax({
-        type: "get",
-        url: '/ru'.page,
-        dataType: "json",
-        data: {
-          "action": action
-        },
-        success: function(data) {
-          $('#products').html(data);
-          // location.reload();
-        }
-      });
-    });
-
     // Filter products
     $('#filter').on('click', 'input', function(e) {
       var optionsId = new Array();

@@ -38,7 +38,7 @@
           <div class="detail_title_1">
             <!-- <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div> -->
             <h1>{{ $product_lang->title }}</h1>
-            <p>{{ $product->area }}</p>
+            <p>{{ $product->region->title }}, {{ $product->area }}</p>
           </div>
 
           {!! $product_lang->description !!}

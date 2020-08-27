@@ -7,7 +7,7 @@
   <script>
     tinymce.init({
       selector: 'textarea',
-      height: 400,
+      height: 300,
       theme: 'modern',
       plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
       toolbar1: 'code undo redo | formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
@@ -74,7 +74,7 @@
         </div>
         <div class="form-group">
           <label for="description">Описание</label>
-          <textarea class="form-control" name="description" rows="6" maxlength="2000">{{ (old('description')) ? old('description') : $product_lang->description }}</textarea>
+          <textarea class="form-control" name="description" rows="5" maxlength="2000">{{ (old('description')) ? old('description') : $product_lang->description }}</textarea>
         </div>
         <div class="form-group">
           <label for="characteristic">Характеристика</label>
@@ -88,6 +88,23 @@
                 <input type="text" class="form-control" id="price" name="price" maxlength="10" value="{{ (old('price')) ? old('price') : $product_lang->price }}">
                 <div class="input-group-addon">{{ $currency->symbol }}</div>
               </div>
+            </div>
+            <div class="form-group">
+              <label for="region_id">Регион</label>
+              <select id="region_id" name="region_id" class="form-control" required>
+                <option value=""></option>
+                <?php $traverse = function ($nodes, $prefix = null) use (&$traverse, $product) { ?>
+                  <?php foreach ($nodes as $node) : ?>
+                    <?php if ($node->id == $product->region_id) : ?>
+                      <option value="{{ $node->id }}" selected>{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                    <?php else: ?>
+                      <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                    <?php endif; ?>
+                    <?php $traverse($node->children, $prefix.'___'); ?>
+                  <?php endforeach; ?>
+                <?php }; ?>
+                <?php $traverse($regions); ?>
+              </select>
             </div>
             <div class="form-group">
               <label for="lang">Язык</label>

@@ -63,6 +63,19 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="region_id">Регион</label>
+              <select id="region_id" name="region_id" class="form-control" required>
+                <option value=""></option>
+                <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                  <?php foreach ($nodes as $node) : ?>
+                    <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                    <?php $traverse($node->children, $prefix.'___'); ?>
+                  <?php endforeach; ?>
+                <?php }; ?>
+                <?php $traverse($regions); ?>
+              </select>
+            </div>
+            <div class="form-group">
               <label for="lang">Язык</label>
               <select id="lang" name="lang" class="form-control" required>
                 @foreach($languages as $language)

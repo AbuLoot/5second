@@ -12,7 +12,7 @@
     <table class="table table-striped table-condensed">
       <thead>
         <tr class="active">
-          <td>№</td>
+          <td>Порядковый номер</td>
           <td>Позиция текста</td>
           <td>Название</td>
           <td>URI</td>
@@ -24,10 +24,9 @@
         </tr>
       </thead>
       <tbody>
-        <?php $i = 1; ?>
         @foreach ($slides as $item)
           <tr>
-            <td>{{ $i++ }}</td>
+            <td>{{ $item->sort_id }}</td>
             <td>{{ $item->direction }}</td>
             <td>{{ $item->title }}</td>
             <td>{{ $item->slug }}</td>

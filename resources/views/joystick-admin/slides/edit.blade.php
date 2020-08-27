@@ -13,15 +13,15 @@
     {!! csrf_field() !!}
     <div class="form-group">
       <label for="title">Название</label>
-      <input type="text" class="form-control" id="title" name="title" minlength="2" maxlength="80" value="{{ (old('title')) ? old('title') : $item->title }}" required>
+      <input type="text" class="form-control" id="title" name="title" minlength="2" maxlength="255" value="{{ (old('title')) ? old('title') : $item->title }}" required>
     </div>
     <div class="form-group">
       <label for="slug">Slug</label>
-      <input type="text" class="form-control" id="slug" name="slug" minlength="2" maxlength="80" value="{{ (old('slug')) ? old('slug') : $item->slug }}">
+      <input type="text" class="form-control" id="slug" name="slug" minlength="2" maxlength="255" value="{{ (old('slug')) ? old('slug') : $item->slug }}">
     </div>
     <div class="form-group">
       <label for="marketing">Маркетинг</label>
-      <input type="text" class="form-control" id="marketing" name="marketing" minlength="2" maxlength="80" value="{{ (old('marketing')) ? old('marketing') : $item->marketing }}">
+      <input type="text" class="form-control" id="marketing" name="marketing" minlength="2" maxlength="255" value="{{ (old('marketing')) ? old('marketing') : $item->marketing }}">
     </div>
     <div class="row">
       <div class="form-group col-md-6">

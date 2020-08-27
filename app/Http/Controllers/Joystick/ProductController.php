@@ -6,16 +6,15 @@ use Illuminate\Http\Request;
 
 use Image;
 use Storage;
-use Validator;
 
 use App\Mode;
+use App\Region;
 use App\Option;
 use App\Comment;
 use App\Company;
 use App\Product;
 use App\ProductLang;
 use App\Category;
-use App\Language;
 use App\Currency;
 use App\ImageTrait;
 use App\Http\Controllers\Joystick\Controller;
@@ -73,13 +72,9 @@ class ProductController extends Controller
 
     public function actionProducts(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'products_id' => 'required'
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator);
-        }
 
         if (is_numeric($request->action)) {
             Product::whereIn('id', $request->products_id)->update(['status' => $request->action]);
@@ -101,10 +96,11 @@ class ProductController extends Controller
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
         $categories = Category::get()->toTree();
         $companies = Company::orderBy('sort_id')->get();
+        $regions = Region::orderBy('sort_id')->get()->toTree();
         $options = Option::orderBy('sort_id')->get();
         $modes = Mode::all();
 
-        return view('joystick-admin.products.create', ['modes' => $modes, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options]);
+        return view('joystick-admin.products.create', ['modes' => $modes, 'regions' => $regions, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options]);
     }
 
     public function store(Request $request)
@@ -136,6 +132,7 @@ class ProductController extends Controller
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
+        $product->region_id = $request->region_id;
         $product->barcode = $request->barcode;
         $product->count = $request->count;
         $product->condition = $request->condition;
@@ -180,15 +177,16 @@ class ProductController extends Controller
         $product_lang = ProductLang::where('product_id', $product->id)->where('lang', $lang)->first();
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
         $companies = Company::orderBy('sort_id')->get();
+        $regions = Region::orderBy('sort_id')->get()->toTree();
         $options = Option::orderBy('sort_id')->get();
         $grouped = $options->groupBy('data');
         $modes = Mode::all();
 
         if ($product_lang == NULL) {
-            return view('joystick-admin.products.create-lang', ['modes' => $modes, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options, 'grouped' => $grouped]);
+            return view('joystick-admin.products.create-lang', ['modes' => $modes, 'regions' => $regions, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options, 'grouped' => $grouped]);
         }
 
-        return view('joystick-admin.products.edit', ['modes' => $modes, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options, 'grouped' => $grouped]);
+        return view('joystick-admin.products.edit', ['modes' => $modes, 'regions' => $regions, 'product' => $product, 'product_lang' => $product_lang, 'currency' => $currency, 'categories' => $categories, 'companies' => $companies, 'options' => $options, 'grouped' => $grouped]);
     }
 
     public function update(Request $request, $lang, $id)
@@ -244,6 +242,7 @@ class ProductController extends Controller
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
+        $product->region_id = $request->region_id;
         $product->barcode = $request->barcode;
         $product->count = $request->count;
         $product->condition = $request->condition;
@@ -302,7 +301,7 @@ class ProductController extends Controller
 
             // Storing original images
             // $image->storeAs('/img/products/'.$dirName, $imageName);
-            $this->resizeOptimalImage($image, 800, 480, '/img/products/'.$dirName.'/'.$imageName, 90);
+            $this->resizeOptimalImage($image, 800, 460, '/img/products/'.$dirName.'/'.$imageName, 90);
 
             $images[$key]['image'] = $imageName;
             $images[$key]['present_image'] = 'present-'.$imageName;
@@ -327,7 +326,7 @@ class ProductController extends Controller
             $this->resizeOptimalImage($image, 450, 300, '/img/products/'.$dirName.'/present-'.$imageName, 90);
 
             // Storing original images
-            $this->resizeOptimalImage($image, 800, 480, '/img/products/'.$dirName.'/'.$imageName, 90);
+            $this->resizeOptimalImage($image, 800, 460, '/img/products/'.$dirName.'/'.$imageName, 90);
 
             if (isset($images[$key])) {
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DB;
 use URL;
 use Session;
 
@@ -18,22 +19,29 @@ class InputController extends Controller
 {
     public function search(Request $request)
     {
+        $region_id = $request->region_id;
         $text = trim(strip_tags($request->text));
 
-	    // $products = Product::where('status', 1)
-	    //     ->where(function($query) use ($text, $qQuery) {
-	    //         return $query->where('barcode', 'LIKE', '%'.$text.'%')
-	    //         ->orWhere('title', 'LIKE', '%'.$text.'%')
-	    //         ->orWhere('oem', 'LIKE', '%'.$text.'%');
-	    //     })->paginate(27);
+	    $products = Product::where('status', '<>', 0)
+            ->where('region_id', $region_id)
+            ->whereHas('products_lang', function($query) use ($text) {
+                $query->where('products_lang.title', 'LIKE', "%{$text}%")
+                    ->orWhere('products_lang.description', 'LIKE', "%{$text}%")
+                    ->orWhere('products_lang.characteristic', 'LIKE', "%{$text}%");
+            })
+            // ->with('products_lang')
+            ->paginate(30);
 
-        $products_lang = ProductLang::search($text)->paginate(20);
+        // $products_lang = ProductLang::search($text)
+        //     ->with('products')
+        //     ->paginate(30);
 
-        $products_lang->appends([
-            'text' => $request->text,
+        $products->appends([
+            'text' => $text,
+            'region_id' => $region_id,
         ]);
 
-        return view('found', compact('text', 'products_lang'));
+        return view('found', compact('text', 'region_id', 'products'));
     }
 
     public function searchAjax(Request $request)

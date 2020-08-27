@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Auth;
 use Image;
 use Storage;
-use Validator;
 
 use App\Mode;
 use App\Option;
+use App\Region;
 use App\Comment;
 use App\Company;
 use App\Product;
@@ -37,6 +37,7 @@ class ProductController extends Controller
     {
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
         $categories = Category::get()->toTree();
+        $regions = Region::orderBy('sort_id')->get()->toTree();
         $options = Option::orderBy('sort_id')->get();
         $modes = Mode::all();
 
@@ -72,6 +73,7 @@ class ProductController extends Controller
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
+        $product->region_id = $request->region_id;
         // $product->barcode = $request->barcode;
         $product->count = ($request->count > 0) ? $request->count : 1;
         $product->condition = $request->condition;
@@ -115,6 +117,7 @@ class ProductController extends Controller
         $categories = Category::get()->toTree();
         $product_lang = ProductLang::where('product_id', $product->id)->where('lang', $lang)->first();
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
+        $regions = Region::orderBy('sort_id')->get()->toTree();
         $options = Option::orderBy('sort_id')->get();
         $grouped = $options->groupBy('data');
         $modes = Mode::all();
@@ -175,6 +178,7 @@ class ProductController extends Controller
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;
+        $product->region_id = $request->region_id;
         // $product->barcode = $request->barcode;
         $product->count = ($request->count > 0) ? $request->count : 1;
         $product->condition = $request->condition;
@@ -223,7 +227,7 @@ class ProductController extends Controller
 
             // Storing original images
             // $image->storeAs('/img/products/'.$dirName, $imageName);
-            $this->resizeOptimalImage($image, 800, 480, '/img/products/'.$dirName.'/'.$imageName, 90);
+            $this->resizeOptimalImage($image, 800, 460, '/img/products/'.$dirName.'/'.$imageName, 90);
 
             $images[$key]['image'] = $imageName;
             $images[$key]['present_image'] = 'present-'.$imageName;
@@ -248,7 +252,7 @@ class ProductController extends Controller
             $this->resizeOptimalImage($image, 450, 300, '/img/products/'.$dirName.'/present-'.$imageName, 90);
 
             // Storing original images
-            $this->resizeOptimalImage($image, 800, 480, '/img/products/'.$dirName.'/'.$imageName, 90);
+            $this->resizeOptimalImage($image, 800, 460, '/img/products/'.$dirName.'/'.$imageName, 90);
 
             if (isset($images[$key])) {
 

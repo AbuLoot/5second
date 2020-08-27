@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->integer('company_id');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->integer('region_id');
             $table->string('barcode');
             $table->integer('count'); // Sales
             $table->integer('condition')->default(1);

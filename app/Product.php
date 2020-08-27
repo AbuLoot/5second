@@ -23,6 +23,11 @@ class Product extends Model
         return $this->belongsTo('App\Category');
     }
 
+    public function region()
+    {
+        return $this->belongsTo('App\Region');
+    }
+
     public function options()
     {
         return $this->belongsToMany('App\Option', 'product_option', 'product_id', 'option_id');

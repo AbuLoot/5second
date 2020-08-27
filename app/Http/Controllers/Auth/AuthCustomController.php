@@ -86,7 +86,7 @@ class AuthCustomController extends Controller
             $privilege->status = 0;
             $privilege->save();
 
-            return redirect($lang.'/cs-login')->withInput()->withInfo('Регистрация успешно завершина. Войдите через email и пароль.');
+            return redirect($lang.'/cs-login-and-register')->withInput()->withInfo('Регистрация успешно завершина. Войдите через email и пароль.');
         }
         else {
             return redirect()->back()->withInput()->withErrors('Неверные данные');

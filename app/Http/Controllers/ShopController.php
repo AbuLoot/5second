@@ -23,12 +23,12 @@ class ShopController extends Controller
     public function index()
     {
         $page = Page::where('slug', 'main')->first();
-        $mode_new = Mode::where('slug', 'new')->first();
-        $mode_best = Mode::where('slug', 'best')->first();
-        $slide_items = Slide::where('status', 1)->take(5)->get();
+        $slide = Slide::where('sort_id', 1)->first();
+        // $mode_new = Mode::where('slug', 'new')->first();
+        // $mode_best = Mode::where('slug', 'best')->first();
         $relevant_categories = Category::where('status', 2)->orderBy('sort_id')->get();
 
-        return view('index', compact('page', 'relevant_categories'));
+        return view('index', compact('page', 'slide', 'relevant_categories'));
     }
 
     public function brandProducts(Request $request, $company_slug)
@@ -165,8 +165,7 @@ class ShopController extends Controller
         if ($comment) {
             return redirect()->back()->with('status', 'Отзыв добавлен!');
         }
-        else {
-            return redirect()->back()->with('status', 'Ошибка!');
-        }
+
+        return redirect()->back()->with('status', 'Ошибка!');
     }
 }
