@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('meta_title', '')
+@section('meta_title', $user->name.' '.$user->surname)
 
-@section('meta_description', '')
+@section('meta_description', 'Аккаунт')
 
 @section('head')
 
@@ -41,11 +41,55 @@
                 <dd class="col-sm-7">{{ $user->privilege->gov_number }}</dd>
 
                 <dt class="col-sm-5">Штрих код</dt>
+                    {{ gettype($user->privilege->services) }}
                 <dd class="col-sm-7">{{ $user->privilege->barcode }}</dd>
               </dl>
               <img src="/img/cards/{{ $user->privilege->card_type }}.jpg" class="img-fluid mb-2">
               @if($user->privilege->status == 1)
-                <div class="p-3 mb-2 bg-success text-center text-white h4">Активный {{ $days_left }}</div>
+                @if($user->privilege->card_type == 'silver' AND $user->privilege->services == '0')
+                  <div class="p-3 mb-2 bg-info text-center- text-white h4">
+                    <p class="text-dark">Чтобы воспользоваться серебренной картой выберите для себя 4 услуги</p>
+                    <b>Категории</b>
+
+                    <form action="/{{ $lang }}/set-services" method="get">
+                      {!! csrf_field() !!}
+                      <div class="panel panel-default">
+                        <div class="panel-body" style="max-height: 250px; overflow-y: auto;">
+                          <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                            <?php foreach ($nodes as $node) : ?>
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="categories_id[]" value="{{ $node->id }}"> {{ PHP_EOL.$prefix.' '.$node->title }}
+                                </label>
+                              </div>
+                              <?php $traverse($node->children, $prefix.'___'); ?>
+                            <?php endforeach; ?>
+                          <?php }; ?>
+                          <?php $traverse($categories); ?>
+                        </div>
+                      </div>
+                      <p class="form-group">
+                        <button type="submit"  class="btn_add btn-yellow">Сохранить</button>
+                      </p>
+                    </form>
+                  </div>
+                @elseif($user->privilege->card_type == 'silver' AND $user->privilege->services != '0')
+                  <div class="p-3 mb-2 bg-success text-white h4">
+                    <div class="text-center">Активный {{ $days_left }}</div>
+                    <h3>Доступные услуги:</h3>
+                    <?php $services_id = ($user->privilege->services) ? unserialize($user->privilege->services) : 0; ?>
+                    <?php $services = \App\Category::whereIn('id', $services_id)->get(); ?>
+                    <ul>
+                      @foreach($services as $service)
+                        <li>{{ $service->title }}</li>
+                      @endforeach
+                    </ul>
+                  </div>
+                @else
+                  <div class="p-3 mb-2 bg-success text-white h4">
+                    <div class="text-center">Активный {{ $days_left }}</div>
+                  </div>
+                @endif
               @else
                 <div class="p-3 mb-2 bg-secondary text-center text-white h4">Неактивный</div>
                 <a href="/paybox/{{ $card->price }}/{{ $user->id }}" class="btn_1 btn-green">Активировать</a>
@@ -57,7 +101,7 @@
           </div>
           <div class="col-lg-6">
             <div class="box_detail">
-              <h2><i class="fa fa-user"></i> {{ $user->name.' '.$user->surname }}</h2>
+              <h2><span class="pe-7s-user"></span> {{ $user->name.' '.$user->surname }}</h2>
               <dl class="row">
                 @if($user->companies->isNotEmpty())
                   <dt class="col-sm-5">Мои компании</dt>

@@ -18,12 +18,13 @@
           <h4>{{ $category->title }}: Объектов <strong>{{ $category->products->count() }}</strong></h4>
         </div>
         <div class="col-lg-8 col-md-8 col-2">
-          <a href="#0" class="side_panel btn_search_mobile"></a> <!-- /open search panel -->
+          <!-- /open search panel -->
+          <a href="#0" class="side_panel btn_search_mobile"></a>
           <form method="get" action="/{{ $lang }}/search">
             <div class="row no-gutters custom-search-input-2 inner">
               <div class="col-lg-8">
                 <div class="form-group">
-                  <input type="search" class="form-control" name="text" placeholder="Что вы ищите...">
+                  <input type="search" class="form-control" name="text" min="2" placeholder="Что вы ищите..." required>
                   <i class="icon_search"></i>
                 </div>
               </div>

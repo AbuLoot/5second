@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('meta_title', '')
+@section('meta_title', $product_lang->meta_title)
 
-@section('meta_description', '')
+@section('meta_description', $product_lang->meta_description)
 
 @section('head')
 
@@ -181,7 +181,6 @@
 
   <script type="text/javascript">
 
-    <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
     var product =
       <?php if(isset($product->latitude) && isset($product->longitude)): ?>
         {

@@ -103,7 +103,7 @@ Author URI: http://themeforest.net/user/Ansonika/
   }
 
   header.sticky .main-menu > ul > li span > a, header.header_in .main-menu > ul > li span > a {
-    color: #444;
+    color: #fff;
   }
   header.sticky .main-menu > ul > li span:hover > a, header.header_in .main-menu > ul > li span:hover > a {
     opacity: 1;
@@ -308,7 +308,8 @@ html * {
 }
 
 body {
-  background: #f8f8f8;
+  /*background: #f8f8f8;*/
+  background: #333;
   font-size: 0.875rem;
   line-height: 1.6;
   font-family: "Roboto", Helvetica, sans-serif;
@@ -624,7 +625,6 @@ a.btn_add,
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  color: #fff !important;
   font-weight: 600;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
@@ -641,10 +641,10 @@ a.btn_add,
   top: 2px;
 }
 @media (max-width: 991px) {
-  a.btn_add,
+/*  a.btn_add,
   .btn_add {
     display: none;
-  }
+  }*/
 }
 a.btn_add:hover,
 .btn_add:hover {
@@ -820,8 +820,8 @@ header.header.sticky {
   -webkit-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;*/
-  border-bottom: 1px solid #ededed;
-  background-color: #fff;
+  border-bottom: 1px solid #333;
+  background-color: #333;
   padding: 15px 20px;
 }
 @media (max-width: 991px) {
@@ -854,7 +854,7 @@ header.header_in.map_view {
   width: 100%;
 }
 header.sticky ul#top_menu li a {
-  color: #444;
+  color: #fff;
 }
 @media (max-width: 991px) {
   header.header_in {
@@ -944,7 +944,6 @@ ul#top_menu li a.login, ul#top_menu li a.wishlist_bt_top {
   transition: opacity 0.5s ease;
 }
 @media (max-width: 991px) {
-  ul#top_menu li a.btn-header,
   ul#top_menu li a.login,
   ul#top_menu li a.wishlist_bt_top {
     top: 2px;
@@ -962,7 +961,7 @@ ul#top_menu li a.login:before, ul#top_menu li a.wishlist_bt_top:before {
   line-height: 1;
 }
 .sticky ul#top_menu li a.login:before, .sticky ul#top_menu li a.wishlist_bt_top:before {
-  color: #444;
+  color: #fff;
 }
 ul#top_menu li a.wishlist_bt_top {
   text-indent: -9999px;
@@ -980,7 +979,7 @@ ul#top_menu li a.login:before {
 }
 
 header.sticky .hamburger-inner, header.sticky .hamburger-inner::before, header.sticky .hamburger-inner::after, header.header_in .hamburger-inner, header.header_in .hamburger-inner::before, header.header_in .hamburger-inner::after {
-  background-color: #444;
+  background-color: #fff;
 }
 
 #logo {
@@ -2517,7 +2516,7 @@ a.box_news ul li:after {
   margin: 0 0 0 10px;
 }
 
-a.box_cat_home {
+.box_cat_home {
   background-color: #fff;
   display: block;
   padding: 25px 15px;
@@ -2538,7 +2537,7 @@ a.box_cat_home {
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
   color: #999;
 }
-a.box_cat_home i {
+.box_cat_home i {
   position: absolute;
   right: 10px;
   top: 10px;
@@ -2552,12 +2551,12 @@ a.box_cat_home i {
   -ms-transition: all 0.6s ease-in-out;
   transition: all 0.6s ease-in-out;
 }
-a.box_cat_home h3 {
+.box_cat_home h3 {
   font-size: 18px;
   font-size: 1.125rem;
   margin-top: 10px;
 }
-a.box_cat_home:hover {
+.box_cat_home:hover {
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
@@ -2567,19 +2566,19 @@ a.box_cat_home:hover {
   -o-transform: translateY(-5px);
   transform: translateY(-5px);
 }
-a.box_cat_home:hover i {
+.box_cat_home:hover i {
   opacity: 1;
 }
-a.box_cat_home ul {
+.box_cat_home ul {
   margin: 20px -15px -25px -15px;
   padding: 10px;
   border-top: 1px solid #ededed;
   text-align: center;
 }
-a.box_cat_home ul li {
+.box_cat_home ul li {
   display: inline-block;
 }
-a.box_cat_home ul li strong {
+.box_cat_home ul li strong {
   margin-right: 5px;
   font-weight: 600;
   color: #777;
@@ -7134,7 +7133,7 @@ a.btn_3, .btn_3 {
 }
 
 .call_section {
-  background-color: #004dda;
+  background-color: #32a067;
   position: relative;
   color: #fff;
 }

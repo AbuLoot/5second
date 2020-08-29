@@ -9,6 +9,7 @@ use URL;
 
 use App\Page;
 use App\Mode;
+use App\Card;
 use App\Slide;
 use App\Product;
 use App\ProductLang;
@@ -26,9 +27,10 @@ class ShopController extends Controller
         $slide = Slide::where('sort_id', 1)->first();
         // $mode_new = Mode::where('slug', 'new')->first();
         // $mode_best = Mode::where('slug', 'best')->first();
+        $cards = Card::orderBy('sort_id')->get();
         $relevant_categories = Category::where('status', 2)->orderBy('sort_id')->get();
 
-        return view('index', compact('page', 'slide', 'relevant_categories'));
+        return view('index', compact('page', 'slide', 'cards', 'relevant_categories'));
     }
 
     public function brandProducts(Request $request, $company_slug)

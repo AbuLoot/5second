@@ -23,7 +23,7 @@
             <div class="row no-gutters custom-search-input-2 inner">
               <div class="col-lg-8">
                 <div class="form-group">
-                  <input type="search" class="form-control" name="text" placeholder="Что вы ищите...">
+                  <input type="search" class="form-control" name="text" min="2" placeholder="Что вы ищите..." required>
                   <i class="icon_search"></i>
                 </div>
               </div>

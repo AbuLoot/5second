@@ -34,15 +34,15 @@
     <header class="header menu_fixed @yield('header-class')">
       <div id="logo">
         <a href="/" title="5 Second">
-          <img src="/img/brand/@yield('logo', 'logo-black-200x51.png')" width="150" alt="" class="logo_normal">
-          <img src="/img/brand/logo-black-200x51.png" width="150" alt="" class="logo_sticky">
+          <img src="/img/brand/@yield('logo', 'logo-white-200x51.png')" width="150" alt="" class="logo_normal">
+          <img src="/img/brand/logo-white-200x51.png" width="150" alt="" class="logo_sticky">
         </a>
       </div>
       <ul id="top_menu">
         @guest
           <li><a href="/{{ $lang }}/cs-login-and-register" class="login" title="Sign In">Войти</a></li>
         @else
-          <li><a href="/{{ $lang }}/my-profile" class="btn-header "><span class="pe-7s-user"></span></a></li>
+          <li><a href="/{{ $lang }}/my-profile" class="btn-header"><span class="pe-7s-user"></span></a></li>
         @endguest
       </ul>
       <a href="#menu" class="btn_mobile">
@@ -77,6 +77,25 @@
           <?php $traverse($categories); ?>
         </ul>
       </nav>
+      <!-- search_mobile -->
+      <div class="layer"></div>
+      <div id="search_mobile">
+        <a href="#" class="side_panel"><i class="icon_close"></i></a>
+        <form method="get" action="/{{ $lang }}/search">
+          <div class="custom-search-input-2">
+            <div class="form-group">
+              <input type="search" class="form-control" name="text" min="2" placeholder="Что вы ищите..." required>
+              <i class="icon_search"></i>
+            </div>
+            <select name="region_id" class="wide">
+              @foreach($regions as $region)
+                <option value="{{ $region->id }}">{{ $region->title }}</option>
+              @endforeach
+            </select>
+            <input type="submit" value="Искать">
+          </div>
+        </form>
+      </div>
     </header>
 
     <main>

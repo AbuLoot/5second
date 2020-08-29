@@ -19,7 +19,7 @@
           <h1>Компании</h1>
         </div>
         <div class="col-lg-6 text-right">
-          <a href="/{{ $lang }}/my-ads/create" class="btn_add btn-yellow">Добавить объявления</a>
+          <a href="/{{ $lang }}/my-companies/create" class="btn_add btn-yellow">Добавить компанию</a>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
       <div class="col-lg-9">
         @foreach($user->companies as $company)
           <div class="box_detail">
-            <h2><i class="fa fa-user"></i> {{ $company->title }}</h2>
+            <h2>{{ $company->title }}</h2>
             <dl class="row">
               <dt class="col-sm-3">Email</dt>
               <dd class="col-sm-9">{{ $company->emails }}</dd>

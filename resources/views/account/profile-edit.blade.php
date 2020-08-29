@@ -14,7 +14,7 @@
 
   <div class="sub_header_in sticky_header sub-header-dark">
     <div class="container">
-      <h1>Аккаунт</h1>
+      <h1>Редактирование аккаунта</h1>
     </div>
   </div>
 
@@ -120,25 +120,6 @@
                 <div class="form-group">
                   <label>Подтвердите новый пароль</label>
                   <input class="form-control" name="confirm_new_password" type="password">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="box_detail padding_bottom">
-                <div class="header_box version_2">
-                  <h2><i class="fa fa-envelope"></i>Изменить email</h2>
-                </div>
-                <div class="form-group">
-                  <label>Старый email</label>
-                  <input class="form-control" name="old_email" id="old_email" type="email">
-                </div>
-                <div class="form-group">
-                  <label>Новый email</label>
-                  <input class="form-control" name="new_email" id="new_email" type="email">
-                </div>
-                <div class="form-group">
-                  <label>Подтвердите новый email</label>
-                  <input class="form-control" name="confirm_new_email" id="confirm_new_email" type="email">
                 </div>
               </div>
             </div>

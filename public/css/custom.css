@@ -17,7 +17,7 @@ a.btn-green, .btn-green {
   width: 22px;
   height: 23px;
   position: relative;
-  top: 8px;
+  top: 2px;
   -moz-transition: opacity 0.5s ease;
   -o-transition: opacity 0.5s ease;
   -webkit-transition: opacity 0.5s ease;
@@ -25,7 +25,7 @@ a.btn-green, .btn-green {
   transition: opacity 0.5s ease;
 }
 .btn-header span {
-  font-size: 1.6125rem;
+  font-size: 30px;
 }
 .custom-search-input-2 input[type='submit'] {
   background-color: #FFC107;
@@ -46,18 +46,29 @@ a.btn-green, .btn-green {
   background-color: #4a5d7d;
 }
 .extra-header {
-  background-color: #fff;
+  background-color: #333;
+}
+.extra-header ul#top_menu li a {
+  color: #fff;
+}
+.box_cat_home {
+  background-color: #333;
+  color: #fff;
+}
+.box_cat_home ul {
+  border-top: 1px solid #757575;
 }
 #map {
   width: 100%;
   height: 350px;
 }
+
 @media only screen and (min-width: 992px) {
   #results {
     margin-top: 78px;
   }
   .extra-header .main-menu > ul > li span > a {
-    color: #000;
+    color: #fff;
   }
   .extra-nav {
     margin-top: 78px;
@@ -67,6 +78,10 @@ a.btn-green, .btn-green {
   }
 }
 @media (max-width: 767px) {
+  ul#top_menu li a.btn-header {
+    top: -2px;
+    right: 4px;
+  }
   #results {
     margin-top: 51px;
   }
@@ -76,16 +91,14 @@ a.btn-green, .btn-green {
   .extra-header .hamburger-inner,
   .extra-header .hamburger-inner::after,
   .extra-header .hamburger-inner::before {
-    background-color: #444;
+    background-color: #fff;
   }
   .extra-header ul#top_menu li a.login:before,
   .extra-header ul#top_menu li a.wishlist_bt_top:before {
-    color: #444;
+    color: #fff;
   }
 }
-.extra-header ul#top_menu li a {
-  color: #444;
-}
+
 @media (max-width: 575px) {
 
 }

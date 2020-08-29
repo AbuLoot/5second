@@ -5,10 +5,8 @@
 @section('meta_description', $page->meta_description ?? $page->title)
 
 @section('head')
-
+  <link href="/css/tables.css" rel="stylesheet">
 @endsection
-
-@section('logo', 'logo-white-200x51.png')
 
 @section('content')
   <!-- BG -->
@@ -29,7 +27,7 @@
             <div class="row no-gutters custom-search-input-2">
               <div class="col-lg-7">
                 <div class="form-group">
-                  <input type="search" name="text" class="form-control" placeholder="Что вы ищите...">
+                  <input type="search" class="form-control" name="text" min="2" placeholder="Что вы ищите..." required>
                   <i class="icon_search"></i>
                 </div>
               </div>
@@ -92,6 +90,54 @@
     @endforeach
   </div>
 
+  <!-- Cards -->
+  <div class="bg_color_1">
+    <div class="container margin_80_55">
+      <div class="main_title_2">
+        <span><em></em></span>
+        <h2>Скидочные карты</h2>
+        <p>Приобретайте карты в магазинах Алматы</p>
+      </div>
+      <div class="row justify-content-center">
+        @foreach($cards as $card)
+          <div class="col-lg-4 col-md-6">
+            <div class="box_cat_home">
+              <h2 class="text-white">{{ $card->title }}</h2>
+              <img src="/img/{{ $card->image }}" class="img-fluid">
+              @if($card->slug == 'platinum')
+                <h3 class="text-white">Для бизнес партнеров</h3>
+              @else
+                <h3 class="text-white">{{ $card->price }}₸/мес.</h3>
+              @endif
+              <ul>
+                <li>Лимит ползователей: <strong class="text-white">{{ $card->user_number }}</strong></li>
+              </ul>
+              <ul>
+                <li>Лимит автомобилей: <strong class="text-white">{{ $card->user_number }}</strong></li>
+              </ul>
+              <ul>
+                <li>Лимит услуг: <strong class="text-white">{{ ($card->service_number == 0) ? 'Безлимитный' : $card->service_number }}</strong></li>
+              </ul>
+              @if($card->slug == 'platinum')
+                <ul>
+                  <li>Срок: <strong class="text-white">Безлимитный</strong></li>
+                </ul>
+              @else
+                <ul>
+                  <li>Срок: <strong class="text-white">30 дней</strong></li>
+                </ul>
+              @endif
+            </div>
+          </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <?php $how_it_works = $section->firstWhere('slug', 'how-it-works'); ?>
+  {!! $how_it_works->content !!}
+
   <!-- Categories Items -->
   <div class="bg_color_1">
     <div class="container margin_80_55">
@@ -117,47 +163,9 @@
     </div>
   </div>
 
-  <!-- How It Works -->
-  <div class="call_section">
-    <div class="wrapper">
-      <div class="container margin_80_55">
-        <div class="main_title_2">
-          <span><em></em></span>
-          <h2>Как это работает?</h2>
-          <!-- <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p> -->
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="box_how">
-              <i class="pe-7s-search"></i>
-              <h3>Регистрируйтесь!</h3>
-              <p>Зарегистрируетесь на нашем сайте.</p>
-              <span></span>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="box_how">
-              <i class="pe-7s-info"></i>
-              <h3>Активируйтесь!</h3>
-              <p>Пополните личный счет и Активируйте карту на месяц</p>
-              <span></span>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="box_how">
-              <i class="pe-7s-like2"></i>
-              <h3>Пользуетесь!</h3>
-              <p>Пользуетесь всеми услугами со скидкой в течении месяца до конца активации</p>
-            </div>
-          </div>
-        </div>
-        <p class="text-center add_top_30 wow bounceIn" data-wow-delay="0.5s"><a href="/{{ $lang }}/cs-login-and-register" class="btn_1 rounded">Зарегестрироваться</a></p>
-      </div>
-      <canvas id="hero-canvas" width="1920" height="1080"></canvas>
-    </div>
-  </div>
 @endsection
 
 @section('scripts')
-
+  <script src="/js/modernizr_tables.js"></script>
+  <script src="/js/tables_func.js"></script>
 @endsection

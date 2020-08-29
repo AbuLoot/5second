@@ -12,6 +12,7 @@ use App\Card;
 use App\Order;
 use App\Region;
 use App\Product;
+use App\Category;
 use App\PaymentLog;
 use App\Http\Requests;
 
@@ -20,7 +21,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $card = Card::where('slug', $user->privilege->slug)->first();
+        $card = Card::where('slug', $user->privilege->card_type)->first();
 
         $future = strtotime($user->privilege->term); //Future date.
         $current = time();
@@ -74,15 +75,39 @@ class ProfileController extends Controller
         $card = Card::where('slug', $card_type)->first();
         $payment = PaymentLog::where('user_id', $user->id)->orderBy('id', 'DESC')->first();
 
-        $status_text = 'Не достаточно средств!';
+        $status_text = 'Карта изменена!';
 
-        if ($payment->amount >= $card->price) {
+        if ($user->privilege->status == 1 AND $payment->amount < $card->price) {
+            $status_text = 'Не достаточно средств!';
+        } else {
             $user->privilege->card_type = $card_type;
             $user->privilege->save();
-            $status_text = 'Карта изменена!';
         }
 
         return redirect($lang.'/my-profile')->with('status', $status_text);
+    }
+
+    public function setServices(Request $request, $lang)
+    {
+        $this->validate($request, [
+            'categories_id' => 'required|array'
+        ]);
+
+        $user = Auth::user();
+        if ($user->privilege->card_type == 'silver' AND count($request->categories_id) > 4) {
+            return redirect()->back()->with('warning', 'Вы можете выбрать не больше 4-х услуг!');
+        } elseif($user->privilege->card_type == 'silver' AND count($request->categories_id) < 4) {
+            return redirect()->back()->with('warning', 'Выберите ровно 4 услуги!');
+        }
+
+        $categories = Category::whereIn('id', $request->categories_id)->get();
+        $ids = $categories->pluck('id');
+        $ids_array = $ids->toArray();
+
+        $user->privilege->services = serialize($ids_array);
+        $user->privilege->save();
+
+        return redirect($lang.'/my-profile')->with('status', 'Услуги выбраны!');
     }
 
     public function update(Request $request, $lang, $id)
