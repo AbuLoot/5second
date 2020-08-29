@@ -135,8 +135,9 @@
   </div>
 
   <!-- How It Works -->
-  <?php $how_it_works = $section->firstWhere('slug', 'how-it-works'); ?>
-  {!! $how_it_works->content !!}
+  @if($section->firstWhere('slug', 'how-it-works'))
+    {!! $section->firstWhere('slug', 'how-it-works')->content !!}
+  @endif
 
   <!-- Categories Items -->
   <div class="bg_color_1">

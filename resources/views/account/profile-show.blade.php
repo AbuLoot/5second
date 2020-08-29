@@ -73,7 +73,7 @@
                       </p>
                     </form>
                   </div>
-                @elseif($user->privilege->card_type == 'silver' AND $user->privilege->services != '0')
+                @elseif($user->privilege->card_type == 'silver' AND $user->privilege->services != '0  ')
                   <div class="p-3 mb-2 bg-success text-white h4">
                     <div class="text-center">Активный {{ $days_left }}</div>
                     <h3>Доступные услуги:</h3>
