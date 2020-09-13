@@ -94,9 +94,9 @@
                 <div class="p-3 mb-2 bg-secondary text-center text-white h4">Неактивный</div>
                 <a href="/paybox/{{ $card->price }}/{{ $user->id }}" class="btn_1 btn-green">Активировать</a>
               @endif
-              <div class="mb-2">
+              <!-- <div class="mb-2">
                 <a href="/{{ $lang }}/card-selection" class="btn_add">Изменить карту</a>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="col-lg-6">

@@ -45,8 +45,10 @@ class AuthCustomController extends Controller
         $validatedData = $this->validate($request, [
             'surname' => 'required|min:2|max:40',
             'name' => 'required|min:2|max:40',
-            'phone' => 'required|min:11|max:11|unique:profiles',
             'email' => 'required|email|max:255|unique:users',
+            'phone' => 'required|min:12|max:13|unique:profiles',
+            'gov_number' => 'required|min:12|max:13|unique:privileges',
+            'barcode' => 'required|max:255|unique:privileges',
             // 'sex' => 'required',
             // 'password' => 'required|confirmed|min:6|max:255',
             // 'rules' => 'accepted'
@@ -86,7 +88,7 @@ class AuthCustomController extends Controller
             $privilege->status = 0;
             $privilege->save();
 
-            return redirect($lang.'/cs-login-and-register')->withInput()->withInfo('Регистрация успешно завершина. Войдите через email и пароль.');
+            return redirect($lang.'/cs-login-and-register')->withInput()->withInfo('Регистрация успешно завершена. Войдите через email и пароль.');
         }
         else {
             return redirect()->back()->withInput()->withErrors('Неверные данные');

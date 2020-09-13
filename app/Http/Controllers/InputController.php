@@ -64,7 +64,7 @@ class InputController extends Controller
 
     public function setRegion(Request $request, $lang)
     {
-        $city = trim(strip_tags($request->city));
+        $city = trim($request->city);
         $city = Region::where('slug', $city)->first();
 
         $request->session()->put('region', $city->slug);

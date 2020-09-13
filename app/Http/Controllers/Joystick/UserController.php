@@ -38,6 +38,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->surname = $request->surname;
         $user->email = $request->email;
+        $user->balance = $request->balance;
         $user->save();
 
         $user->roles()->sync($request->roles_id);
@@ -52,6 +53,16 @@ class UserController extends Controller
         $user->privilege->gov_number = $request->gov_number;
         $user->privilege->card_type = $request->card_type;
         $user->privilege->barcode = $request->barcode;
+
+        if ($request->privilege_status == 'on') {
+            
+            $date = date('Y-m-d');
+            $term = date('Y-m-d', strtotime($date. ' + 30 days'));
+
+            $user->privilege->term = $term;
+            $user->privilege->status = 1;
+        }
+
         $user->privilege->save();
 
         return redirect($lang.'/admin/users')->with('status', 'Запись обновлена!');

@@ -48,6 +48,10 @@
       </select>
     </div>
     <div class="form-group">
+      <label>Баланс</label>
+      <input type="text" class="form-control" name="balance" minlength="3" maxlength="30" placeholder="Баланс*" value="{{ (old('balance')) ? old('balance') : $user->balance }}" required>
+    </div>
+    <div class="form-group">
       <label>Гос. номер*</label>
       <input type="text" class="form-control" name="gov_number" minlength="3" maxlength="30" placeholder="Гос. номер*" value="{{ (old('gov_number')) ? old('gov_number') : $user->privilege->gov_number }}" required>
     </div>
@@ -92,6 +96,16 @@
           @endif
         @endforeach
       </select>
+    </div>
+    <div class="form-group">
+      <label for="status">Статус карты</label>
+      <label>
+        @if ($user->privilege->status == 1)
+          <input type="checkbox" id="status" name="privilege_status" checked> Активен
+        @else
+          <input type="checkbox" id="status" name="privilege_status"> Активен
+        @endif
+      </label>
     </div>
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Изменить</button>

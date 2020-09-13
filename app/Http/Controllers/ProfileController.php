@@ -115,8 +115,10 @@ class ProfileController extends Controller
         $this->validate($request, [
             'surname' => 'required|min:2|max:40',
             'name' => 'required|min:2|max:40',
-            'phone' => 'required|min:11|max:13',
-            'sex' => 'required'
+            'phone' => 'required|min:11|max:13|unique:profile',
+            'gov_number' => 'required|min:12|max:13|unique:privileges',
+            'barcode' => 'required|max:255|unique:privileges',
+            'sex' => 'required',
         ]);
 
         $user = Auth::user();

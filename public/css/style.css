@@ -834,6 +834,8 @@ header.header.sticky .logo_normal {
 }
 header.header.sticky .logo_sticky {
   display: inline-block;
+  position: absolute;
+  top: 0;
 }
 header.header_in {
   padding: 10px 0;
@@ -985,6 +987,10 @@ header.sticky .hamburger-inner, header.sticky .hamburger-inner::before, header.s
 #logo {
   float: left;
 }
+#logo img {
+  position: absolute;
+  top: 0;
+}
 @media (max-width: 991px) {
   #logo {
     float: none;
@@ -996,8 +1002,8 @@ header.sticky .hamburger-inner, header.sticky .hamburger-inner::before, header.s
   }
   #logo img {
     width: auto;
-    height: 28px;
-    margin: 12px 0 0 0;
+    height: 51px;
+    position: static;
   }
   .header_in #logo img {
     margin: 0;

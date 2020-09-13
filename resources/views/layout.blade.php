@@ -34,8 +34,8 @@
     <header class="header menu_fixed @yield('header-class')">
       <div id="logo">
         <a href="/" title="5 Second">
-          <img src="/img/brand/@yield('logo', 'logo-white-200x51.png')" width="150" alt="" class="logo_normal">
-          <img src="/img/brand/logo-white-200x51.png" width="150" alt="" class="logo_sticky">
+          <img src="/img/5/@yield('logo', 'new-logo-white-200.png')" width="150" alt="" class="logo_normal">
+          <img src="/img/5/new-logo-white-200.png" width="150" alt="" class="logo_sticky">
         </a>
       </div>
       <ul id="top_menu">

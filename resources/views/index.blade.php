@@ -15,6 +15,10 @@
       .hero_single.version_2 {
         height: 620px;
         background: #222 url(/img/slides/{{ $slide->image }}) center center no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
       }
     </style>
   @endif

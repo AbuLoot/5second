@@ -15,7 +15,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-4 col-10">
-          <h4>{{ $category->title }}: Объектов <strong>{{ $category->products->count() }}</strong></h4>
+          <h4>{{ $category->title }}: <strong>{{ $category->products->count() }}</strong></h4>
         </div>
         <div class="col-lg-8 col-md-8 col-2">
           <!-- /open search panel -->

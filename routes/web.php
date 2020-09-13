@@ -66,8 +66,8 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::resource('my-profile', 'ProfileController')->except(['create', 'show', 'store', 'destroy']);
     Route::resource('my-companies', 'CompanyController');
     Route::resource('my-ads', 'ProductController');
-    Route::get('card-selection', 'ProfileController@cardSelection');
-    Route::get('set-card/{type}', 'ProfileController@setCard');
+    // Route::get('card-selection', 'ProfileController@cardSelection');
+    // Route::get('set-card/{type}', 'ProfileController@setCard');
     Route::get('set-services', 'ProfileController@setServices');
     Route::get('my-apps', 'ProfileController@myApps');
     Route::get('statistics', 'ProfileController@statistics');
