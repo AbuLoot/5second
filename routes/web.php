@@ -76,6 +76,7 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::get('my-balance', 'ProfileController@balance');
     Route::post('top-up-balance', 'ProfileController@topUpBalance');
     Route::get('payment', 'ProfileController@payment');
+    Route::get('activate-card', 'ProfileController@activateCard');
 
     // News
     Route::get('i/news', 'NewsController@news');

@@ -167,6 +167,34 @@ class ProfileController extends Controller
         return view('profile.pay', compact('payment'));
     }
 
+    public function activateCard($lang)
+    {
+        $user = Auth::user();
+
+        $card = Card::where('slug', $user->privilege->card_type)->first();
+
+        if ($user->balance >= $card->price) {
+
+            $date = date('Y-m-d');
+            $term = date('Y-m-d', strtotime($date. ' + 30 days'));
+
+            $user->privilege->term = $term;
+            $user->privilege->status = 1;
+            $user->privilege->save();
+
+            $balance = $user->balance - $card->price;
+
+            $user->balance = $balance;
+            $user->save();
+
+            $status_text = 'Карта изменена!';
+        } else {
+            $status_text = 'Не достаточно средств!';
+        }
+
+        return redirect($lang.'/my-profile')->with('status', $status_text);
+    }
+
     public function payment()
     {
         return view('profile.pay-success');

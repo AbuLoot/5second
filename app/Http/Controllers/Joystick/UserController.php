@@ -61,6 +61,8 @@ class UserController extends Controller
 
             $user->privilege->term = $term;
             $user->privilege->status = 1;
+        } else {
+            $user->privilege->status = 0;
         }
 
         $user->privilege->save();
