@@ -182,12 +182,10 @@ class ProfileController extends Controller
             $user->privilege->status = 1;
             $user->privilege->save();
 
-            $balance = $user->balance - $card->price;
-
-            $user->balance = $balance;
+            $user->balance = $user->balance - $card->price;
             $user->save();
 
-            $status_text = 'Карта изменена!';
+            $status_text = 'Карта активировано!';
         } else {
             $status_text = 'Не достаточно средств!';
         }
