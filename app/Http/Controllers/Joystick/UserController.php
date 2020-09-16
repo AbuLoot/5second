@@ -41,7 +41,9 @@ class UserController extends Controller
         $user->balance = $request->balance;
         $user->save();
 
-        $user->roles()->sync($request->roles_id);
+        if (\Auth::user()->can(['edit-role'])) {
+            $user->roles()->sync($request->roles_id);
+        }
 
         $user->profile->phone = $request->phone;
         $user->profile->region_id = $request->region_id;
@@ -68,5 +70,19 @@ class UserController extends Controller
         $user->privilege->save();
 
         return redirect($lang.'/admin/users')->with('status', 'Запись обновлена!');
+    }
+
+    public function destroy($lang, $id)
+    {
+        if (\Auth::user()->can(['delete-role'])) {
+            $user = User::find($id);
+            $user->profile->delete();
+            $user->privilege->delete();
+            $user->delete();
+        } else  {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
+        return redirect($lang.'/admin/users')->with('status', 'Запись удалена.');
     }
 }

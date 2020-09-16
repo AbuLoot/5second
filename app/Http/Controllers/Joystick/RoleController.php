@@ -29,6 +29,10 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'name' => 'required|max:60|unique:roles',
         ]);
@@ -37,14 +41,19 @@ class RoleController extends Controller
         $role->name = $request->name;
         $role->display_name = $request->display_name;
         $role->description = $request->description;
-        $role->perms()->sync($request->permissions_id);
         $role->save();
+
+        $role->perms()->sync($request->permissions_id);
 
         return redirect($request->lang.'/admin/roles')->with('status', 'Запись добавлена!');
     }
 
     public function edit($lang, $id)
     {
+        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
 
@@ -53,6 +62,10 @@ class RoleController extends Controller
 
     public function update(Request $request, $lang, $id)
     {
+        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'name' => 'required|max:60',
         ]);
@@ -69,6 +82,10 @@ class RoleController extends Controller
 
     public function destroy($lang, $id)
     {
+        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $role = Role::findOrFail($id);
         $role->delete();
 

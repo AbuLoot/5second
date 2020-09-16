@@ -75,7 +75,6 @@ class CardController extends Controller
         $card->status = ($request->status == 'on') ? 1 : 0;
         $card->save();
 
-
         return redirect($lang.'/admin/cards')->with('status', 'Запись обновлена!');
     }
 

@@ -64,14 +64,20 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar" id="navbar">
           <ul class="nav nav-sidebar">
+            @role('admin')
             <li @if (Request::is($lang.'/admin/pages*')) class="active" @endif><a href="/{{ $lang }}/admin/pages"><i class="material-icons md-18">content_copy</i> Страницы</a></li>
             <li @if (Request::is($lang.'/admin/categories*')) class="active" @endif><a href="/{{ $lang }}/admin/categories"><i class="material-icons md-18">list</i> Категории</a></li>
             <li @if (Request::is($lang.'/admin/section*')) class="active" @endif> <a href="/{{ $lang }}/admin/section"><i class="material-icons md-18">dashboard</i> Разделы</a> </li>
+            @endrole
             <li @if (Request::is($lang.'/admin/posts*')) class="active" @endif><a href="/{{ $lang }}/admin/posts"><i class="material-icons md-18">create</i> Статьи</a></li>
             <li @if (Request::is($lang.'/admin/products*')) class="active" @endif><a href="/{{ $lang }}/admin/products"><i class="material-icons md-18">store</i> Продукты</a></li>
+            @role('admin')
             <li @if (Request::is($lang.'/admin/frame-filemanager*')) class="active" @endif><a href="/{{ $lang }}/admin/frame-filemanager"><i class="material-icons md-18">folder</i> Файловый менеджер</a></li>
+            @endrole
             <li @if (Request::is($lang.'/admin/slides*')) class="active" @endif><a href="/{{ $lang }}/admin/slides"><i class="material-icons md-18">collections</i> Слайды</a></li>
+            @role('admin')
             <li @if (Request::is($lang.'/admin/modes*')) class="active" @endif><a href="/{{ $lang }}/admin/modes"><i class="material-icons md-18">style</i> Режимы</a></li>
+            @endrole
             <li @if (Request::is($lang.'/admin/options*')) class="active" @endif><a href="/{{ $lang }}/admin/options"><i class="material-icons md-18">label_outline</i> Опции</a></li>
             <li @if (Request::is($lang.'/admin/orders*')) class="active" @endif><a href="/{{ $lang }}/admin/orders"><i class="material-icons md-18">shopping_cart</i> Заказы</a></li>
             <li @if (Request::is($lang.'/admin/apps*')) class="active" @endif><a href="/{{ $lang }}/admin/apps"><i class="material-icons md-18">send</i> Заявки</a></li>

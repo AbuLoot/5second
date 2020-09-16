@@ -11,7 +11,7 @@ class PermissionController extends Controller
 {
     public function index()
     {
-    	$permissions = Permission::all();
+        $permissions = Permission::all();
 
         return view('joystick-admin.permissions.index', compact('permissions'));
     }

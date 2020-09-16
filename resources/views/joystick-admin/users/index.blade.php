@@ -51,6 +51,11 @@
             </td>
             <td class="text-right text-nowrap">
               <a class="btn btn-link btn-xs" href="{{ route('users.edit', [$lang, $user->id]) }}" title="Редактировать"><i class="material-icons md-18">mode_edit</i></a>
+              <form method="POST" action="{{ route('users.destroy', [$lang, $user->id]) }}" accept-charset="UTF-8" class="btn-delete">
+                <input name="_method" type="hidden" value="DELETE">
+                <input name="_token" type="hidden" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-link btn-xs" onclick="return confirm('Удалить запись?')"><i class="material-icons md-18">clear</i></button>
+              </form>
             </td>
           </tr>
         @endforeach

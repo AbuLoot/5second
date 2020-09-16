@@ -315,7 +315,6 @@
       <!-- /col -->
     </div>    
   </div>
-  <!-- /container -->
 
   <!-- Sign In Popup -->
   <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
