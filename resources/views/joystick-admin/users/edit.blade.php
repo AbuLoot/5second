@@ -49,7 +49,7 @@
     </div>
     <div class="form-group">
       <label>Баланс</label>
-      <input type="text" class="form-control" name="balance" minlength="3" maxlength="30" placeholder="Баланс*" value="{{ (old('balance')) ? old('balance') : $user->balance }}" required>
+      <input type="text" class="form-control" name="balance" maxlength="30" placeholder="Баланс*" value="{{ (old('balance')) ? old('balance') : $user->balance }}">
     </div>
     <div class="form-group">
       <label>Гос. номер*</label>
