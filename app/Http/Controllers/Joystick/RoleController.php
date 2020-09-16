@@ -18,7 +18,7 @@ class RoleController extends Controller
 
     public function create($lang)
     {
-        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+        if (!\Auth::user()->can(['create-role'])) {
             return redirect()->back()->with('status', 'Ваши права ограничены!');
         }
 
@@ -29,7 +29,7 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+        if (!\Auth::user()->can(['create-role'])) {
             return redirect()->back()->with('status', 'Ваши права ограничены!');
         }
 
@@ -50,7 +50,7 @@ class RoleController extends Controller
 
     public function edit($lang, $id)
     {
-        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+        if (!\Auth::user()->can(['edit-role'])) {
             return redirect()->back()->with('status', 'Ваши права ограничены!');
         }
 
@@ -62,7 +62,7 @@ class RoleController extends Controller
 
     public function update(Request $request, $lang, $id)
     {
-        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+        if (!\Auth::user()->can(['edit-role'])) {
             return redirect()->back()->with('status', 'Ваши права ограничены!');
         }
 
@@ -82,7 +82,7 @@ class RoleController extends Controller
 
     public function destroy($lang, $id)
     {
-        if (!\Auth::user()->can(['create-role', 'edit-role', 'delete-role'])) {
+        if (!\Auth::user()->can(['delete-role'])) {
             return redirect()->back()->with('status', 'Ваши права ограничены!');
         }
 
