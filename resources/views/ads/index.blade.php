@@ -40,6 +40,10 @@
                   <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}"><img src="/img/products/{{ $product->path.'/'.$product->image }}" class="img-fluid" alt="{{ $product_lang['title'] }}">
                     <div class="read_more"><span>Подробнее</span></div>
                   </a>
+                  @foreach($product->options as $option)
+                    <?php $titles = unserialize($option->title); ?>
+                    <small>{{ $titles[$lang]['title'] }}</small>
+                  @endforeach
                   <small>{{ $product->company->title }}</small>
                 </figure>
                 <div class="wrapper">
@@ -50,12 +54,6 @@
                 </div>
                 <ul>
                   <li>
-                    <div class="score">
-                      @foreach($product->options as $option)
-                        <?php $titles = unserialize($option->title); ?>
-                        <strong>{{ $titles[$lang]['title'] }}</strong>
-                      @endforeach
-                    </div>
                     <a href="/{{ $lang }}/my-ads/{{ $product->id }}/edit" class="btn_add">Редактировать</a>
                     <form method="POST" action="{{ route('my-ads.destroy', [$lang, $product->id]) }}" accept-charset="UTF-8" style="display: inline-block;">
                       <input name="_method" type="hidden" value="DELETE">
