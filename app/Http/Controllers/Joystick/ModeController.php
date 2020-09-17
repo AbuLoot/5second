@@ -25,6 +25,10 @@ class ModeController extends Controller
 
     public function store(Request $request)
     {
+        if (!\Auth::user()->can('create-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'title' => 'required|min:2|max:80|unique:modes',
         ]);
@@ -58,6 +62,10 @@ class ModeController extends Controller
 
     public function update(Request $request, $lang, $id)
     {
+        if (!\Auth::user()->can('edit-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $mode = Mode::findOrFail($id);
 
         $titles = unserialize($mode->title);
@@ -84,6 +92,10 @@ class ModeController extends Controller
 
     public function destroy($lang, $id)
     {
+        if (!\Auth::user()->can('delete-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $mode = Mode::find($id);
         $mode->delete();
 

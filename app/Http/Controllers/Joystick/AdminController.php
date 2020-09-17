@@ -14,6 +14,10 @@ class AdminController extends Controller
 
     public function filemanager()
     {
+        if (!\Auth::user()->hasRole('admin')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
     	return view('joystick-admin.filemanager');
     }
 

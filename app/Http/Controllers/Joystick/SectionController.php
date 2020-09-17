@@ -22,6 +22,10 @@ class SectionController extends Controller
 
     public function store(Request $request)
     {
+        if (!\Auth::user()->can('create-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'title' => 'required|min:5|max:80|unique:section',
         ]);
@@ -61,7 +65,11 @@ class SectionController extends Controller
     }
 
     public function update(Request $request, $lang, $id)
-    {    	
+    {
+        if (!\Auth::user()->can('edit-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'title' => 'required|min:2|max:80',
         ]);
@@ -92,6 +100,10 @@ class SectionController extends Controller
 
     public function destroy($lang, $id)
     {
+        if (!\Auth::user()->can('delete-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $part = Section::find($id);
         $part->delete();
 

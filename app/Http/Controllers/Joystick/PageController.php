@@ -24,6 +24,10 @@ class PageController extends Controller
 
     public function store(Request $request)
     {
+        if (!\Auth::user()->can('create-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'title' => 'required|min:2|max:80|unique:pages',
         ]);
@@ -64,6 +68,10 @@ class PageController extends Controller
 
     public function update(Request $request, $lang, $id)
     {
+        if (!\Auth::user()->can('edit-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $this->validate($request, [
             'title' => 'required|min:2|max:80',
         ]);
@@ -96,6 +104,10 @@ class PageController extends Controller
 
     public function destroy($lang, $id)
     {
+        if (!\Auth::user()->can('delete-role')) {
+            return redirect()->back()->with('status', 'Ваши права ограничены!');
+        }
+
         $page = Page::find($id);
         $page->delete();
 
