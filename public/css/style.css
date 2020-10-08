@@ -3824,7 +3824,7 @@ a.btn_search_mobile.map_view {
   width: 50%;
   height: 100%;
   position: fixed;
-  background: #fff url(../img/bg_aside.svg) no-repeat center right;
+  /*background: #fff url(../img/bg_aside.svg) no-repeat center right;*/
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
