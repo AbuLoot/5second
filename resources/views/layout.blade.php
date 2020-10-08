@@ -194,8 +194,9 @@
                 'city': city,
               },
               success: function(data) {
-                alert(data);
-                confirm('Ваш город: ' + city);
+                // alert(data);
+                // confirm('Ваш город: ' + city);
+                console.log('Ваш город: ' + city)
               }
             });
           },

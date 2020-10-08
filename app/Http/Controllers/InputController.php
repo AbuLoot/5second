@@ -20,7 +20,7 @@ class InputController extends Controller
     public function search(Request $request)
     {
         $region_id = $request->region_id;
-        $text = trim($request->text);
+        $text = trim(strip_tags($request->text));
 
 	    $products = Product::where('status', '<>', 0)
             ->where('region_id', $region_id)
@@ -64,8 +64,8 @@ class InputController extends Controller
 
     public function setRegion(Request $request, $lang)
     {
-        $city = trim($request->city);
-        $city = Region::where('slug', $city)->first();
+        $city = trim(strip_tags($request->city[0]));
+        $city = Region::where('slug', $city)->orWhere('title', $city)->first();
 
         $request->session()->put('region', $city->slug);
 
