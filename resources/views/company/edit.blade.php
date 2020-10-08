@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('meta_title', '')
+@section('meta_title', 'Редактирование компании')
 
-@section('meta_description', '')
+@section('meta_description', 'Редактирование компании')
 
 @section('head')
 

@@ -20,7 +20,7 @@ class InputController extends Controller
     public function search(Request $request)
     {
         $region_id = $request->region_id;
-        $text = trim(strip_tags($request->text));
+        $text = trim($request->text);
 
 	    $products = Product::where('status', '<>', 0)
             ->where('region_id', $region_id)

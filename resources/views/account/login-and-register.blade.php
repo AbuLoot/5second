@@ -1,8 +1,8 @@
   @extends('layout')
 
-@section('meta_title', '')
+@section('meta_title', 'Вход & Регистрация')
 
-@section('meta_description', '')
+@section('meta_description', 'Вход & Регистрация на 5second')
 
 @section('head')
 

@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('meta_title', '')
+@section('meta_title', 'Добавление объявления')
 
-@section('meta_description', '')
+@section('meta_description', 'Добавление объявления')
 
 @section('head')
   <script src='//cdn.tinymce.com/4.9/tinymce.min.js'></script>
